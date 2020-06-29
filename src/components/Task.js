@@ -1,4 +1,4 @@
-import React, { useCallback, Fragment } from 'react';
+import React, { useCallback, Fragment, useContext } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import {
@@ -11,6 +11,7 @@ import {
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DeleteIcon from '@material-ui/icons/Delete';
 import DoneIcon from '@material-ui/icons/Done';
+import TasksContext from '../context/tasks/tasksContext';
 
 export const Priorities = Object.freeze({
   LOW: 'LOW',
@@ -25,16 +26,18 @@ const colors = {
 };
 
 const Task = ({id, title, description, priority}) => {
+  const tasksContext = useContext(TasksContext);
+
   const doneTask = useCallback((e) => {
     e.preventDefault();
     e.stopPropagation();
     console.log('done task');
   }, []);
 
-  const deleteTask = useCallback((e) => {
+  const removeTask = useCallback((e) => {
     e.preventDefault();
     e.stopPropagation();
-    console.log('delete task');
+    tasksContext.removeTask(id);
   }, []);
 
 
@@ -50,7 +53,7 @@ const Task = ({id, title, description, priority}) => {
           <TaskButton aria-label="done" onClick={doneTask}>
             <DoneIcon fontSize="small" />
           </TaskButton>
-          <TaskButton aria-label="delete" onClick={deleteTask}>
+          <TaskButton aria-label="delete" onClick={removeTask}>
             <DeleteIcon fontSize="small" />
           </TaskButton>
         </Fragment>
@@ -65,7 +68,7 @@ const Task = ({id, title, description, priority}) => {
 };
 
 Task.propTypes = {
-  id: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   priority: PropTypes.string.isRequired,

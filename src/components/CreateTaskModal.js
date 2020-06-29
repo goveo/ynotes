@@ -8,6 +8,7 @@ import { Button, TextField, MenuItem } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Priorities } from './Task';
 import styled from 'styled-components';
+import TasksContext from '../context/tasks/tasksContext';
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -22,6 +23,7 @@ const AddModal = ({ isOpen, closeModal }) => {
   const [title, setTitle] = React.useState('');
   const [description, setDescription] = React.useState('');
   const [priority, setPriority] = React.useState('');
+  const tasksContext = React.useContext(TasksContext);
 
   const onClose = React.useCallback(() => {
     setTitle('');
@@ -32,10 +34,10 @@ const AddModal = ({ isOpen, closeModal }) => {
 
   const createTask = React.useCallback(() => {
     onClose();
-    console.log('task : ', {
+    tasksContext.addTask({
       title, description, priority,
     });
-  }, [onClose, title, description, priority]);
+  }, [onClose, title, description, priority, tasksContext]);
 
   return (
     <Dialog

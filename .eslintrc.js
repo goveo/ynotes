@@ -6,7 +6,11 @@ module.exports = {
     es6: true,
   },
   parserOptions: {
+    "ecmaVersion": 2018,
     "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true,
+    },
   },
   plugins: [
     'html'
@@ -27,6 +31,9 @@ module.exports = {
     'keyword-spacing': ["error"], //пробелы после ":"в объектах
     'key-spacing': ["error"], //пробелы после ":"в объектах
     'eol-last': ['error'],
+
+    "react/prop-types": [2, { ignore: ['children'] }],
+    "quotes": [2, "single", "avoid-escape"],
 
     'indent': ['error', 2, {
       SwitchCase: 1,

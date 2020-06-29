@@ -1,14 +1,18 @@
 import React from 'react';
 import Container from '@material-ui/core/Container';
 import TasksList from './components/TasksList';
+import TasksState from './context/tasks/TasksState';
+
 
 const App = () => {
   return (
-    <div className="App">
-      <Container>
-        <TasksList />
-      </Container>
-    </div>
+    <TasksState>
+      <div className="App">
+        <Container>
+          <TasksList />
+        </Container>
+      </div>
+    </TasksState>
   );
 };
 
