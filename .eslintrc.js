@@ -18,7 +18,7 @@ module.exports = {
   rules: {
     'space-before-function-paren': ['error', { anonymous: 'never', named: 'never', asyncArrow: 'always' }], // функции с пробелами перед скобками - дичь.
     'no-trailing-spaces': ['error'],
-    'no-console': ['error', { allow: ['warn', 'error'] }],
+    'no-console': ['warn', { allow: ['warn', 'error'] }],
     'semi': ['error', 'always'],
     'comma-dangle': ['error', 'always-multiline'],
     'brace-style': ['error', 'stroustrup'],
