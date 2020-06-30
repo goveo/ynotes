@@ -1,14 +1,11 @@
 import React from 'react';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { Button, TextField, MenuItem } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { Priorities } from './Task';
-import styled from 'styled-components';
-import TasksContext from '../context/tasks/tasksContext';
+import { Priorities } from '../Task';
+import Modal from './Modal';
+import TasksContext from '../../context/tasks/tasksContext';
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -18,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AddModal = ({ isOpen, closeModal }) => {
+const CreateTaskModal = ({ isOpen, closeModal }) => {
   const classes = useStyles();
   const [title, setTitle] = React.useState('');
   const [description, setDescription] = React.useState('');
@@ -40,14 +37,11 @@ const AddModal = ({ isOpen, closeModal }) => {
   }, [onClose, title, description, priority, tasksContext]);
 
   return (
-    <Dialog
-      open={isOpen}
+    <Modal
+      title="Create new task"
+      isOpen={isOpen}
       onClose={onClose}
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
-    >
-      <DialogTitle>Create new task</DialogTitle>
-      <DialogContent>
+      content={
         <form className={classes.formControl}>
           <Input label="Title" onChange={(e) => setTitle(e.target.value)}/>
           <Input label="Description" multiline onChange={(e) => setDescription(e.target.value)}/>
@@ -62,20 +56,21 @@ const AddModal = ({ isOpen, closeModal }) => {
             ))}
           </Input>
         </form>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose} color="primary">
+      }
+      actions={
+        <>
+          <Button onClick={onClose} color="primary">
             Cancel
-        </Button>
-        <Button onClick={createTask} color="primary" disabled={!title || !priority}>
+          </Button>
+          <Button onClick={createTask} color="primary" disabled={!title || !priority}>
             Create
-        </Button>
-      </DialogActions>
-    </Dialog>
+          </Button>
+        </>
+      }/>
   );
 };
 
-AddModal.propTypes = {
+CreateTaskModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   closeModal: PropTypes.func.isRequired,
 };
@@ -85,4 +80,4 @@ const Input = styled(TextField)`
   margin-bottom: 10px;
 `;
 
-export default AddModal;
+export default CreateTaskModal;
