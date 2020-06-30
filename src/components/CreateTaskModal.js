@@ -82,7 +82,7 @@ AddModal.propTypes = {
 
 const Input = styled(TextField)`
   width: 100%;
-  margin: 10px 0;
+  margin-bottom: 10px;
 `;
 
 export default AddModal;

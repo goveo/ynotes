@@ -26,6 +26,19 @@ const TasksList = () => {
 
   const [showModal, setShowModal] = useState(false);
 
+  const ShownTasks = () => {
+    let tasks = [];
+    if (tasksContext.search.text) {
+      tasks = tasksContext.search.tasks;
+    }
+    else {
+      tasks = tasksContext.tasks;
+    }
+    return tasks.map(({ id, title, description, priority, isDone }) => (
+      !isDone ? <Task key={id} id={id} title={title} description={description} priority={priority} isDone={isDone} /> : null
+    ));
+  };
+
   return (
     <Fragment>
       <CreateTaskModal isOpen={showModal} closeModal={() => setShowModal(false)} />
@@ -33,12 +46,7 @@ const TasksList = () => {
         <Fab className={classes.fab} color="primary" aria-label="add" onClick={() => setShowModal(true)}>
           <AddIcon />
         </Fab>
-        {tasksContext.tasks.map(({ id, title, description, priority, isDone }) => {
-          if (!isDone) {
-            return <Task key={id} id={id} title={title} description={description} priority={priority} isDone={isDone} />;
-          }
-          return null;
-        })}
+        <ShownTasks />
       </div>
     </Fragment>
   );

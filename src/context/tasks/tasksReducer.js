@@ -2,6 +2,7 @@ import {
   GET_TASKS,
   ADD_TASK,
   REMOVE_TASK,
+  SET_SEARCH,
 } from '../types';
 
 export default (state, action) => {
@@ -20,6 +21,14 @@ export default (state, action) => {
       return {
         ...state,
         tasks: (state.tasks || []).filter(({ id }) => id !== action.payload),
+      };
+    case SET_SEARCH:
+      return {
+        ...state,
+        search: {
+          tasks: action.payload.tasks,
+          text: action.payload.text,
+        },
       };
     default:
       break;
