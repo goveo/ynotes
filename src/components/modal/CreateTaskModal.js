@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { Button, TextField, MenuItem } from '@material-ui/core';
+import { CirclePicker } from 'react-color';
+import { Button, TextField, InputLabel } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { Priorities } from '../Task';
 import Modal from './Modal';
 import TasksContext from '../../context/tasks/tasksContext';
 
@@ -15,26 +15,38 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const DEFAULT_COLOR = '#eeeeee';
+const PICKER_COLORS = [
+  DEFAULT_COLOR,
+  '#FF6900',
+  '#FCB900',
+  '#7BDCB5',
+  '#00D084',
+  '#8ED1FC',
+  '#0693E3',
+  '#F78DA7',
+];
+
 const CreateTaskModal = ({ isOpen, closeModal }) => {
   const classes = useStyles();
   const [title, setTitle] = React.useState('');
   const [description, setDescription] = React.useState('');
-  const [priority, setPriority] = React.useState('');
+  const [color, setColor] = React.useState(DEFAULT_COLOR);
   const tasksContext = React.useContext(TasksContext);
 
   const onClose = React.useCallback(() => {
     setTitle('');
     setDescription('');
-    setPriority('');
+    setColor(DEFAULT_COLOR);
     closeModal();
   }, [closeModal]);
 
   const createTask = React.useCallback(() => {
     onClose();
     tasksContext.addTask({
-      title, description, priority,
+      title, description, color,
     });
-  }, [onClose, title, description, priority, tasksContext]);
+  }, [onClose, title, description, color, tasksContext]);
 
   return (
     <Modal
@@ -45,16 +57,18 @@ const CreateTaskModal = ({ isOpen, closeModal }) => {
         <form className={classes.formControl}>
           <Input label="Title" onChange={(e) => setTitle(e.target.value)}/>
           <Input label="Description" multiline onChange={(e) => setDescription(e.target.value)}/>
-          <Input
-            select
-            label="Priority"
-            value={priority}
-            onChange={(e) => setPriority(e.target.value)}
-          >
-            {Object.keys(Priorities).map(priority => (
-              <MenuItem key={priority} value={priority}>{priority}</MenuItem>
-            ))}
-          </Input>
+          <div>
+            <ColorLabel>Color</ColorLabel>
+            <ColorPicker
+              width={'100%'}
+              circleSpacing={6}
+              circleSize={28}
+              color={color}
+              colors={PICKER_COLORS}
+              triangle='hide'
+              onChangeComplete={(e) => setColor(e.hex)}
+            />
+          </div>
         </form>
       }
       actions={
@@ -62,7 +76,7 @@ const CreateTaskModal = ({ isOpen, closeModal }) => {
           <Button onClick={onClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={createTask} color="primary" disabled={!title || !priority}>
+          <Button onClick={createTask} color="primary" disabled={!title}>
             Create
           </Button>
         </>
@@ -78,6 +92,15 @@ CreateTaskModal.propTypes = {
 const Input = styled(TextField)`
   width: 100%;
   margin-bottom: 10px;
+`;
+
+const ColorPicker = styled(CirclePicker)`
+  margin: 10px 0;
+  padding: 5px 0;
+`;
+
+const ColorLabel = styled(InputLabel)`
+  margin-top: 10px;
 `;
 
 export default CreateTaskModal;

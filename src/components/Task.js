@@ -13,19 +13,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import DoneIcon from '@material-ui/icons/Done';
 import TasksContext from '../context/tasks/tasksContext';
 
-export const Priorities = Object.freeze({
-  LOW: 'LOW',
-  MEDIUM: 'MEDIUM',
-  HIGH: 'HIGH',
-});
-
-const colors = {
-  LOW: '#bfffbf',
-  MEDIUM: '#ffffbf',
-  HIGH: '#ffbfbf',
-};
-
-const Task = ({id, title, description, priority}) => {
+const Task = ({id, title, description, color}) => {
   const tasksContext = useContext(TasksContext);
 
   const doneTask = useCallback((e) => {
@@ -42,7 +30,7 @@ const Task = ({id, title, description, priority}) => {
 
 
   return (
-    <TaskExpansionPanel priority={priority}>
+    <TaskExpansionPanel color={color}>
       <ExpansionPanelSummary
         expandIcon={<ExpandMoreIcon />}
         aria-controls={`${id}-content`}
@@ -71,11 +59,11 @@ Task.propTypes = {
   id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-  priority: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
 };
 
 const TaskExpansionPanel = styled(ExpansionPanel)`
-  background: ${(props) => colors[props.priority]};
+  background: ${(props) => props.color};
 `;
 
 const TaskButton = styled(IconButton)`

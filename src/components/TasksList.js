@@ -20,8 +20,8 @@ const TasksList = () => {
     else {
       tasks = tasksContext.tasks;
     }
-    return tasks.map(({ id, title, description, priority, isDone }) => (
-      !isDone ? <Task key={id} id={id} title={title} description={description} priority={priority} isDone={isDone} /> : null
+    return tasks.map(({ id, title, description, color, isDone }) => (
+      !isDone ? <Task key={id} id={id} title={title} description={description} color={color} isDone={isDone} /> : null
     ));
   };
 
