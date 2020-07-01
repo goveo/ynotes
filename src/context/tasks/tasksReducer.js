@@ -3,6 +3,7 @@ import {
   ADD_TASK,
   REMOVE_TASK,
   SET_SEARCH,
+  REORDER_TASKS,
 } from '../types';
 
 export default (state, action) => {
@@ -29,6 +30,11 @@ export default (state, action) => {
           tasks: action.payload.tasks,
           text: action.payload.text,
         },
+      };
+    case REORDER_TASKS:
+      return {
+        ...state,
+        tasks: action.payload,
       };
     default:
       break;

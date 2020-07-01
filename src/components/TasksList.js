@@ -1,6 +1,7 @@
 import React, { Fragment, useContext, useEffect } from 'react';
 import Task from './Task';
 import CreateTaskButton from './button/CreateTaskButton';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 import TasksContext from '../context/tasks/tasksContext';
 
@@ -12,23 +13,51 @@ const TasksList = () => {
     // eslint-disable-next-line
   }, []);
 
-  const ShownTasks = () => {
-    let tasks = [];
-    if (tasksContext.search.text) {
-      tasks = tasksContext.search.tasks;
+  const shownTasks = tasksContext.search.text ? tasksContext.search.tasks : tasksContext.tasks;
+
+  const onDragEnd = (result) => {
+    // dropped outside the list
+    if (!result.destination) {
+      return;
     }
-    else {
-      tasks = tasksContext.tasks;
-    }
-    return tasks.map(({ id, title, description, color, isDone }) => (
-      !isDone ? <Task key={id} id={id} title={title} description={description} color={color} isDone={isDone} /> : null
-    ));
+
+    tasksContext.reorderTasks(result.source.index, result.destination.index);
   };
 
   return (
     <Fragment>
       <CreateTaskButton />
-      <ShownTasks />
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Droppable droppableId="droppable">
+          {(provided, snapshot) => (
+            <div
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+            >
+              {shownTasks.map((task, index) => (
+                <Draggable key={task.id} draggableId={task.id} index={index}>
+                  {(provided, snapshot) => (
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                    >
+                      <Task
+                        id={task.id}
+                        title={task.title}
+                        description={task.description}
+                        color={task.color}
+                        isDone={task.isDone}
+                      />
+                    </div>
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
     </Fragment>
   );
 };
