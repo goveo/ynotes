@@ -37,19 +37,15 @@ const TasksList = () => {
               {shownTasks.map((task, index) => (
                 <Draggable key={task.id} draggableId={task.id} index={index}>
                   {(provided, snapshot) => (
-                    <div
-                      ref={provided.innerRef}
+                    <Task
+                      id={task.id}
+                      title={task.title}
+                      description={task.description}
+                      color={task.color}
+                      innerRef={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
-                    >
-                      <Task
-                        id={task.id}
-                        title={task.title}
-                        description={task.description}
-                        color={task.color}
-                        isDone={task.isDone}
-                      />
-                    </div>
+                    />
                   )}
                 </Draggable>
               ))}

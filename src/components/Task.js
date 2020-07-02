@@ -13,7 +13,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import DoneIcon from '@material-ui/icons/Done';
 import TasksContext from '../context/tasks/tasksContext';
 
-const Task = ({id, title, description, color}) => {
+const Task = ({ id, title, description, color, innerRef, ...restProps }) => {
   const tasksContext = useContext(TasksContext);
 
   const doneTask = useCallback((e) => {
@@ -30,7 +30,11 @@ const Task = ({id, title, description, color}) => {
 
 
   return (
-    <TaskExpansionPanel color={color}>
+    <TaskExpansionPanel
+      color={color}
+      ref={innerRef}
+      {...restProps}
+    >
       <ExpansionPanelSummary
         expandIcon={<ExpandMoreIcon />}
         aria-controls={`${id}-content`}
@@ -60,6 +64,7 @@ Task.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,
+  innerRef: PropTypes.func,
 };
 
 const TaskExpansionPanel = styled(ExpansionPanel)`
