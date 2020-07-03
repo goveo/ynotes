@@ -27,18 +27,24 @@ const PICKER_COLORS = [
   '#F78DA7',
 ];
 
-const CreateTaskModal = ({ isOpen, closeModal }) => {
+const TaskModal = ({ isOpen, closeModal, task=null }) => {
   const classes = useStyles();
-  const [title, setTitle] = React.useState('');
-  const [description, setDescription] = React.useState('');
-  const [color, setColor] = React.useState(DEFAULT_COLOR);
+  const isEditMode = !!task;
+
+  const [title, setTitle] = React.useState(isEditMode ? task.title : '');
+  const [description, setDescription] = React.useState(isEditMode ? task.description : '');
+  const [color, setColor] = React.useState(isEditMode ? task.color : DEFAULT_COLOR);
   const tasksContext = React.useContext(TasksContext);
 
+  const modalTitle = isEditMode ? 'Edit task' : 'Create new task';
+
   const onClose = React.useCallback(() => {
-    setTitle('');
-    setDescription('');
-    setColor(DEFAULT_COLOR);
     closeModal();
+    if (!isEditMode) {
+      setTitle('');
+      setDescription('');
+      setColor(DEFAULT_COLOR);
+    }
   }, [closeModal]);
 
   const createTask = React.useCallback(() => {
@@ -48,15 +54,22 @@ const CreateTaskModal = ({ isOpen, closeModal }) => {
     });
   }, [onClose, title, description, color, tasksContext]);
 
+  const editTask = React.useCallback(() => {
+    onClose();
+    tasksContext.editTask({
+      id: task.id, title, description, color,
+    });
+  }, [onClose, task, title, description, color, tasksContext]);
+
   return (
     <Modal
-      title="Create new task"
+      title={modalTitle}
       isOpen={isOpen}
       onClose={onClose}
       content={
         <form className={classes.formControl}>
-          <Input label="Title" onChange={(e) => setTitle(e.target.value)}/>
-          <Input label="Description" multiline onChange={(e) => setDescription(e.target.value)}/>
+          <Input label="Title" value={title} onChange={(e) => setTitle(e.target.value)}/>
+          <Input label="Description" value={description} multiline onChange={(e) => setDescription(e.target.value)}/>
           <div>
             <ColorLabel>Color</ColorLabel>
             <ColorPicker
@@ -76,17 +89,18 @@ const CreateTaskModal = ({ isOpen, closeModal }) => {
           <Button onClick={onClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={createTask} color="primary" disabled={!title}>
-            Create
+          <Button onClick={isEditMode ? editTask : createTask} color="primary" disabled={!title}>
+            { isEditMode ? 'Edit' : 'Create' }
           </Button>
         </>
       }/>
   );
 };
 
-CreateTaskModal.propTypes = {
+TaskModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   closeModal: PropTypes.func.isRequired,
+  task: PropTypes.object,
 };
 
 const Input = styled(TextField)`
@@ -103,4 +117,4 @@ const ColorLabel = styled(InputLabel)`
   margin-top: 10px;
 `;
 
-export default CreateTaskModal;
+export default TaskModal;

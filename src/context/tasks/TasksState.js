@@ -7,7 +7,7 @@ import {
   GET_TASKS,
   ADD_TASK,
   REMOVE_TASK,
-  DONE_TASK,
+  UPDATE_TASK,
   SET_SEARCH,
   REORDER_TASKS,
 } from '../types';
@@ -53,9 +53,23 @@ const TasksState = props => {
     });
   };
 
+  const editTask = (task) => {
+    const tasks = [...state.tasks];
+    const foundIndex = state.tasks.findIndex(item => item.id === task.id);
+    if (foundIndex === -1) {
+      return;
+    }
+    tasks.splice(foundIndex, 1, task);
+    localStorage.setItem(LOCAL_STORAGE_ITEM_NAME, JSON.stringify(tasks));
+    dispatch({
+      type: UPDATE_TASK,
+      payload: tasks,
+    });
+  };
+
   const removeTask = (id) => {
     if (!id) return;
-    const tasks = (state.tasks || []).filter(({ id }) => id !== id);
+    const tasks = (state.tasks || []).filter(task => task.id !== id);
     localStorage.setItem(LOCAL_STORAGE_ITEM_NAME, JSON.stringify(tasks));
     dispatch({
       type: REMOVE_TASK,
@@ -105,6 +119,7 @@ const TasksState = props => {
         search: state.search,
         getTasks,
         addTask,
+        editTask,
         removeTask,
         searchTasks,
         reorderTasks,

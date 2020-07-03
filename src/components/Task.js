@@ -1,4 +1,4 @@
-import React, { useCallback, Fragment, useContext } from 'react';
+import React, { useCallback, Fragment, useContext, useState} from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import {
@@ -10,52 +10,63 @@ import {
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DeleteIcon from '@material-ui/icons/Delete';
-import DoneIcon from '@material-ui/icons/Done';
+import EditIcon from '@material-ui/icons/Edit';
 import TasksContext from '../context/tasks/tasksContext';
+import TaskModal from './modal/TaskModal';
 
 const Task = ({ id, title, description, color, innerRef, ...restProps }) => {
   const tasksContext = useContext(TasksContext);
 
-  const doneTask = useCallback((e) => {
+  const editTask = useCallback((e) => {
     e.preventDefault();
     e.stopPropagation();
-    console.log('done task');
+    setShowEditModal(true);
   }, []);
 
   const removeTask = useCallback((e) => {
     e.preventDefault();
     e.stopPropagation();
     tasksContext.removeTask(id);
-  }, []);
+  }, [tasksContext, id]);
 
+  const [showEditModal, setShowEditModal] = useState(false);
 
   return (
-    <TaskExpansionPanel
-      color={color}
-      ref={innerRef}
-      {...restProps}
-    >
-      <ExpansionPanelSummary
-        expandIcon={<ExpandMoreIcon />}
-        aria-controls={`${id}-content`}
-        id={`task-${id}`}
+    <Fragment>
+      <TaskExpansionPanel
+        color={color}
+        ref={innerRef}
+        {...restProps}
       >
-        <Title>{title}</Title>
-        <Fragment>
-          <TaskButton aria-label="done" onClick={doneTask}>
-            <DoneIcon fontSize="small" />
-          </TaskButton>
-          <TaskButton aria-label="delete" onClick={removeTask}>
-            <DeleteIcon fontSize="small" />
-          </TaskButton>
-        </Fragment>
-      </ExpansionPanelSummary>
-      <ExpansionPanelDetails>
-        <Typography>
-          {description}
-        </Typography>
-      </ExpansionPanelDetails>
-    </TaskExpansionPanel>
+        <ExpansionPanelSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls={`${id}-content`}
+          id={`task-${id}`}
+        >
+          <Title>{title}</Title>
+          <Fragment>
+            <TaskButton aria-label="edit" onClick={editTask}>
+              <EditIcon fontSize="small" />
+            </TaskButton>
+            <TaskButton aria-label="delete" onClick={removeTask}>
+              <DeleteIcon fontSize="small" />
+            </TaskButton>
+          </Fragment>
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails>
+          <Typography>
+            {description}
+          </Typography>
+        </ExpansionPanelDetails>
+      </TaskExpansionPanel>
+      <TaskModal
+        task={{
+          id, title, description, color,
+        }}
+        isOpen={showEditModal}
+        closeModal={() => setShowEditModal(false)}
+      />
+    </Fragment>
   );
 };
 

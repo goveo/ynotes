@@ -2,7 +2,6 @@ import React, { Fragment, useContext, useEffect } from 'react';
 import Task from './Task';
 import CreateTaskButton from './button/CreateTaskButton';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-
 import TasksContext from '../context/tasks/tasksContext';
 
 const TasksList = () => {

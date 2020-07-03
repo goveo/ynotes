@@ -1,6 +1,7 @@
 import {
   GET_TASKS,
   ADD_TASK,
+  UPDATE_TASK,
   REMOVE_TASK,
   SET_SEARCH,
   REORDER_TASKS,
@@ -17,6 +18,11 @@ export default (state, action) => {
       return {
         ...state,
         tasks: [...state.tasks, action.payload],
+      };
+    case UPDATE_TASK:
+      return {
+        ...state,
+        tasks: action.payload,
       };
     case REMOVE_TASK:
       return {
