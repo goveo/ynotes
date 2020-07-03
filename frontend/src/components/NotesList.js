@@ -1,19 +1,19 @@
 import React, { Fragment, useContext, useEffect } from 'react';
-import Task from './Task';
-import CreateTaskButton from './button/CreateTaskButton';
+import Note from './Note';
+import CreateNoteButton from './button/CreateNoteButton';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import TasksContext from '../context/tasks/tasksContext';
+import NotesContext from '../context/notes/notesContext';
 
-const TasksList = () => {
-  const tasksContext = useContext(TasksContext);
+const NotesList = () => {
+  const notesContext = useContext(NotesContext);
 
   useEffect(() => {
-    tasksContext.getTasks();
+    notesContext.getNotes();
     // eslint-disable-next-line
   }, []);
 
-  const isSearch = !!tasksContext.search.text;
-  const shownTasks = isSearch ? tasksContext.search.tasks : tasksContext.tasks;
+  const isSearch = !!notesContext.search.text;
+  const shownNotes = isSearch ? notesContext.search.notes : notesContext.notes;
 
   const onDragEnd = (result) => {
     // dropped outside the list
@@ -21,7 +21,7 @@ const TasksList = () => {
       return;
     }
 
-    tasksContext.reorderTasks(result.source.index, result.destination.index);
+    notesContext.reorderNotes(result.source.index, result.destination.index);
   };
 
   return (
@@ -33,14 +33,14 @@ const TasksList = () => {
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
-              {shownTasks.map((task, index) => (
-                <Draggable key={task.id} draggableId={task.id} index={index}>
+              {shownNotes.map((note, index) => (
+                <Draggable key={note.id} draggableId={note.id} index={index}>
                   {(provided, snapshot) => (
-                    <Task
-                      id={task.id}
-                      title={task.title}
-                      description={task.description}
-                      color={task.color}
+                    <Note
+                      id={note.id}
+                      title={note.title}
+                      description={note.description}
+                      color={note.color}
                       innerRef={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
@@ -52,10 +52,10 @@ const TasksList = () => {
             </div>
           )}
         </Droppable>
-        { !isSearch && <CreateTaskButton />}
+        { !isSearch && <CreateNoteButton />}
       </DragDropContext>
     </Fragment>
   );
 };
 
-export default TasksList;
+export default NotesList;

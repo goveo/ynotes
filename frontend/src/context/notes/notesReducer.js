@@ -1,46 +1,46 @@
 import {
-  GET_TASKS,
-  ADD_TASK,
-  UPDATE_TASK,
-  REMOVE_TASK,
+  GET_NOTES,
+  ADD_NOTE,
+  UPDATE_NOTE,
+  REMOVE_NOTE,
   SET_SEARCH,
-  REORDER_TASKS,
+  REORDER_NOTES,
 } from '../types';
 
 export default (state, action) => {
   switch (action.type) {
-    case GET_TASKS:
+    case GET_NOTES:
       return {
         ...state,
-        tasks: action.payload,
+        notes: action.payload,
       };
-    case ADD_TASK:
+    case ADD_NOTE:
       return {
         ...state,
-        tasks: [...state.tasks, action.payload],
+        notes: [...state.notes, action.payload],
       };
-    case UPDATE_TASK:
+    case UPDATE_NOTE:
       return {
         ...state,
-        tasks: action.payload,
+        notes: action.payload,
       };
-    case REMOVE_TASK:
+    case REMOVE_NOTE:
       return {
         ...state,
-        tasks: (state.tasks || []).filter(({ id }) => id !== action.payload),
+        notes: (state.notes || []).filter(({ id }) => id !== action.payload),
       };
     case SET_SEARCH:
       return {
         ...state,
         search: {
-          tasks: action.payload.tasks,
+          notes: action.payload.notes,
           text: action.payload.text,
         },
       };
-    case REORDER_TASKS:
+    case REORDER_NOTES:
       return {
         ...state,
-        tasks: action.payload,
+        notes: action.payload,
       };
     default:
       break;

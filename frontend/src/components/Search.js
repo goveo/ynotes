@@ -4,21 +4,21 @@ import { TextField } from '@material-ui/core';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import SearchIcon from '@material-ui/icons/Search';
 import _ from 'lodash';
-import TasksContext from '../context/tasks/tasksContext';
+import NotesContext from '../context/notes/notesContext';
 
 const DEBOUNCE_TIMEOUT_MS = 500;
 
 const Search = () => {
-  const tasksContext = React.useContext(TasksContext);
-  const searchTasks = _.debounce((text) => {
-    tasksContext.searchTasks(text);
+  const notesContext = React.useContext(NotesContext);
+  const searchNotes = _.debounce((text) => {
+    notesContext.searchNotes(text);
   }, DEBOUNCE_TIMEOUT_MS);
 
   return (
     <SearchInput
       id="search"
       label="Search"
-      onChange={(e) => searchTasks(e.target.value)}
+      onChange={(e) => searchNotes(e.target.value)}
       InputProps={{
         endAdornment: (
           <InputAdornment position="start">

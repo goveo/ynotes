@@ -11,29 +11,29 @@ import {
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-import TasksContext from '../context/tasks/tasksContext';
-import TaskModal from './modal/TaskModal';
+import NotesContext from '../context/notes/notesContext';
+import NoteModal from './modal/NoteModal';
 
-const Task = ({ id, title, description, color, innerRef, ...restProps }) => {
-  const tasksContext = useContext(TasksContext);
+const Note = ({ id, title, description, color, innerRef, ...restProps }) => {
+  const notesContext = useContext(NotesContext);
 
-  const editTask = useCallback((e) => {
+  const editNote = useCallback((e) => {
     e.preventDefault();
     e.stopPropagation();
     setShowEditModal(true);
   }, []);
 
-  const removeTask = useCallback((e) => {
+  const removeNote = useCallback((e) => {
     e.preventDefault();
     e.stopPropagation();
-    tasksContext.removeTask(id);
-  }, [tasksContext, id]);
+    notesContext.removeNote(id);
+  }, [notesContext, id]);
 
   const [showEditModal, setShowEditModal] = useState(false);
 
   return (
     <Fragment>
-      <TaskExpansionPanel
+      <NoteExpansionPanel
         color={color}
         ref={innerRef}
         {...restProps}
@@ -41,16 +41,16 @@ const Task = ({ id, title, description, color, innerRef, ...restProps }) => {
         <ExpansionPanelSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls={`${id}-content`}
-          id={`task-${id}`}
+          id={`note-${id}`}
         >
           <Title>{title}</Title>
           <Fragment>
-            <TaskButton aria-label="edit" onClick={editTask}>
+            <NoteButton aria-label="edit" onClick={editNote}>
               <EditIcon fontSize="small" />
-            </TaskButton>
-            <TaskButton aria-label="delete" onClick={removeTask}>
+            </NoteButton>
+            <NoteButton aria-label="delete" onClick={removeNote}>
               <DeleteIcon fontSize="small" />
-            </TaskButton>
+            </NoteButton>
           </Fragment>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
@@ -58,9 +58,9 @@ const Task = ({ id, title, description, color, innerRef, ...restProps }) => {
             {description}
           </Typography>
         </ExpansionPanelDetails>
-      </TaskExpansionPanel>
-      <TaskModal
-        task={{
+      </NoteExpansionPanel>
+      <NoteModal
+        note={{
           id, title, description, color,
         }}
         isOpen={showEditModal}
@@ -70,7 +70,7 @@ const Task = ({ id, title, description, color, innerRef, ...restProps }) => {
   );
 };
 
-Task.propTypes = {
+Note.propTypes = {
   id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
@@ -78,11 +78,11 @@ Task.propTypes = {
   innerRef: PropTypes.func,
 };
 
-const TaskExpansionPanel = styled(ExpansionPanel)`
+const NoteExpansionPanel = styled(ExpansionPanel)`
   background: ${(props) => props.color};
 `;
 
-const TaskButton = styled(IconButton)`
+const NoteButton = styled(IconButton)`
   padding: 0 4px;
 `;
 
@@ -92,4 +92,4 @@ const Title = styled(Typography)`
   flex-shrink: 0;
 `;
 
-export default Task;
+export default Note;

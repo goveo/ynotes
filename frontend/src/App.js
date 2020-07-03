@@ -1,20 +1,20 @@
 import React from 'react';
 import Container from '@material-ui/core/Container';
-import TasksList from './components/TasksList';
+import NotesList from './components/NotesList';
 import Search from './components/Search';
-import TasksState from './context/tasks/TasksState';
+import NotesState from './context/notes/NotesState';
 
 
 const App = () => {
   return (
-    <TasksState>
+    <NotesState>
       <div className="App">
         <Container>
           <Search />
-          <TasksList />
+          <NotesList />
         </Container>
       </div>
-    </TasksState>
+    </NotesState>
   );
 };
 

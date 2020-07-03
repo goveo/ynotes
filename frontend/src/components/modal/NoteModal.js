@@ -5,7 +5,7 @@ import { CirclePicker } from 'react-color';
 import { Button, TextField, InputLabel } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from './Modal';
-import TasksContext from '../../context/tasks/tasksContext';
+import NotesContext from '../../context/notes/notesContext';
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -27,16 +27,16 @@ const PICKER_COLORS = [
   '#F78DA7',
 ];
 
-const TaskModal = ({ isOpen, closeModal, task=null }) => {
+const NoteModal = ({ isOpen, closeModal, note=null }) => {
   const classes = useStyles();
-  const isEditMode = !!task;
+  const isEditMode = !!note;
 
-  const [title, setTitle] = React.useState(isEditMode ? task.title : '');
-  const [description, setDescription] = React.useState(isEditMode ? task.description : '');
-  const [color, setColor] = React.useState(isEditMode ? task.color : DEFAULT_COLOR);
-  const tasksContext = React.useContext(TasksContext);
+  const [title, setTitle] = React.useState(isEditMode ? note.title : '');
+  const [description, setDescription] = React.useState(isEditMode ? note.description : '');
+  const [color, setColor] = React.useState(isEditMode ? note.color : DEFAULT_COLOR);
+  const notesContext = React.useContext(NotesContext);
 
-  const modalTitle = isEditMode ? 'Edit task' : 'Create new task';
+  const modalTitle = isEditMode ? 'Edit note' : 'Create new note';
 
   const onClose = React.useCallback(() => {
     closeModal();
@@ -47,19 +47,19 @@ const TaskModal = ({ isOpen, closeModal, task=null }) => {
     }
   }, [closeModal]);
 
-  const createTask = React.useCallback(() => {
+  const createNote = React.useCallback(() => {
     onClose();
-    tasksContext.addTask({
+    notesContext.addNote({
       title, description, color,
     });
-  }, [onClose, title, description, color, tasksContext]);
+  }, [onClose, title, description, color, notesContext]);
 
-  const editTask = React.useCallback(() => {
+  const editNote = React.useCallback(() => {
     onClose();
-    tasksContext.editTask({
-      id: task.id, title, description, color,
+    notesContext.editNote({
+      id: note.id, title, description, color,
     });
-  }, [onClose, task, title, description, color, tasksContext]);
+  }, [onClose, note, title, description, color, notesContext]);
 
   return (
     <Modal
@@ -89,7 +89,7 @@ const TaskModal = ({ isOpen, closeModal, task=null }) => {
           <Button onClick={onClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={isEditMode ? editTask : createTask} color="primary" disabled={!title}>
+          <Button onClick={isEditMode ? editNote : createNote} color="primary" disabled={!title}>
             { isEditMode ? 'Edit' : 'Create' }
           </Button>
         </>
@@ -97,10 +97,10 @@ const TaskModal = ({ isOpen, closeModal, task=null }) => {
   );
 };
 
-TaskModal.propTypes = {
+NoteModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   closeModal: PropTypes.func.isRequired,
-  task: PropTypes.object,
+  note: PropTypes.object,
 };
 
 const Input = styled(TextField)`
@@ -117,4 +117,4 @@ const ColorLabel = styled(InputLabel)`
   margin-top: 10px;
 `;
 
-export default TaskModal;
+export default NoteModal;
