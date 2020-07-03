@@ -13,7 +13,8 @@ const TasksList = () => {
     // eslint-disable-next-line
   }, []);
 
-  const shownTasks = tasksContext.search.text ? tasksContext.search.tasks : tasksContext.tasks;
+  const isSearch = !!tasksContext.search.text;
+  const shownTasks = isSearch ? tasksContext.search.tasks : tasksContext.tasks;
 
   const onDragEnd = (result) => {
     // dropped outside the list
@@ -26,7 +27,6 @@ const TasksList = () => {
 
   return (
     <Fragment>
-      <CreateTaskButton />
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="droppable">
           {(provided, snapshot) => (
@@ -53,6 +53,7 @@ const TasksList = () => {
             </div>
           )}
         </Droppable>
+        { !isSearch && <CreateTaskButton />}
       </DragDropContext>
     </Fragment>
   );
