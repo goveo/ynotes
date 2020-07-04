@@ -2,6 +2,7 @@ import { Model, INTEGER, STRING } from 'sequelize';
 import sequelize from '../database/lib/connection';
 
 export interface IUser {
+  id: number,
   username: string,
   password: string,
 }

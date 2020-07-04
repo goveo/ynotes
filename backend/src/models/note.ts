@@ -2,6 +2,7 @@ import { Model, INTEGER, STRING } from 'sequelize';
 import sequelize from '../database/lib/connection';
 
 export interface INote {
+  id: number,
   title: string,
   description: string | null,
   color: string,

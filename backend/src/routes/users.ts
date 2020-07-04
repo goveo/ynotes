@@ -1,7 +1,9 @@
 import { Router, Request, Response } from 'express';
 import { check, validationResult } from 'express-validator';
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 import Database from '../database';
+import { JWT_SECRET } from '../app.config';
 const { User } = Database;
 
 const router = Router();
@@ -10,7 +12,7 @@ const router = Router();
 // @desc      Register a user
 // @access    Public
 router.post('/', [
-  check('username', 'username is required').not().isEmpty(),
+  check('username', 'Username is required').not().isEmpty(),
   check('password', 'Please enter password with 6 or more characters').isLength({ min: 6 }),
 ], async (req: Request, res: Response) => {
   const errors = validationResult(req);
@@ -32,12 +34,23 @@ router.post('/', [
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
-    const newUser = {
+    const newUser = await User.create({
       username,
       password: hashedPassword,
+    });
+
+    const payload = {
+      user: {
+        id: newUser.id,
+      },
     };
-    await User.create(newUser);
-    res.send(newUser);
+
+    jwt.sign(payload, JWT_SECRET, {
+      expiresIn: 60 * 60, // 1 hour
+    }, (err, token) => {
+      if (err) throw err;
+      res.json({ token });
+    });
   }
   catch (error) {
     console.error(error.message);
