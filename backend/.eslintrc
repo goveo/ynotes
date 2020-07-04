@@ -1,25 +1,26 @@
 {
-    "root": true,
-    "parser": "@typescript-eslint/parser",
-    "plugins": [
-      "@typescript-eslint"
-    ],
-    "extends": [
-      "eslint:recommended",
-      "plugin:@typescript-eslint/eslint-recommended",
-      "plugin:@typescript-eslint/recommended"
-    ],
-    "rules": {
-        "no-trailing-spaces": ["error"],
-        "no-console": ["warn", { "allow": ["warn", "error"] }],
-        "semi": ["error", "always"],
-        "comma-dangle": ["error", "always-multiline"],
-        "brace-style": ["error", "stroustrup"],
-        "comma-spacing": ["error"], //пробелы после запятой
-        "array-bracket-spacing": ["error"], //пробелы перед ифом
-        "keyword-spacing": ["error"], //пробелы после ":"в объектах
-        "key-spacing": ["error"], //пробелы после ":"в объектах
-        "eol-last": ["error"],
-        "quotes": [2, "single", "avoid-escape"],
-      },
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "@typescript-eslint"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "rules": {
+    "no-trailing-spaces": ["error"],
+    "no-console": ["warn", { "allow": ["warn", "error"] }],
+    "semi": ["error", "always"],
+    "comma-dangle": ["error", "always-multiline"],
+    "brace-style": ["error", "stroustrup"],
+    "comma-spacing": ["error"], //пробелы после запятой
+    "array-bracket-spacing": ["error"], //пробелы перед ифом
+    "keyword-spacing": ["error"], //пробелы после ":"в объектах
+    "key-spacing": ["error"], //пробелы после ":"в объектах
+    "eol-last": ["error"],
+    "quotes": [2, "single", "avoid-escape"],
+    "indent": ["error", 2]
   }
+}
