@@ -31,16 +31,17 @@ router.post('/', [
   check('username', 'Username is required').exists(),
   check('password', 'Password is required').exists(),
 ], async (req: Request, res: Response) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({
-      errors: errors.array(),
-    });
-  }
-
-  const { username, password } = req.body;
-
   try {
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        errors: errors.array(),
+      });
+    }
+
+    const { username, password } = req.body;
+
     const user = await User.getByUsername(username);
     if (!user) {
       return res.status(400).json({

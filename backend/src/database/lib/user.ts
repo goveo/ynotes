@@ -1,7 +1,10 @@
 import { User as UserModel, IUser } from '../../models/user';
 
 class User {
-  static async create(user: IUser): Promise<IUser> {
+  static async create(user: {
+    username: string,
+    password: string,
+  }): Promise<IUser> {
     try {
       return await UserModel.create(user);
     }
@@ -12,7 +15,7 @@ class User {
 
   static async getById(id: number): Promise<IUser | null> {
     try {
-      return await UserModel.findOne({ where: { id: id } });
+      return await UserModel.findOne({ where: { id: id }, raw: true });
     }
     catch (error) {
       return error;

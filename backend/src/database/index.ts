@@ -11,7 +11,7 @@ UserModel.hasMany(NoteModel, {
   as: 'notes', // this determines the name in `associations`!
 });
 
-sequelize.sync({force: true})
+sequelize.sync()
   .then(() => {
     // eslint-disable-next-line no-console
     console.log('Database synced!');

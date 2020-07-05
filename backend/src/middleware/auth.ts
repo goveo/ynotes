@@ -12,8 +12,10 @@ export default (req: Request, res: Response, next: NextFunction): any => {
   }
 
   try {
-    const decodedToken = jwt.verify(token, JWT_SECRET);
-    req.user = (decodedToken as any).user;
+    const decodedToken: any = jwt.verify(token, JWT_SECRET);
+    const user = decodedToken.user;
+    if (!user || !user.id) throw new Error('Token is not valid');
+    req.user = decodedToken.user;
     next();
   }
   catch (error) {

@@ -15,16 +15,15 @@ router.post('/', [
   check('username', 'Username is required').not().isEmpty(),
   check('password', 'Please enter password with 6 or more characters').isLength({ min: 6 }),
 ], async (req: Request, res: Response) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({
-      errors: errors.array(),
-    });
-  }
-
-  const { username, password } = req.body;
-
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        errors: errors.array(),
+      });
+    }
+
+    const { username, password } = req.body;
     const user = await User.getByUsername(username);
     if (user) {
       return res.status(400).json({

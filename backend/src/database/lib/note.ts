@@ -1,27 +1,35 @@
 import { Note as NoteModel, INote } from '../../models/note';
 
 class Note {
-  static async create(note: INote): Promise<INote> {
+  static async create(note: {
+    title: string,
+    description: string,
+    color: string,
+  }, ownerId: number): Promise<INote> {
     try {
-      return await NoteModel.create(note);
+      if (!ownerId) throw 'ownerId is required';
+      return await NoteModel.create({
+        ...note,
+        ownerId,
+      });
     }
     catch (error) {
       return error;
     }
   }
 
-  static async get(id: number): Promise<INote | null> {
+  static async getById(id: number): Promise<INote | null> {
     try {
-      return await NoteModel.findOne({ where: { id: id } });
+      return await NoteModel.findOne({ where: { id: id }, raw: true });
     }
     catch (error) {
       return error;
     }
   }
 
-  static async getAll(): Promise<INote[] | null> {
+  static async getByOwnerId(ownerId: number): Promise<INote[] | null> {
     try {
-      return await NoteModel.findAll();
+      return await NoteModel.findAll({ where: { ownerId: ownerId }});
     }
     catch (error) {
       return error;
