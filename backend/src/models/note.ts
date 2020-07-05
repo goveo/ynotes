@@ -6,6 +6,7 @@ export interface INote {
   title: string,
   description: string | null,
   color: string,
+  ownerId: number,
 }
 
 export class Note extends Model implements INote {
@@ -13,6 +14,7 @@ export class Note extends Model implements INote {
   public title!: string;
   public description!: string | null;
   public color!: string;
+  public ownerId!: number;
 }
 
 Note.init({
@@ -32,6 +34,10 @@ Note.init({
   },
   color: {
     type: STRING,
+    allowNull: false,
+  },
+  ownerId: {
+    type: INTEGER,
     allowNull: false,
   },
 }, {

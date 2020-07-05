@@ -4,14 +4,24 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import Database from '../database';
 import { JWT_SECRET } from '../app.config';
+import auth from '../middleware/auth';
 const { User } = Database;
 const router = Router();
 
 // @route     GET api/auth
 // @desc      Get logged in user
 // @access    Private
-router.get('/', (req: Request, res: Response) => {
-  res.send('Get logged user');
+router.get('/', auth, async (req: Request, res: Response) => {
+  try {
+    const id = req.user?.id;
+    const user = await User.getById(id as number);
+    delete user?.password;
+    res.json(user);
+  }
+  catch (error) {
+    console.error(error.message);
+    res.status(500).send('Server Error');
+  }
 });
 
 // @route     POST api/auth
@@ -63,7 +73,6 @@ router.post('/', [
     console.error(error.message);
     res.status(500).send('Server Error');
   }
-  res.send('Log in user');
 });
 
 export default router;
