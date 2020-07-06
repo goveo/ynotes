@@ -1,14 +1,22 @@
 {
   "editor.tabSize": 2,
   "editor.insertSpaces": true,
+  "eslint.workingDirectories": [
+    "./backend",
+    "./frontend"
+  ],
   "eslint.validate": [
     {
-      "language": "html",
+      "language": "typescript",
       "autoFix": true
     },
     {
       "language": "javascript",
       "autoFix": true
-    }
+    },
+    {
+      "language": "html",
+      "autoFix": true
+    },
   ],
 }
