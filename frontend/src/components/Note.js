@@ -71,7 +71,7 @@ const Note = ({ id, title, description, color, innerRef, ...restProps }) => {
 };
 
 Note.propTypes = {
-  id: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,

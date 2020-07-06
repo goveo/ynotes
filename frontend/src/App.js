@@ -8,6 +8,8 @@ import NotesState from './context/notes/NotesState';
 import AuthState from './context/auth/AuthState';
 import setAuthToken from './utils/setAuthToken';
 import PrivateRoute from './components/routing/PrivateRoute';
+import Navbar from './components/Navbar';
+import './index.css';
 
 setAuthToken(localStorage.getItem('token'));
 
@@ -15,6 +17,7 @@ export const App = () => {
   return (
     <AuthState>
       <NotesState>
+        <Navbar />
         <Router>
           <div className="App">
             <Container>

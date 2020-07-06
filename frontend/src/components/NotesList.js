@@ -34,7 +34,7 @@ const NotesList = () => {
               ref={provided.innerRef}
             >
               {shownNotes.map((note, index) => (
-                <Draggable key={note.id} draggableId={note.id} index={index}>
+                <Draggable key={note.id} draggableId={String(note.id)} index={index}>
                   {(provided, snapshot) => (
                     <Note
                       id={note.id}

@@ -1,5 +1,5 @@
 import React, { useReducer } from 'react';
-
+import axios from 'axios';
 import NotesContext from './notesContext';
 import NotesReducer from './notesReducer';
 
@@ -25,52 +25,43 @@ const NotesState = props => {
 
   const [state, dispatch] = useReducer(NotesReducer, initialState);
 
-  const getNotes = () => {
-    let notes = [];
+  const getNotes = async () => {
     try {
-      notes = JSON.parse(localStorage.getItem(LOCAL_STORAGE_ITEM_NAME));
-    }
-    catch (error) {
-      console.error(error);
-    }
-    finally {
-      if (!notes) notes = [];
+      const { data: notes } = await axios.get('/api/notes');
       dispatch({
         type: GET_NOTES,
         payload: notes,
       });
     }
+    catch (error) {
+      console.error(error.message);
+    }
   };
 
-  const addNote = (note) => {
-    const id = `${(+new Date()).toString(16)}`;
-    const newNote = { ...note, id };
-    const notes = [...state.notes, newNote];
-    localStorage.setItem(LOCAL_STORAGE_ITEM_NAME, JSON.stringify(notes));
+  const addNote = async (note) => {
+    try {
+      const { data: newNote } = await axios.post('/api/notes', note);
+      dispatch({
+        type: ADD_NOTE,
+        payload: newNote,
+      });
+    }
+    catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  const editNote = async (note) => {
+    const id = note.id;
+    const { data: newNote } = await axios.put(`/api/notes/${id}`, note);
     dispatch({
-      type: ADD_NOTE,
+      type: UPDATE_NOTE,
       payload: newNote,
     });
   };
 
-  const editNote = (note) => {
-    const notes = [...state.notes];
-    const foundIndex = state.notes.findIndex(item => item.id === note.id);
-    if (foundIndex === -1) {
-      return;
-    }
-    notes.splice(foundIndex, 1, note);
-    localStorage.setItem(LOCAL_STORAGE_ITEM_NAME, JSON.stringify(notes));
-    dispatch({
-      type: UPDATE_NOTE,
-      payload: notes,
-    });
-  };
-
-  const removeNote = (id) => {
-    if (!id) return;
-    const notes = (state.notes || []).filter(note => note.id !== id);
-    localStorage.setItem(LOCAL_STORAGE_ITEM_NAME, JSON.stringify(notes));
+  const removeNote = async (id) => {
+    await axios.delete(`/api/notes/${id}`);
     dispatch({
       type: REMOVE_NOTE,
       payload: id,

@@ -17,7 +17,7 @@ const CreateNoteButton = () => {
 };
 
 const AddButton = styled(Button)`
-  margin-top: 20px;
+  margin: 20px 0;
   width: 100%;
 `;
 

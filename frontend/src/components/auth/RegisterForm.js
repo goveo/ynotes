@@ -2,7 +2,7 @@ import React, { useState, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Input, SubmitButton } from '../Form';
 
-export const RegisterForm = ({ onSubmit }) => {
+export const RegisterForm = ({ onSubmit, postContent }) => {
   const [user, setUser] = useState({
     username: '',
     password: '',
@@ -27,7 +27,7 @@ export const RegisterForm = ({ onSubmit }) => {
   }, [user]);
 
   return (
-    <Form title="Sign up">
+    <Form title="Sign up" postContent={postContent}>
       <Input name="username" label="Username" value={user.username} onChange={onChange}/>
       <Input name="password" type="password" label="Password" value={user.password} onChange={onChange}/>
       <Input name="password2" type="password" label="Confirm password" value={user.password2} onChange={onChange}/>
@@ -40,6 +40,7 @@ export const RegisterForm = ({ onSubmit }) => {
 
 RegisterForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
+  postContent: PropTypes.element,
 };
 
 export default RegisterForm;

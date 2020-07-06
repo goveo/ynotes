@@ -22,7 +22,7 @@ export default (state, action) => {
     case UPDATE_NOTE:
       return {
         ...state,
-        notes: action.payload,
+        notes: (state.notes || []).map(item => item.id === action.payload.id ? action.payload : item),
       };
     case REMOVE_NOTE:
       return {
