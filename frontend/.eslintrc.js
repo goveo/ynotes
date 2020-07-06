@@ -32,7 +32,7 @@ module.exports = {
     'key-spacing': ["error"], //пробелы после ":"в объектах
     'eol-last': ['error'],
 
-    "react/prop-types": [2, { ignore: ['children'] }],
+    "react/prop-types": [2, { ignore: ['children', 'history', 'component'] }],
     "quotes": [2, "single", "avoid-escape"],
 
     'indent': ['error', 2, {

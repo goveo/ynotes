@@ -45,7 +45,7 @@ const NoteModal = ({ isOpen, closeModal, note=null }) => {
       setDescription('');
       setColor(DEFAULT_COLOR);
     }
-  }, [closeModal]);
+  }, [closeModal, isEditMode]);
 
   const createNote = React.useCallback(() => {
     onClose();

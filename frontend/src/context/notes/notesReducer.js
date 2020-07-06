@@ -5,7 +5,7 @@ import {
   REMOVE_NOTE,
   SET_SEARCH,
   REORDER_NOTES,
-} from '../types'
+} from '../types';
 
 export default (state, action) => {
   switch (action.type) {

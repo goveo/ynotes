@@ -1,4 +1,5 @@
 import express, { Application, Request, Response } from 'express';
+import cors from 'cors';
 import UserRouter from './routes/users';
 import AuthRouter from './routes/auth';
 import NotesRouter from './routes/notes';
@@ -16,8 +17,9 @@ database.sequelize.authenticate()
 const app: Application = express();
 
 app.use(express.json());
+app.use(cors());
 
-const PORT = process.env.PORT || 8000;
+const PORT: number = Number(process.env.PORT) || 8000;
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello');

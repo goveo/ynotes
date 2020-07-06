@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import {
   Typography,
   IconButton,
-  ExpansionPanel,
-  ExpansionPanelSummary,
-  ExpansionPanelDetails,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -33,12 +33,12 @@ const Note = ({ id, title, description, color, innerRef, ...restProps }) => {
 
   return (
     <Fragment>
-      <NoteExpansionPanel
+      <NoteAccordion
         color={color}
         ref={innerRef}
         {...restProps}
       >
-        <ExpansionPanelSummary
+        <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls={`${id}-content`}
           id={`note-${id}`}
@@ -52,13 +52,13 @@ const Note = ({ id, title, description, color, innerRef, ...restProps }) => {
               <DeleteIcon fontSize="small" />
             </NoteButton>
           </Fragment>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
+        </AccordionSummary>
+        <AccordionDetails>
           <Typography>
             {description}
           </Typography>
-        </ExpansionPanelDetails>
-      </NoteExpansionPanel>
+        </AccordionDetails>
+      </NoteAccordion>
       <NoteModal
         note={{
           id, title, description, color,
@@ -78,7 +78,7 @@ Note.propTypes = {
   innerRef: PropTypes.func,
 };
 
-const NoteExpansionPanel = styled(ExpansionPanel)`
+const NoteAccordion = styled(Accordion)`
   background: ${(props) => props.color};
 `;
 

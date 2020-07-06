@@ -1,7 +1,8 @@
 import React, { useState, useCallback, useMemo } from 'react';
+import PropTypes from 'prop-types';
 import { Form, Input, SubmitButton } from '../Form';
 
-export const RegisterForm = () => {
+export const RegisterForm = ({ onSubmit }) => {
   const [user, setUser] = useState({
     username: '',
     password: '',
@@ -15,10 +16,10 @@ export const RegisterForm = () => {
     });
   }, [user]);
 
-  const onSubmit = useCallback((e) => {
+  const onSubmitClick = useCallback((e) => {
     e.preventDefault();
-    console.log('Register');
-  }, []);
+    onSubmit(user);
+  }, [onSubmit, user]);
 
   const isFilled = useMemo(() => {
     const { username, password, password2 } = user;
@@ -30,11 +31,15 @@ export const RegisterForm = () => {
       <Input name="username" label="Username" value={user.username} onChange={onChange}/>
       <Input name="password" type="password" label="Password" value={user.password} onChange={onChange}/>
       <Input name="password2" type="password" label="Confirm password" value={user.password2} onChange={onChange}/>
-      <SubmitButton variant="outlined" onClick={onSubmit} color="primary" disabled={!isFilled}>
-          Sign up
+      <SubmitButton variant="outlined" onClick={onSubmitClick} color="primary" disabled={!isFilled}>
+        Sign up
       </SubmitButton>
     </Form>
   );
+};
+
+RegisterForm.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
 };
 
 export default RegisterForm;

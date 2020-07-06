@@ -6,8 +6,12 @@ import Register from './components/pages/Register';
 import Login from './components/pages/Login';
 import NotesState from './context/notes/NotesState';
 import AuthState from './context/auth/AuthState';
+import setAuthToken from './utils/setAuthToken';
+import PrivateRoute from './components/routing/PrivateRoute';
 
-const App = () => {
+setAuthToken(localStorage.getItem('token'));
+
+export const App = () => {
   return (
     <AuthState>
       <NotesState>
@@ -15,7 +19,7 @@ const App = () => {
           <div className="App">
             <Container>
               <Switch>
-                <Route exact path="/" component={Home}></Route>
+                <PrivateRoute exact path="/" component={Home}></PrivateRoute>
                 <Route exact path="/register" component={Register}></Route>
                 <Route exact path="/login" component={Login}></Route>
               </Switch>
