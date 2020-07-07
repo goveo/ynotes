@@ -3,6 +3,7 @@ import { check, validationResult } from 'express-validator';
 import _ from 'lodash';
 import auth from '../middleware/auth';
 import Note from '../database/lib/note';
+import { INote } from '../models/note';
 const router = Router();
 
 // @route     GET api/notes
@@ -48,8 +49,7 @@ router.post('/', [
     console.error(error.message);
     res.status(500).send('Server Error');
   }
-}
-);
+});
 
 // @route     PUT api/notes/:id
 // @desc      Update note
@@ -124,6 +124,42 @@ router.delete('/:id', auth, async (req: Request, res: Response) => {
     res.json({
       message: 'Note deleted',
     });
+  }
+  catch (error) {
+    console.error(error.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route     POST api/notes/:id/changeIndex
+// @desc      Change index of note (and other notes)
+// @access    Private
+router.post('/:id/changeIndex', [
+  auth,
+  check('index', 'Index is required').not().isEmpty(),
+], async (req: Request, res: Response) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        errors: errors.array(),
+      });
+    }
+
+    const noteId: number = Number(req.params.id) as number;
+    const userId: number = Number(req.user?.id) as number;
+    const index: number = req.body.index as number;
+
+    const note = await Note.getById(noteId) as INote;
+
+    if (userId !== note.ownerId) {
+      return res.status(401).json({
+        message: 'Not authorized',
+      });
+    }
+
+    const newNote = await Note.updateIndex(note, index);
+    res.json(newNote);
   }
   catch (error) {
     console.error(error.message);

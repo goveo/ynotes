@@ -15,7 +15,6 @@ router.post('/', [
   check('username', 'Username is required').not().isEmpty(),
   check('password', 'Please enter password with 6 or more characters').isLength({ min: 6 }),
 ], async (req: Request, res: Response) => {
-  console.log('POST /api/users');
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

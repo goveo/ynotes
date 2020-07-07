@@ -21,7 +21,7 @@ const NotesList = () => {
       return;
     }
 
-    notesContext.reorderNotes(result.source.index, result.destination.index);
+    notesContext.reorderNotes(shownNotes[result.source.index], result.destination.index);
   };
 
   return (

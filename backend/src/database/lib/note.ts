@@ -1,4 +1,5 @@
 import { Note as NoteModel, INote } from '../../models/note';
+import { literal, Op } from 'sequelize';
 
 class Note {
   static async create(note: {
@@ -8,9 +9,11 @@ class Note {
   }, ownerId: number): Promise<INote> {
     try {
       if (!ownerId) throw 'ownerId is required';
+      const index = await NoteModel.count({ where: { ownerId: ownerId }});
       return await NoteModel.create({
         ...note,
         ownerId,
+        index,
       });
     }
     catch (error) {
@@ -29,7 +32,10 @@ class Note {
 
   static async getByOwnerId(ownerId: number): Promise<INote[] | null> {
     try {
-      return await NoteModel.findAll({ where: { ownerId: ownerId }});
+      return await NoteModel.findAll({
+        where: { ownerId: ownerId },
+        order: [['index', 'ASC']],
+      });
     }
     catch (error) {
       return error;
@@ -49,6 +55,7 @@ class Note {
       return error;
     }
   }
+
   static async delete(id: number): Promise<number | null> {
     try {
       const data = await NoteModel.findOne({where: { id: id }});
@@ -59,6 +66,42 @@ class Note {
     }
     catch (error) {
       return error;
+    }
+  }
+
+  static async updateIndex(note: INote, newIndex: number): Promise<INote | null> {
+    const currentIndex: number = note.index;
+    try {
+      if (currentIndex > newIndex) {
+        await NoteModel.update({ index: literal('index + 1') }, {
+          where: {
+            ownerId: note.ownerId,
+            index: {
+              [Op.gte]: newIndex,
+              [Op.lt]: currentIndex,
+            },
+          },
+        });
+      }
+      else if (currentIndex < newIndex) {
+        await NoteModel.update({ index: literal('index - 1') }, {
+          where: {
+            ownerId: note.ownerId,
+            index: {
+              [Op.gt]: currentIndex,
+              [Op.lte]: newIndex,
+            },
+          },
+        });
+      }
+      const [newNote] = await NoteModel.upsert({
+        ...note,
+        index: newIndex,
+      });
+      return newNote;
+    }
+    catch (error) {
+      return Promise.reject(error);
     }
   }
 }
