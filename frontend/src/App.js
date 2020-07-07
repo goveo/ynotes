@@ -7,12 +7,17 @@ import Login from './components/pages/Login';
 import NotFound from './components/pages/NotFound';
 import NotesState from './context/notes/NotesState';
 import AuthState from './context/auth/AuthState';
-import setAuthToken from './utils/setAuthToken';
 import PrivateRoute from './components/routing/PrivateRoute';
 import Navbar from './components/Navbar';
+
+import setAuthToken from './utils/setAuthToken';
+import setBaseUrl from './utils/setBaseUrl';
+
+import { API_URL } from './app.config';
 import './index.css';
 
 setAuthToken(localStorage.getItem('token'));
+setBaseUrl(API_URL);
 
 export const App = () => {
   return (
