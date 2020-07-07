@@ -16,18 +16,18 @@ router.post('/', [
   check('password', 'Please enter password with 6 or more characters').isLength({ min: 6 }),
 ], async (req: Request, res: Response) => {
   try {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({
-        errors: errors.array(),
-      });
-    }
-
     const { username, password } = req.body;
     const user = await User.getByUsername(username);
     if (user) {
       return res.status(400).json({
         message: `User with username '${username}' already exist`,
+      });
+    }
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        errors: errors.array(),
       });
     }
 

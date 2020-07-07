@@ -1,8 +1,11 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Input, SubmitButton } from '../Form';
+import AuthContext from '../../context/auth/authContext';
 
-export const LoginForm = ({ onSubmit, postContent }) => {
+export const LoginForm = ({ onSubmit, postContent}) => {
+  const authContext = useContext(AuthContext);
+
   const [user, setUser] = useState({
     username: '',
     password: '',
@@ -26,7 +29,7 @@ export const LoginForm = ({ onSubmit, postContent }) => {
   }, [user]);
 
   return (
-    <Form title="Login" postContent={postContent}>
+    <Form title="Login" postContent={postContent} error={authContext.error}>
       <Input name="username" label="Username" value={user.username} onChange={onChange}/>
       <Input name="password" type="password" label="Password" value={user.password} onChange={onChange}/>
       <SubmitButton variant="outlined" onClick={onSubmitClick} color="primary" disabled={!isFilled}>

@@ -1,8 +1,11 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Input, SubmitButton } from '../Form';
+import AuthContext from '../../context/auth/authContext';
 
 export const RegisterForm = ({ onSubmit, postContent }) => {
+  const authContext = useContext(AuthContext);
+
   const [user, setUser] = useState({
     username: '',
     password: '',
@@ -27,10 +30,18 @@ export const RegisterForm = ({ onSubmit, postContent }) => {
   }, [user]);
 
   return (
-    <Form title="Sign up" postContent={postContent}>
+    <Form title="Sign up" postContent={postContent} error={authContext.error}>
       <Input name="username" label="Username" value={user.username} onChange={onChange}/>
       <Input name="password" type="password" label="Password" value={user.password} onChange={onChange}/>
-      <Input name="password2" type="password" label="Confirm password" value={user.password2} onChange={onChange}/>
+      <Input
+        name="password2"
+        type="password"
+        label="Confirm password"
+        value={user.password2}
+        onChange={onChange}
+        helperText={!!user.password2 && user.password !== user.password2 && 'Password mismatch'}
+        error={!!user.password2 && user.password !== user.password2}
+      />
       <SubmitButton variant="outlined" onClick={onSubmitClick} color="primary" disabled={!isFilled}>
         Sign up
       </SubmitButton>

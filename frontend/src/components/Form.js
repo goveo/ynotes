@@ -2,11 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { TextField, Button, Typography } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
 
-export const Form = ({ title, children, postContent }) => {
+export const Form = ({ title, children, postContent, error }) => {
   return (
     <div>
-      <FormTitle align="center" variant="h3" component="h1" className="text-center">{title}</FormTitle>
+      {title && <FormTitle align="center" variant="h3" component="h1" className="text-center">{title}</FormTitle>}
+      {error && <FormAlert severity="error">{error}</FormAlert>}
       <form>
         {children}
       </form>
@@ -20,8 +22,9 @@ export const Form = ({ title, children, postContent }) => {
 };
 
 Form.propTypes = {
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   postContent: PropTypes.element,
+  error: PropTypes.string,
 };
 
 export const Input = styled(TextField)`
@@ -41,6 +44,10 @@ export const FormTitle = styled(Typography)`
 export const PostFormContent = styled.div`
   width: 100%;
   margin-top: 20px;
+`;
+
+export const FormAlert = styled(Alert)`
+  margin: 20px 0;
 `;
 
 export default Form;
