@@ -4,6 +4,7 @@ import Container from '@material-ui/core/Container';
 import Home from './components/pages/Home';
 import Register from './components/pages/Register';
 import Login from './components/pages/Login';
+import NotFound from './components/pages/NotFound';
 import NotesState from './context/notes/NotesState';
 import AuthState from './context/auth/AuthState';
 import setAuthToken from './utils/setAuthToken';
@@ -25,6 +26,7 @@ export const App = () => {
                 <PrivateRoute exact path="/" component={Home}></PrivateRoute>
                 <Route exact path="/register" component={Register}></Route>
                 <Route exact path="/login" component={Login}></Route>
+                <PrivateRoute path="" component={NotFound} />
               </Switch>
             </Container>
           </div>
