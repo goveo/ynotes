@@ -21,10 +21,6 @@ app.use(cors());
 
 const PORT: number = Number(process.env.PORT) || 8000;
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Hello');
-});
-
 app.use('/api/users', UserRouter);
 app.use('/api/auth', AuthRouter);
 app.use('/api/notes', NotesRouter);
