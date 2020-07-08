@@ -16,7 +16,7 @@ export const Login = ({ history }) => {
   return (
     <Page>
       <Grid justify="center" alignItems="center" container spacing={3}>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={6} md={4}>
           <LoginForm onSubmit={authContext.login} postContent={
             <Typography align="center">
               Do not have an account? <Link to='/register'>Register</Link>

@@ -16,7 +16,7 @@ export const Register = ({ history }) => {
   return (
     <Page>
       <Grid justify="center" alignItems="center" container spacing={3}>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={6} md={4}>
           <RegisterForm onSubmit={authContext.register} postContent={
             <Typography align="center">
               Already have an account? <Link to='/login'>Login</Link>

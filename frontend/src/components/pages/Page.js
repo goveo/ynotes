@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, Fragment } from 'react';
+import React, { useContext, useEffect } from 'react';
+import styled from 'styled-components';
 import AuthContext from '../../context/auth/authContext';
 
 const Page = ({ children, ...restProps }) => {
@@ -11,10 +12,14 @@ const Page = ({ children, ...restProps }) => {
   }, []);
 
   return (
-    <Fragment {...restProps}>
+    <Root {...restProps}>
       {!loading && children}
-    </Fragment>
+    </Root>
   );
 };
+
+const Root = styled.div`
+  margin-top: 20px;
+`;
 
 export default Page;

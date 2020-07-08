@@ -5,6 +5,7 @@ import {
   REMOVE_NOTE,
   SET_SEARCH,
   REORDER_NOTES,
+  CLEAR_NOTES,
 } from '../types';
 
 export default (state, action) => {
@@ -41,6 +42,15 @@ export default (state, action) => {
       return {
         ...state,
         notes: action.payload,
+      };
+    case CLEAR_NOTES:
+      return {
+        ...state,
+        notes: [],
+        search: {
+          notes: [],
+          text: '',
+        },
       };
     default:
       break;

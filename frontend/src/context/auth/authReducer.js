@@ -1,7 +1,6 @@
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
-  CLEAR_ERRORS,
   USER_LOADED,
   AUTH_ERROR,
   LOGIN_SUCCESS,
@@ -39,11 +38,6 @@ export default (state, action) => {
         isAuthenticated: false,
         user: null,
         error: action.payload,
-      };
-    case CLEAR_ERRORS:
-      return {
-        ...state,
-        error: null,
       };
     default:
       break;

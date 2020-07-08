@@ -11,6 +11,7 @@ import {
   UPDATE_NOTE,
   SET_SEARCH,
   REORDER_NOTES,
+  CLEAR_NOTES,
 } from '../types';
 
 const NotesState = props => {
@@ -138,6 +139,10 @@ const NotesState = props => {
     }
   };
 
+  const clearNotes = () => dispatch({
+    type: CLEAR_NOTES,
+  });
+
   return (
     <NotesContext.Provider
       value={{
@@ -149,6 +154,7 @@ const NotesState = props => {
         removeNote,
         searchNotes,
         reorderNotes,
+        clearNotes,
       }}
     >
       {props.children}
