@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useEffect } from 'react';
+import React, { Fragment, useContext, useEffect, useMemo, useCallback } from 'react';
 import Note from './Note';
 import CreateNoteButton from './button/CreateNoteButton';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
@@ -7,22 +7,26 @@ import NotesContext from '../context/notes/notesContext';
 const NotesList = () => {
   const notesContext = useContext(NotesContext);
 
+  const { reorderNotes } = notesContext;
+
   useEffect(() => {
     notesContext.getNotes();
     // eslint-disable-next-line
   }, []);
 
-  const isSearch = !!notesContext.search.text;
-  const shownNotes = isSearch ? notesContext.search.notes : notesContext.notes;
+  const isSearch = useMemo(() => !!notesContext.search.text, [notesContext.search.text]);
 
-  const onDragEnd = (result) => {
+  const shownNotes = useMemo(() => {
+    return isSearch ? notesContext.search.notes : notesContext.notes;
+  }, [isSearch, notesContext.search, notesContext.notes]);
+
+  const onDragEnd = useCallback((result) => {
     // dropped outside the list
     if (!result.destination) {
       return;
     }
-
-    notesContext.reorderNotes(shownNotes[result.source.index], result.destination.index);
-  };
+    reorderNotes(shownNotes[result.source.index], result.destination.index);
+  }, [reorderNotes, shownNotes]);
 
   return (
     <Fragment>
@@ -34,7 +38,7 @@ const NotesList = () => {
               ref={provided.innerRef}
             >
               {shownNotes.map((note, index) => (
-                <Draggable key={note.id} draggableId={String(note.id)} index={index}>
+                <Draggable key={note.id} draggableId={String(note.id)} index={index} isDragDisabled={isSearch}>
                   {(provided, snapshot) => (
                     <Note
                       id={note.id}

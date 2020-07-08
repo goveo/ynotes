@@ -1,18 +1,19 @@
-import React from 'react';
+import React, { useContext, useCallback } from 'react';
 import styled from 'styled-components';
 import { TextField } from '@material-ui/core';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import SearchIcon from '@material-ui/icons/Search';
-import _ from 'lodash';
+import { debounce } from 'lodash';
 import NotesContext from '../context/notes/notesContext';
 
 const DEBOUNCE_TIMEOUT_MS = 500;
 
 const Search = () => {
-  const notesContext = React.useContext(NotesContext);
-  const searchNotes = _.debounce((text) => {
+  const notesContext = useContext(NotesContext);
+
+  const searchNotes = useCallback(debounce((text) => {
     notesContext.searchNotes(text);
-  }, DEBOUNCE_TIMEOUT_MS);
+  }, DEBOUNCE_TIMEOUT_MS), [notesContext.searchNotes]);
 
   return (
     <SearchInput

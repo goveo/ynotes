@@ -1,6 +1,6 @@
 import React, { useReducer } from 'react';
 import axios from 'axios';
-import _ from 'lodash';
+import { findIndex, sortBy } from 'lodash';
 import NotesContext from './notesContext';
 import NotesReducer from './notesReducer';
 
@@ -97,7 +97,7 @@ const NotesState = props => {
     if (currentIndex === newIndex) return notes;
     let list = notes;
 
-    const index = _.findIndex(notes, (note) => note.index === currentIndex);
+    const index = findIndex(notes, (note) => note.index === currentIndex);
     const [note] = list.splice(index, 1);
 
     list = notes.map((note) => {
@@ -116,7 +116,7 @@ const NotesState = props => {
     });
 
     list = [...list, { ...note, index: newIndex }];
-    return _.sortBy(list, 'index');
+    return sortBy(list, 'index');
   };
 
   const reorderNotes = async (note, newIndex) => {

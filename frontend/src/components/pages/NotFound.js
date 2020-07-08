@@ -14,7 +14,7 @@ const NotFound = () => {
           marginTop: '30px',
         }}
       >
-          Page Not Found
+        Page Not Found
       </Typography>
 
       <Link to='/'>
@@ -24,7 +24,9 @@ const NotFound = () => {
           style={{
             marginTop: '10px',
           }}
-        >Back to notes</Typography>
+        >
+          Back to notes
+        </Typography>
       </Link>
 
     </Page>
