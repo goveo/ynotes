@@ -7,6 +7,7 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  Grid,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -43,15 +44,21 @@ const Note = ({ id, title, description, color, innerRef, ...restProps }) => {
           aria-controls={`${id}-content`}
           id={`note-${id}`}
         >
-          <Title>{title}</Title>
-          <Fragment>
-            <NoteButton aria-label="edit" onClick={editNote}>
-              <EditIcon fontSize="small" />
-            </NoteButton>
-            <NoteButton aria-label="delete" onClick={removeNote}>
-              <DeleteIcon fontSize="small" />
-            </NoteButton>
-          </Fragment>
+          <Grid justify="space-between" container>
+            <Grid item>
+              <Title>{title}</Title>
+            </Grid>
+            <Grid item>
+              <Fragment>
+                <NoteButton aria-label="edit" onClick={editNote}>
+                  <EditIcon fontSize="small" />
+                </NoteButton>
+                <NoteButton aria-label="delete" onClick={removeNote}>
+                  <DeleteIcon fontSize="small" />
+                </NoteButton>
+              </Fragment>
+            </Grid>
+          </Grid>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
@@ -88,8 +95,7 @@ const NoteButton = styled(IconButton)`
 
 const Title = styled(Typography)`
   font-weight: bold;
-  flex-basis: 80%;
-  flex-shrink: 0;
+  word-break: break-all;
 `;
 
 export default Note;
