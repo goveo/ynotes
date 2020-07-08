@@ -1,4 +1,4 @@
-import express, { Application, Request, Response } from 'express';
+import express, { Application } from 'express';
 import cors from 'cors';
 import UserRouter from './routes/users';
 import AuthRouter from './routes/auth';

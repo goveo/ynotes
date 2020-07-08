@@ -13,8 +13,8 @@ const router = Router();
 // @access    Private
 router.get('/', auth, async (req: Request, res: Response) => {
   try {
-    const id = req.user?.id;
-    const user = await User.getById(id as number);
+    const id = req.user?.id as number;
+    const user = await User.getById(id);
     delete user?.password;
     res.json(user);
   }
@@ -32,7 +32,6 @@ router.post('/', [
   check('password', 'Password is required').exists(),
 ], async (req: Request, res: Response) => {
   try {
-
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({
@@ -40,7 +39,8 @@ router.post('/', [
       });
     }
 
-    const { username, password } = req.body;
+    const username: string = req.body.username;
+    const password: string = req.body.password;
 
     const user = await User.getByUsername(username);
     if (!user) {

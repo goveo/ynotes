@@ -16,7 +16,8 @@ router.post('/', [
   check('password', 'Please enter password with 6 or more characters').isLength({ min: 6 }),
 ], async (req: Request, res: Response) => {
   try {
-    const { username, password } = req.body;
+    const username: string = req.body.username;
+    const password: string = req.body.password;
     const user = await User.getByUsername(username);
     if (user) {
       return res.status(400).json({

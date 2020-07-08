@@ -36,7 +36,9 @@ router.post('/', [
       });
     }
 
-    const { title, description, color } = req.body;
+    const title: string = req.body.title;
+    const description: string = req.body.description;
+    const color: string = req.body.color;
 
     const newNote = await Note.create({
       title,
@@ -66,7 +68,10 @@ router.put('/:id', [
       });
     }
 
-    const { title, description, color } = req.body;
+    const title: string = req.body.title;
+    const description: string = req.body.description;
+    const color: string = req.body.color;
+
     const noteId = Number(req.params.id);
     const userId = req.user?.id as number;
     const newNoteFields = _.omitBy({
@@ -146,9 +151,9 @@ router.post('/:id/changeIndex', [
       });
     }
 
-    const noteId: number = Number(req.params.id) as number;
-    const userId: number = Number(req.user?.id) as number;
-    const index: number = req.body.index as number;
+    const noteId = Number(req.params.id);
+    const userId = Number(req.user?.id);
+    const index = req.body.index as number;
 
     const note = await Note.getById(noteId) as INote;
 
