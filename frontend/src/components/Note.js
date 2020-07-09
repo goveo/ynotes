@@ -61,9 +61,9 @@ const Note = ({ id, title, description, color, innerRef, ...restProps }) => {
           </Grid>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>
+          <Description>
             {description}
-          </Typography>
+          </Description>
         </AccordionDetails>
       </NoteAccordion>
       <NoteModal
@@ -95,7 +95,12 @@ const NoteButton = styled(IconButton)`
 
 const Title = styled(Typography)`
   font-weight: bold;
-  word-break: break-all;
+  word-break: break-word;
+`;
+
+const Description = styled(Typography)`
+  word-break: break-word;
+  width: 100%;
 `;
 
 export default Note;

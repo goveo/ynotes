@@ -1,4 +1,4 @@
-import { Model, INTEGER, STRING } from 'sequelize';
+import { Model, INTEGER, STRING, TEXT } from 'sequelize';
 import sequelize from '../database/lib/connection';
 
 export interface INote {
@@ -31,7 +31,7 @@ Note.init({
     allowNull: false,
   },
   description: {
-    type: STRING,
+    type: TEXT,
     allowNull: true,
   },
   color: {

@@ -2,10 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { CirclePicker } from 'react-color';
-import { Button, TextField, InputLabel } from '@material-ui/core';
+import { Button, InputLabel } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from './Modal';
 import NotesContext from '../../context/notes/notesContext';
+import CounterInput from '../input/CounterInput';
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -68,8 +69,8 @@ const NoteModal = ({ isOpen, closeModal, note=null }) => {
       onClose={onClose}
       content={
         <form className={classes.formControl}>
-          <Input label="Title" value={title} onChange={(e) => setTitle(e.target.value)}/>
-          <Input label="Description" value={description} multiline onChange={(e) => setDescription(e.target.value)}/>
+          <Input max={40} label="Title" value={title} onChange={(value) => setTitle(value)}/>
+          <Input max={500} label="Description" value={description} multiline onChange={(value) => setDescription(value)}/>
           <div>
             <ColorLabel>Color</ColorLabel>
             <ColorPicker
@@ -103,7 +104,7 @@ NoteModal.propTypes = {
   note: PropTypes.object,
 };
 
-const Input = styled(TextField)`
+const Input = styled(CounterInput)`
   width: 100%;
   margin-bottom: 10px;
 `;
