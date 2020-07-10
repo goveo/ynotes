@@ -1,9 +1,14 @@
 import React, { useState, useCallback, useMemo, useContext } from 'react';
-import PropTypes from 'prop-types';
-import { Form, Input, SubmitButton } from '../Form';
+import { CommonProps } from '../../types/CommonProps';
 import AuthContext from '../../context/auth/authContext';
+import { Form, Input, SubmitButton } from '../Form';
 
-export const LoginForm = ({ onSubmit, postContent}) => {
+interface Props extends CommonProps {
+  onSubmit: (user: { username: string, password: string }) => void;
+  postContent?: React.ReactNode;
+}
+
+export const LoginForm: React.FC<Props> = ({ onSubmit, postContent}) => {
   const authContext = useContext(AuthContext);
 
   const [user, setUser] = useState({
@@ -37,11 +42,6 @@ export const LoginForm = ({ onSubmit, postContent}) => {
       </SubmitButton>
     </Form>
   );
-};
-
-LoginForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-  postContent: PropTypes.element,
 };
 
 export default LoginForm;

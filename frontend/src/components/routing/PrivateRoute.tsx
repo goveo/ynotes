@@ -1,8 +1,15 @@
 import React, { useContext } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import AuthContext from '../../context/auth/authContext';
+import { CommonProps } from '../../types/CommonProps';
 
-const PrivateRoute = ({ component: Component, ...restProps }) => {
+interface Props extends CommonProps {
+  component: React.ReactType,
+  exact?: boolean,
+  path: string,
+}
+
+const PrivateRoute: React.FC<Props> = ({ component: Component, ...restProps }) => {
   const authContext = useContext(AuthContext);
   const { isAuthenticated, loading } = authContext;
   return (

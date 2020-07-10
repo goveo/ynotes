@@ -1,8 +1,16 @@
 import React, { useState, useCallback, useMemo } from 'react';
-import PropTypes from 'prop-types';
 import { TextField } from '@material-ui/core';
+import { CommonProps } from '../../types/CommonProps';
 
-const CounterInput = ({ label, value, onChange, max, ...restProps}) => {
+interface Props extends CommonProps {
+  value: string,
+  onChange: (value: string) => void,
+  label?: string,
+  max?: number,
+  multiline?: boolean
+}
+
+const CounterInput: React.FC<Props> = ({ label, value, onChange, max, ...restProps}) => {
   const [inputValue, setInputValue] = useState(value);
 
   const onUpdate = useCallback((value) => {
@@ -24,13 +32,6 @@ const CounterInput = ({ label, value, onChange, max, ...restProps}) => {
       {...restProps}
     />
   );
-};
-
-CounterInput.propTypes = {
-  label: PropTypes.string,
-  value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-  max: PropTypes.number,
 };
 
 export default CounterInput;

@@ -1,11 +1,19 @@
-import React from 'react';
+import * as React from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import PropTypes from 'prop-types';
+import { CommonProps } from '../../types/CommonProps';
 
-const Modal = ({ isOpen, onClose, title, content, actions }) => {
+interface Props extends CommonProps {
+  isOpen: boolean,
+  onClose: () => void,
+  title: string,
+  content: React.ReactNode,
+  actions?: React.ReactNode,
+}
+
+const Modal: React.FC<Props> = ({ isOpen, onClose, title, content, actions }) => {
   return (
     <Dialog
       open={isOpen}
@@ -22,14 +30,6 @@ const Modal = ({ isOpen, onClose, title, content, actions }) => {
       </DialogActions>
     </Dialog>
   );
-};
-
-Modal.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-  title: PropTypes.string.isRequired,
-  content: PropTypes.element.isRequired,
-  actions: PropTypes.element,
 };
 
 export default Modal;

@@ -1,8 +1,8 @@
+import express, { Application, Request, Response } from 'express';
+import path from 'path';
 
-const express = require('express');
-const app = express();
+const app: Application = express();
 const PORT = process.env.PORT || 3000;
-const path = require('path');
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('./build'));

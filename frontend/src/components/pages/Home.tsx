@@ -1,10 +1,10 @@
-import React from 'react';
+import * as React from 'react';
+import { Grid } from '@material-ui/core';
 import Search from '../Search';
 import NotesList from '../NotesList';
 import Page from './Page';
-import { Grid } from '@material-ui/core';
 
-export const Home = () => {
+export const Home: React.FC = () => {
   return (
     <Page>
       <Grid justify="center" container>

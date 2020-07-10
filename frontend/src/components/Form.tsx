@@ -1,13 +1,19 @@
-import React from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import { TextField, Button, Typography } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
+import { CommonProps } from '../types/CommonProps';
 
-export const Form = ({ title, children, postContent, error }) => {
+interface Props extends CommonProps {
+  title: string | undefined,
+  postContent: React.ReactNode | string | undefined,
+  error: string | undefined,
+}
+
+export const Form: React.FC<Props> = ({ title, children, postContent, error }) => {
   return (
     <div>
-      {title && <FormTitle align="center" variant="h3" component="h1" className="text-center">{title}</FormTitle>}
+      {title && <FormTitle align="center" variant="h3" className="text-center">{title}</FormTitle>}
       {error && <FormAlert severity="error">{error}</FormAlert>}
       <form>
         {children}
@@ -19,12 +25,6 @@ export const Form = ({ title, children, postContent, error }) => {
       )}
     </div>
   );
-};
-
-Form.propTypes = {
-  title: PropTypes.string,
-  postContent: PropTypes.element,
-  error: PropTypes.string,
 };
 
 export const Input = styled(TextField)`

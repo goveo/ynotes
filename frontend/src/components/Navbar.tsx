@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Navbar = () => {
+const Navbar: React.FC = () => {
   const classes = useStyles();
   const authContext = useContext(AuthContext);
   const notesContext = useContext(NotesContext);
@@ -27,7 +27,7 @@ const Navbar = () => {
   return (
     <AppBar position="sticky" color="primary" className={classes.appBar}>
       <Toolbar>
-        <Typography color="inherit" type="title" variant="h6" component="h1">
+        <Typography color="inherit" variant="h6" component="h1">
           YNotes
         </Typography>
         <div className={classes.grow} />

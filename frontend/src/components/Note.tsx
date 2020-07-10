@@ -1,6 +1,5 @@
 import React, { useCallback, Fragment, useContext, useState} from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import {
   Typography,
   IconButton,
@@ -14,8 +13,20 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import NotesContext from '../context/notes/notesContext';
 import NoteModal from './modal/NoteModal';
+import { CommonProps } from '../types/CommonProps';
 
-const Note = ({ id, title, description, color, innerRef, ...restProps }) => {
+export type NoteType = {
+  id: number;
+  title: string;
+  description: string;
+  color: string;
+}
+
+export interface Props extends CommonProps, NoteType {
+  innerRef?: () => any;
+}
+
+export const Note: React.FC<Props> = ({ id, title, description, color, innerRef, ...restProps }) => {
   const notesContext = useContext(NotesContext);
 
   const editNote = useCallback((e) => {
@@ -75,14 +86,6 @@ const Note = ({ id, title, description, color, innerRef, ...restProps }) => {
       />
     </Fragment>
   );
-};
-
-Note.propTypes = {
-  id: PropTypes.number.isRequired,
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  color: PropTypes.string.isRequired,
-  innerRef: PropTypes.func,
 };
 
 const NoteAccordion = styled(Accordion)`

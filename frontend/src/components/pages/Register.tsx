@@ -1,31 +1,31 @@
 import React, { useContext, useEffect } from 'react';
-import LoginForm from '../auth/LoginForm';
-import Page from './Page';
+import { Link, RouteComponentProps} from 'react-router-dom';
 import { Grid, Typography } from '@material-ui/core';
-import { Link } from 'react-router-dom';
+import RegisterForm from '../auth/RegisterForm';
 import AuthContext from '../../context/auth/authContext';
+import Page from './Page';
 
-export const Login = ({ history }) => {
+export const Register: React.FC<RouteComponentProps> = ({ history }) => {
   const authContext = useContext(AuthContext);
 
   useEffect(() => {
-    if (authContext.isAuthenticated && !authContext.loading) {
+    if (authContext.isAuthenticated) {
       history.push('/');
     }
-  }, [authContext.isAuthenticated, authContext.loading, history]);
+  }, [authContext.isAuthenticated, history]);
   return (
     <Page>
       <Grid justify="center" alignItems="center" container spacing={3}>
         <Grid item xs={12} sm={6} md={4}>
-          <LoginForm onSubmit={authContext.login} postContent={
+          <RegisterForm onSubmit={authContext.register} postContent={
             <Typography align="center">
-              Do not have an account? <Link to='/register'>Register</Link>
+              Already have an account? <Link to='/login'>Login</Link>
             </Typography>
-          } />
+          }/>
         </Grid>
       </Grid>
     </Page>
   );
 };
 
-export default Login;
+export default Register;

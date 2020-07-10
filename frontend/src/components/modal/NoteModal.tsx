@@ -1,12 +1,12 @@
-import React from 'react';
+import * as React from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import { CirclePicker } from 'react-color';
 import { Button, InputLabel } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from './Modal';
 import NotesContext from '../../context/notes/notesContext';
 import CounterInput from '../input/CounterInput';
+import { CommonProps } from '../../types/CommonProps';
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -28,13 +28,24 @@ const PICKER_COLORS = [
   '#F78DA7',
 ];
 
-const NoteModal = ({ isOpen, closeModal, note=null }) => {
+interface Props extends CommonProps {
+  isOpen: boolean,
+  closeModal: () => void,
+  note?: {
+    id: number,
+    title: string,
+    description: string,
+    color: string
+  },
+}
+
+const NoteModal: React.FC<Props> = ({ isOpen, closeModal, note }) => {
   const classes = useStyles();
   const isEditMode = !!note;
 
-  const [title, setTitle] = React.useState(isEditMode ? note.title : '');
-  const [description, setDescription] = React.useState(isEditMode ? note.description : '');
-  const [color, setColor] = React.useState(isEditMode ? note.color : DEFAULT_COLOR);
+  const [title, setTitle] = React.useState(note ? note.title : '');
+  const [description, setDescription] = React.useState(note ? note?.description : '');
+  const [color, setColor] = React.useState(note ? note?.color : DEFAULT_COLOR);
   const notesContext = React.useContext(NotesContext);
 
   const modalTitle = isEditMode ? 'Edit note' : 'Create new note';
@@ -58,7 +69,7 @@ const NoteModal = ({ isOpen, closeModal, note=null }) => {
   const editNote = React.useCallback(() => {
     onClose();
     notesContext.editNote({
-      id: note.id, title, description, color,
+      id: note?.id, title, description, color,
     });
   }, [onClose, note, title, description, color, notesContext]);
 
@@ -68,9 +79,14 @@ const NoteModal = ({ isOpen, closeModal, note=null }) => {
       isOpen={isOpen}
       onClose={onClose}
       content={
-        <form className={classes.formControl}>
+        <form className={classes.form}>
           <Input max={40} label="Title" value={title} onChange={(value) => setTitle(value)}/>
-          <Input max={500} label="Description" value={description} multiline onChange={(value) => setDescription(value)}/>
+          <Input
+            max={500}
+            label="Description"
+            value={description}
+            onChange={(value) => setDescription(value)}
+            multiline/>
           <div>
             <ColorLabel>Color</ColorLabel>
             <ColorPicker
@@ -79,8 +95,7 @@ const NoteModal = ({ isOpen, closeModal, note=null }) => {
               circleSize={28}
               color={color}
               colors={PICKER_COLORS}
-              triangle='hide'
-              onChangeComplete={(e) => setColor(e.hex)}
+              onChangeComplete={(e: any) => setColor(e?.hex)}
             />
           </div>
         </form>
@@ -96,12 +111,6 @@ const NoteModal = ({ isOpen, closeModal, note=null }) => {
         </>
       }/>
   );
-};
-
-NoteModal.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  closeModal: PropTypes.func.isRequired,
-  note: PropTypes.object,
 };
 
 const Input = styled(CounterInput)`

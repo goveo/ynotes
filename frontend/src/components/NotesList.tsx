@@ -1,10 +1,10 @@
 import React, { Fragment, useContext, useEffect, useMemo, useCallback } from 'react';
-import Note from './Note';
-import CreateNoteButton from './button/CreateNoteButton';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import CreateNoteButton from './button/CreateNoteButton';
 import NotesContext from '../context/notes/notesContext';
+import Note, { NoteType } from './Note';
 
-const NotesList = () => {
+const NotesList: React.FC = () => {
   const notesContext = useContext(NotesContext);
 
   const { reorderNotes } = notesContext;
@@ -37,7 +37,7 @@ const NotesList = () => {
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
-              {shownNotes.map((note, index) => (
+              {shownNotes.map((note: NoteType, index: number) => (
                 <Draggable key={note.id} draggableId={String(note.id)} index={index} isDragDisabled={isSearch}>
                   {(provided, snapshot) => (
                     <Note

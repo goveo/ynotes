@@ -1,8 +1,9 @@
 import React, { useContext, useEffect } from 'react';
 import styled from 'styled-components';
 import AuthContext from '../../context/auth/authContext';
+import { CommonProps } from '../../types/CommonProps';
 
-const Page = ({ children, ...restProps }) => {
+const Page: React.FC<CommonProps> = ({ children, ...restProps }) => {
   const authContext = useContext(AuthContext);
   const { loadUser, loading } = authContext;
 
