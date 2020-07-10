@@ -5,6 +5,9 @@ module.exports = {
     "@typescript-eslint",
     "react"
   ],
+  "globals": {
+    "localStorage": true,
+  },
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
@@ -24,6 +27,7 @@ module.exports = {
     "key-spacing": ["error"], //пробелы после ":"в объектах
     "eol-last": ["error"],
     "quotes": [2, "single", "avoid-escape"],
-    "indent": ["error", 2]
+    "indent": ["error", 2, { "SwitchCase": 1 }],
+    "switch-colon-spacing": ["error", {"after": true, "before": false}]
   }
 };

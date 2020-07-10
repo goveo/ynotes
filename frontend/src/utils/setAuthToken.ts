@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export default (token) => {
+export default (token: string | null): void => {
   if (token) {
     axios.defaults.headers.common['x-auth-token'] = token;
   }
