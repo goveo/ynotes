@@ -14,6 +14,75 @@ export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const LOGOUT = 'LOGOUT';
 export const CLEAR_NOTES = 'CLEAR_NOTES';
 
+export interface Note {
+  id: number;
+  index: number,
+  title: string;
+  description: string;
+  color: string;
+}
+
+export interface NotesState {
+  notes: Note[],
+  search: {
+    notes: Note[],
+    text: string,
+  },
+}
+
+interface GetNotesAction {
+  type: typeof GET_NOTES;
+  payload: Note[];
+}
+
+export interface NotePayload {
+  title: string;
+  description: string;
+  color: string;
+}
+
+interface AddNoteAction {
+  type: typeof ADD_NOTE;
+  payload: Note;
+}
+
+interface UpdateNoteAction {
+  type: typeof UPDATE_NOTE;
+  payload: Note;
+}
+
+interface RemoveNoteAction {
+  type: typeof REMOVE_NOTE;
+  payload: number;
+}
+
+interface SetSearchAction {
+  type: typeof SET_SEARCH;
+  payload: {
+    notes: Note[],
+    text: string,
+  };
+}
+
+interface ReorderNotesAction {
+  type: typeof REORDER_NOTES;
+  payload: Note[];
+}
+
+interface ClearNotesAction {
+  type: typeof CLEAR_NOTES;
+  payload: null;
+}
+
+export type NotesActionTypes =
+  GetNotesAction
+  | AddNoteAction
+  | UpdateNoteAction
+  | RemoveNoteAction
+  | SetSearchAction
+  | ReorderNotesAction
+  | ClearNotesAction
+
 export interface User {
   id: number;
   username: string;

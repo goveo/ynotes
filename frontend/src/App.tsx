@@ -6,7 +6,6 @@ import Home from './components/pages/Home';
 import Register from './components/pages/Register';
 import Login from './components/pages/Login';
 import NotFound from './components/pages/NotFound';
-import NotesState from './context/notes/NotesState';
 import PrivateRoute from './components/routing/PrivateRoute';
 import Navbar from './components/Navbar';
 import store from './store';
@@ -23,21 +22,19 @@ setBaseUrl(API_URL);
 export const App: React.FC = () => {
   return (
     <Provider store={store}>
-      <NotesState>
-        <Navbar />
-        <Router>
-          <div className="App">
-            <Container>
-              <Switch>
-                <PrivateRoute exact path="/" component={Home}></PrivateRoute>
-                <Route exact path="/register" component={Register}></Route>
-                <Route exact path="/login" component={Login}></Route>
-                <PrivateRoute path="" component={NotFound} />
-              </Switch>
-            </Container>
-          </div>
-        </Router>
-      </NotesState>
+      <Navbar />
+      <Router>
+        <div className="App">
+          <Container>
+            <Switch>
+              <PrivateRoute exact path="/" component={Home}></PrivateRoute>
+              <Route exact path="/register" component={Register}></Route>
+              <Route exact path="/login" component={Login}></Route>
+              <PrivateRoute path="" component={NotFound} />
+            </Switch>
+          </Container>
+        </div>
+      </Router>
     </Provider>
   );
 };

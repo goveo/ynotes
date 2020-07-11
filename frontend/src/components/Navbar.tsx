@@ -1,10 +1,10 @@
-import React, { useContext, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { AppBar, Toolbar, IconButton, Typography } from '@material-ui/core';
 import { ExitToApp as ExitIcon } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
-import NotesContext from '../context/notes/notesContext';
 import { logout } from '../store/actions/authActions';
+import { clearNotes } from '../store/actions/notesActions';
 import { AuthState } from '../store/actions/types';
 
 const useStyles = makeStyles((theme) => ({
@@ -16,16 +16,10 @@ const useStyles = makeStyles((theme) => ({
 
 const mapStateToProps = (state: { auth: AuthState }) => ({ isAuthenticated: state.auth.isAuthenticated });
 
-const connector = connect(
-  mapStateToProps,
-  { logout },
-);
+const connector = connect(mapStateToProps, { logout, clearNotes });
 
-const Navbar: React.FC<ConnectedProps<typeof connector>> = ({ isAuthenticated, logout }) => {
+const Navbar: React.FC<ConnectedProps<typeof connector>> = ({ isAuthenticated, logout, clearNotes }) => {
   const classes = useStyles();
-  const notesContext = useContext(NotesContext);
-  const { clearNotes } = notesContext;
-
   const onLogoutClick = useCallback(() => {
     clearNotes();
     logout();

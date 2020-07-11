@@ -1,7 +1,6 @@
-import { Action } from 'redux';
-import { ThunkAction } from 'redux-thunk';
-import setAuthToken from '../../utils/setAuthToken';
 import axios from 'axios';
+import setAuthToken from '../../utils/setAuthToken';
+import { AppThunk } from '../index';
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
@@ -12,14 +11,6 @@ import {
   LOGOUT,
   UserCredentials,
 } from './types';
-import { RootState } from '../index';
-
-export type AppThunk<ReturnType = void> = ThunkAction<
-  ReturnType,
-  RootState,
-  unknown,
-  Action<string>
->
 
 // Load User
 export const loadUser = (): AppThunk => async (dispatch) => {

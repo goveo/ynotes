@@ -1,24 +1,34 @@
-import React, { Fragment, useContext, useEffect, useMemo, useCallback } from 'react';
+import React, { Fragment, useEffect, useMemo, useCallback } from 'react';
+import { connect, ConnectedProps } from 'react-redux';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import CreateNoteButton from './button/CreateNoteButton';
-import NotesContext from '../context/notes/notesContext';
 import Note, { NoteType } from './Note';
 
-const NotesList: React.FC = () => {
-  const notesContext = useContext(NotesContext);
+import { removeNote, reorderNotes, getNotes } from '../store/actions/notesActions';
+import { NotesState } from '../store/actions/types';
 
-  const { reorderNotes } = notesContext;
+const mapStateToProps = (state: { notes: NotesState }) => ({
+  search: state.notes.search,
+  notes: state.notes.notes,
+});
+const connector = connect(mapStateToProps, { removeNote, reorderNotes, getNotes });
 
+const NotesList: React.FC<ConnectedProps<typeof connector>> = ({
+  search,
+  reorderNotes,
+  getNotes,
+  notes,
+}) => {
   useEffect(() => {
-    notesContext.getNotes();
+    getNotes();
     // eslint-disable-next-line
   }, []);
 
-  const isSearch = useMemo(() => !!notesContext.search.text, [notesContext.search.text]);
+  const isSearch = useMemo(() => !!search.text, [search.text]);
 
   const shownNotes = useMemo(() => {
-    return isSearch ? notesContext.search.notes : notesContext.notes;
-  }, [isSearch, notesContext.search, notesContext.notes]);
+    return isSearch ? search.notes : notes;
+  }, [isSearch, search, notes]);
 
   const onDragEnd = useCallback((result) => {
     // dropped outside the list
@@ -62,4 +72,4 @@ const NotesList: React.FC = () => {
   );
 };
 
-export default NotesList;
+export default connector(NotesList);

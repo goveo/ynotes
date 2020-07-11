@@ -1,12 +1,14 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import { connect, ConnectedProps } from 'react-redux';
 import { CirclePicker } from 'react-color';
 import { Button, InputLabel } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from './Modal';
-import NotesContext from '../../context/notes/notesContext';
 import CounterInput from '../input/CounterInput';
 import { CommonProps } from '../../types/CommonProps';
+
+import { addNote, editNote } from '../../store/actions/notesActions';
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -28,7 +30,9 @@ const PICKER_COLORS = [
   '#F78DA7',
 ];
 
-interface Props extends CommonProps {
+const connector = connect(null, { addNote, editNote });
+
+interface Props extends CommonProps, ConnectedProps<typeof connector> {
   isOpen: boolean,
   closeModal: () => void,
   note?: {
@@ -39,14 +43,19 @@ interface Props extends CommonProps {
   },
 }
 
-const NoteModal: React.FC<Props> = ({ isOpen, closeModal, note }) => {
+const NoteModal: React.FC<Props> = ({
+  isOpen,
+  closeModal,
+  note,
+  addNote,
+  editNote,
+}) => {
   const classes = useStyles();
   const isEditMode = !!note;
 
   const [title, setTitle] = React.useState(note ? note.title : '');
   const [description, setDescription] = React.useState(note ? note?.description : '');
   const [color, setColor] = React.useState(note ? note?.color : DEFAULT_COLOR);
-  const notesContext = React.useContext(NotesContext);
 
   const modalTitle = isEditMode ? 'Edit note' : 'Create new note';
 
@@ -61,17 +70,17 @@ const NoteModal: React.FC<Props> = ({ isOpen, closeModal, note }) => {
 
   const createNote = React.useCallback(() => {
     onClose();
-    notesContext.addNote({
+    addNote({
       title, description, color,
     });
-  }, [onClose, title, description, color, notesContext]);
+  }, [onClose, title, description, color, addNote]);
 
-  const editNote = React.useCallback(() => {
+  const updateNote = React.useCallback(() => {
     onClose();
-    notesContext.editNote({
-      id: note?.id, title, description, color,
+    editNote(note?.id as number, {
+      title, description, color,
     });
-  }, [onClose, note, title, description, color, notesContext]);
+  }, [onClose, note, title, description, color, editNote]);
 
   return (
     <Modal
@@ -105,7 +114,7 @@ const NoteModal: React.FC<Props> = ({ isOpen, closeModal, note }) => {
           <Button onClick={onClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={isEditMode ? editNote : createNote} color="primary" disabled={!title}>
+          <Button onClick={isEditMode ? updateNote : createNote} color="primary" disabled={!title}>
             { isEditMode ? 'Edit' : 'Create' }
           </Button>
         </>
@@ -127,4 +136,4 @@ const ColorLabel = styled(InputLabel)`
   margin-top: 10px;
 `;
 
-export default NoteModal;
+export default connector(NoteModal);

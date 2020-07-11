@@ -1,25 +1,26 @@
-import React, { useContext, useCallback } from 'react';
+import React, { useCallback } from 'react';
+import { connect, ConnectedProps } from 'react-redux';
 import { debounce } from 'lodash';
 import styled from 'styled-components';
 import { TextField } from '@material-ui/core';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import SearchIcon from '@material-ui/icons/Search';
-import NotesContext from '../context/notes/notesContext';
+import { searchNotes } from '../store/actions/notesActions';
 
 const DEBOUNCE_TIMEOUT_MS = 500;
 
-const Search: React.FC = () => {
-  const notesContext = useContext(NotesContext);
+const connector = connect(null, { searchNotes });
 
-  const searchNotes = useCallback(debounce((text: string) => {
-    notesContext.searchNotes(text);
-  }, DEBOUNCE_TIMEOUT_MS), [notesContext.searchNotes]);
+const Search: React.FC<ConnectedProps<typeof connector>> = ({ searchNotes }) => {
+  const searchNotesCallback = useCallback(debounce((text: string) => {
+    searchNotes(text);
+  }, DEBOUNCE_TIMEOUT_MS), [searchNotes]);
 
   return (
     <SearchInput
       id="search"
       label="Search"
-      onChange={(e) => searchNotes(e.target.value)}
+      onChange={(e) => searchNotesCallback(e.target.value)}
       InputProps={{
         endAdornment: (
           <InputAdornment position="start">
@@ -37,4 +38,4 @@ const SearchInput = styled(TextField)`
 `;
 
 
-export default Search;
+export default connector(Search);

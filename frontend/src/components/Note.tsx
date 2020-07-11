@@ -1,5 +1,6 @@
-import React, { useCallback, Fragment, useContext, useState} from 'react';
+import React, { useCallback, Fragment, useState} from 'react';
 import styled from 'styled-components';
+import { connect, ConnectedProps } from 'react-redux';
 import {
   Typography,
   IconButton,
@@ -11,9 +12,9 @@ import {
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-import NotesContext from '../context/notes/notesContext';
 import NoteModal from './modal/NoteModal';
 import { CommonProps } from '../types/CommonProps';
+import { removeNote } from '../store/actions/notesActions';
 
 export type NoteType = {
   id: number;
@@ -22,24 +23,32 @@ export type NoteType = {
   color: string;
 }
 
-export interface Props extends CommonProps, NoteType {
+const connector = connect(null, { removeNote });
+
+export interface Props extends CommonProps, NoteType, ConnectedProps<typeof connector> {
   innerRef?: () => any;
 }
 
-export const Note: React.FC<Props> = ({ id, title, description, color, innerRef, ...restProps }) => {
-  const notesContext = useContext(NotesContext);
-
-  const editNote = useCallback((e) => {
+export const Note: React.FC<Props> = ({
+  id,
+  title,
+  description,
+  color,
+  innerRef,
+  removeNote,
+  ...restProps
+}) => {
+  const onEditClick = useCallback((e) => {
     e.preventDefault();
     e.stopPropagation();
     setShowEditModal(true);
   }, []);
 
-  const removeNote = useCallback((e) => {
+  const onDeleteClick = useCallback((e) => {
     e.preventDefault();
     e.stopPropagation();
-    notesContext.removeNote(id);
-  }, [notesContext, id]);
+    removeNote(id);
+  }, [removeNote, id]);
 
   const [showEditModal, setShowEditModal] = useState(false);
 
@@ -61,10 +70,10 @@ export const Note: React.FC<Props> = ({ id, title, description, color, innerRef,
             </Grid>
             <Grid item>
               <Fragment>
-                <NoteButton aria-label="edit" onClick={editNote}>
+                <NoteButton aria-label="edit" onClick={onEditClick}>
                   <EditIcon fontSize="small" />
                 </NoteButton>
-                <NoteButton aria-label="delete" onClick={removeNote}>
+                <NoteButton aria-label="delete" onClick={onDeleteClick}>
                   <DeleteIcon fontSize="small" />
                 </NoteButton>
               </Fragment>
@@ -106,4 +115,4 @@ const Description = styled(Typography)`
   width: 100%;
 `;
 
-export default Note;
+export default connector(Note);

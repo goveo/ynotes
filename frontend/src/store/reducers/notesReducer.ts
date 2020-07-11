@@ -6,9 +6,20 @@ import {
   SET_SEARCH,
   REORDER_NOTES,
   CLEAR_NOTES,
-} from '../types';
+  NotesActionTypes,
+  NotesState,
+  Note,
+} from '../actions/types';
 
-export default (state, action) => {
+const initialState = {
+  notes: [],
+  search: {
+    notes: [],
+    text: '',
+  },
+};
+
+export default (state=initialState, action: NotesActionTypes): NotesState => {
   switch (action.type) {
     case GET_NOTES:
       return {
@@ -23,7 +34,7 @@ export default (state, action) => {
     case UPDATE_NOTE:
       return {
         ...state,
-        notes: (state.notes || []).map(item => item.id === action.payload.id ? action.payload : item),
+        notes: (state.notes || []).map((item: Note) => item.id === action.payload.id ? action.payload : item),
       };
     case REMOVE_NOTE:
       return {
@@ -53,6 +64,6 @@ export default (state, action) => {
         },
       };
     default:
-      break;
+      return state;
   }
 };
