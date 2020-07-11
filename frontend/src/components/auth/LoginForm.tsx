@@ -1,16 +1,23 @@
-import React, { useState, useCallback, useMemo, useContext } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
+import { connect, ConnectedProps } from 'react-redux';
 import { CommonProps } from '../../types/CommonProps';
-import AuthContext from '../../context/auth/authContext';
 import { Form, Input, SubmitButton } from '../Form';
+import { AuthState } from '../../store/actions/types';
 
 interface Props extends CommonProps {
   onSubmit: (user: { username: string, password: string }) => void;
   postContent?: React.ReactNode;
 }
 
-export const LoginForm: React.FC<Props> = ({ onSubmit, postContent}) => {
-  const authContext = useContext(AuthContext);
+const mapStateToProps = (state: { auth: AuthState }) => ({ auth: state.auth });
 
+const connector = connect(mapStateToProps);
+
+export const LoginForm: React.FC<Props & ConnectedProps<typeof connector>> = ({
+  auth: { error },
+  onSubmit,
+  postContent,
+}) => {
   const [user, setUser] = useState({
     username: '',
     password: '',
@@ -34,7 +41,7 @@ export const LoginForm: React.FC<Props> = ({ onSubmit, postContent}) => {
   }, [user]);
 
   return (
-    <Form title="Login" postContent={postContent} error={authContext.error}>
+    <Form title="Login" postContent={postContent} error={error}>
       <Input name="username" label="Username" value={user.username} onChange={onChange}/>
       <Input name="password" type="password" label="Password" value={user.password} onChange={onChange}/>
       <SubmitButton variant="outlined" onClick={onSubmitClick} color="primary" disabled={!isFilled}>
@@ -44,4 +51,4 @@ export const LoginForm: React.FC<Props> = ({ onSubmit, postContent}) => {
   );
 };
 
-export default LoginForm;
+export default connector(LoginForm);

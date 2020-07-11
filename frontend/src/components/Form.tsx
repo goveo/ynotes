@@ -5,9 +5,9 @@ import { Alert } from '@material-ui/lab';
 import { CommonProps } from '../types/CommonProps';
 
 interface Props extends CommonProps {
-  title: string | undefined,
-  postContent: React.ReactNode | string | undefined,
-  error: string | undefined,
+  title?: string,
+  postContent?: React.ReactNode | string,
+  error: string | null,
 }
 
 export const Form: React.FC<Props> = ({ title, children, postContent, error }) => {

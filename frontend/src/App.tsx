@@ -1,4 +1,5 @@
 import React from 'react';
+import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Container from '@material-ui/core/Container';
 import Home from './components/pages/Home';
@@ -6,9 +7,9 @@ import Register from './components/pages/Register';
 import Login from './components/pages/Login';
 import NotFound from './components/pages/NotFound';
 import NotesState from './context/notes/NotesState';
-import AuthState from './context/auth/AuthState';
 import PrivateRoute from './components/routing/PrivateRoute';
 import Navbar from './components/Navbar';
+import store from './store';
 
 import setAuthToken from './utils/setAuthToken';
 import setBaseUrl from './utils/setBaseUrl';
@@ -21,7 +22,7 @@ setBaseUrl(API_URL);
 
 export const App: React.FC = () => {
   return (
-    <AuthState>
+    <Provider store={store}>
       <NotesState>
         <Navbar />
         <Router>
@@ -37,7 +38,7 @@ export const App: React.FC = () => {
           </div>
         </Router>
       </NotesState>
-    </AuthState>
+    </Provider>
   );
 };
 

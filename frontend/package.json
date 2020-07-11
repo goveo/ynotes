@@ -16,6 +16,7 @@
     "@types/react-beautiful-dnd": "^13.0.0",
     "@types/react-color": "^3.0.4",
     "@types/react-dom": "^16.9.8",
+    "@types/react-redux": "^7.1.9",
     "@types/react-router-dom": "^5.1.5",
     "@types/styled-components": "^5.1.1",
     "axios": "^0.19.2",
@@ -25,8 +26,11 @@
     "react-beautiful-dnd": "^13.0.0",
     "react-color": "^2.18.1",
     "react-dom": "^16.13.1",
+    "react-redux": "^7.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0",
     "styled-components": "^5.1.1",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.6"
@@ -59,7 +63,8 @@
     "@typescript-eslint/parser": "^3.6.0",
     "eslint": "^6.6.0",
     "eslint-plugin-html": "^6.0.2",
-    "eslint-plugin-react": "^7.20.1"
+    "eslint-plugin-react": "^7.20.1",
+    "redux-devtools-extension": "^2.13.8"
   },
   "resolutions": {
     "styled-components": "^5"

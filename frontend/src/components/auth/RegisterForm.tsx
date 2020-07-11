@@ -1,15 +1,23 @@
-import React, { useState, useCallback, useMemo, useContext } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
+import { connect, ConnectedProps } from 'react-redux';
 import { CommonProps } from '../../types/CommonProps';
-import AuthContext from '../../context/auth/authContext';
 import { Form, Input, SubmitButton } from '../Form';
+import { AuthState } from '../../store/actions/types';
+
+const mapStateToProps = (state: { auth: AuthState }) => ({ error: state.auth.error });
+
+const connector = connect(mapStateToProps);
 
 interface Props extends CommonProps {
   onSubmit: (user: { username: string, password: string }) => void,
   postContent?: React.ReactNode,
 }
 
-export const RegisterForm: React.FC<Props> = ({ onSubmit, postContent }) => {
-  const authContext = useContext(AuthContext);
+export const RegisterForm: React.FC<Props & ConnectedProps<typeof connector>> = ({
+  onSubmit,
+  postContent,
+  error,
+}) => {
 
   const [user, setUser] = useState({
     username: '',
@@ -35,7 +43,7 @@ export const RegisterForm: React.FC<Props> = ({ onSubmit, postContent }) => {
   }, [user]);
 
   return (
-    <Form title="Sign up" postContent={postContent} error={authContext.error}>
+    <Form title="Sign up" postContent={postContent} error={error}>
       <Input name="username" label="Username" value={user.username} onChange={onChange}/>
       <Input name="password" type="password" label="Password" value={user.password} onChange={onChange}/>
       <Input
@@ -54,4 +62,4 @@ export const RegisterForm: React.FC<Props> = ({ onSubmit, postContent }) => {
   );
 };
 
-export default RegisterForm;
+export default connector(RegisterForm);

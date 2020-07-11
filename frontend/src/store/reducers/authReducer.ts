@@ -6,9 +6,19 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
-} from '../types';
+  AuthActionTypes,
+  AuthState,
+} from '../actions/types';
 
-export default (state, action) => {
+const initialState = {
+  token: localStorage.getItem('token'),
+  user: null,
+  isAuthenticated: null,
+  loading: true,
+  error: null,
+};
+
+export default (state=initialState, action: AuthActionTypes): AuthState => {
   switch (action.type) {
     case USER_LOADED:
       return {
@@ -40,6 +50,6 @@ export default (state, action) => {
         error: action.payload,
       };
     default:
-      break;
+      return state;
   }
 };

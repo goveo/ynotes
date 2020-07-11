@@ -1,7 +1,8 @@
-import React, { useContext } from 'react';
+import React from 'react';
+import { connect, ConnectedProps } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
-import AuthContext from '../../context/auth/authContext';
 import { CommonProps } from '../../types/CommonProps';
+import { AuthState } from '../../store/actions/types';
 
 interface Props extends CommonProps {
   component: React.ReactType,
@@ -9,9 +10,12 @@ interface Props extends CommonProps {
   path: string,
 }
 
-const PrivateRoute: React.FC<Props> = ({ component: Component, ...restProps }) => {
-  const authContext = useContext(AuthContext);
-  const { isAuthenticated, loading } = authContext;
+const mapStateToProps = (state: { auth: AuthState }) => ({ authState: state.auth });
+
+const connector = connect(mapStateToProps);
+
+const PrivateRoute: React.FC<Props & ConnectedProps<typeof connector>> = ({ authState, component: Component, ...restProps }) => {
+  const { isAuthenticated, loading } = authState;
   return (
     <Route
       {...restProps}
@@ -26,4 +30,4 @@ const PrivateRoute: React.FC<Props> = ({ component: Component, ...restProps }) =
   );
 };
 
-export default PrivateRoute;
+export default connector(PrivateRoute);

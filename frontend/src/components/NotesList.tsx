@@ -32,14 +32,14 @@ const NotesList: React.FC = () => {
     <Fragment>
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="droppable">
-          {(provided, snapshot) => (
+          {(provided) => (
             <div
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
               {shownNotes.map((note: NoteType, index: number) => (
                 <Draggable key={note.id} draggableId={String(note.id)} index={index} isDragDisabled={isSearch}>
-                  {(provided, snapshot) => (
+                  {(provided) => (
                     <Note
                       id={note.id}
                       title={note.title}
