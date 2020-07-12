@@ -3,7 +3,8 @@ module.exports = {
   "parser": "@typescript-eslint/parser",
   "plugins": [
     "@typescript-eslint",
-    "react"
+    "react",
+    "react-hooks",
   ],
   "globals": {
     "localStorage": true,
@@ -28,6 +29,8 @@ module.exports = {
     "eol-last": ["error"],
     "quotes": [2, "single", "avoid-escape"],
     "indent": ["error", 2, { "SwitchCase": 1 }],
-    "switch-colon-spacing": ["error", {"after": true, "before": false}]
+    "switch-colon-spacing": ["error", {"after": true, "before": false}],
+    "react-hooks/rules-of-hooks": 'error',
+    "react-hooks/exhaustive-deps": 'warn'
   }
 };

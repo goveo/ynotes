@@ -7,6 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Modal from './Modal';
 import CounterInput from '../input/CounterInput';
 import { CommonProps } from '../../types/CommonProps';
+import { NoteType } from '../Note';
 
 import { addNote, editNote } from '../../store/actions/notesActions';
 
@@ -77,10 +78,10 @@ const NoteModal: React.FC<Props> = ({
 
   const updateNote = React.useCallback(() => {
     onClose();
-    editNote(note?.id as number, {
+    editNote((note as NoteType).id, {
       title, description, color,
     });
-  }, [onClose, note, title, description, color, editNote]);
+  }, [onClose, editNote, note, title, description, color]);
 
   return (
     <Modal

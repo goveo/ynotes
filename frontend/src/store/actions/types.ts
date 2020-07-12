@@ -4,6 +4,7 @@ export const REMOVE_NOTE = 'REMOVE_NOTE';
 export const UPDATE_NOTE = 'UPDATE_NOTE';
 export const SET_SEARCH = 'SET_SEARCH';
 export const REORDER_NOTES = 'REORDER_NOTES';
+export const SET_LOADING = 'SET_LOADING';
 
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
 export const REGISTER_FAIL = 'REGISTER_FAIL';
@@ -28,6 +29,7 @@ export interface NotesState {
     notes: Note[],
     text: string,
   },
+  loading: boolean,
 }
 
 interface GetNotesAction {
@@ -74,6 +76,11 @@ interface ClearNotesAction {
   payload: null;
 }
 
+interface SetLoadingAction {
+  type: typeof SET_LOADING;
+  payload: null;
+}
+
 export type NotesActionTypes =
   GetNotesAction
   | AddNoteAction
@@ -82,6 +89,7 @@ export type NotesActionTypes =
   | SetSearchAction
   | ReorderNotesAction
   | ClearNotesAction
+  | SetLoadingAction
 
 export interface User {
   id: number;

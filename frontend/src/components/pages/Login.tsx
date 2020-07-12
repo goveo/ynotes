@@ -7,21 +7,25 @@ import Page from './Page';
 import { login } from '../../store/actions/authActions';
 import { AuthState } from '../../store/actions/types';
 
-const mapStateToProps = (state: { auth: AuthState }) => ({ authState: state.auth });
+const mapStateToProps = (state: { auth: AuthState }) => ({
+  loading: state.auth.loading,
+  isAuthenticated: state.auth.isAuthenticated,
+});
 
 const connector = connect(mapStateToProps, { login });
 
 export const Login: React.FC<RouteComponentProps & ConnectedProps<typeof connector>> = ({
   history,
-  authState,
+  loading,
+  isAuthenticated,
   login,
 }) => {
-  const { loading, isAuthenticated } = authState;
   useEffect(() => {
     if (isAuthenticated && !loading) {
       history.push('/');
     }
   }, [isAuthenticated, loading, history]);
+
   return (
     <Page>
       <Grid justify="center" alignItems="center" container spacing={3}>

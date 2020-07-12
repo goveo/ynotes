@@ -10,12 +10,19 @@ interface Props extends CommonProps {
   path: string,
 }
 
-const mapStateToProps = (state: { auth: AuthState }) => ({ authState: state.auth });
+const mapStateToProps = (state: { auth: AuthState }) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+  loading: state.auth.loading,
+});
 
 const connector = connect(mapStateToProps);
 
-const PrivateRoute: React.FC<Props & ConnectedProps<typeof connector>> = ({ authState, component: Component, ...restProps }) => {
-  const { isAuthenticated, loading } = authState;
+const PrivateRoute: React.FC<Props & ConnectedProps<typeof connector>> = ({
+  isAuthenticated,
+  loading,
+  component: Component,
+  ...restProps
+}) => {
   return (
     <Route
       {...restProps}

@@ -9,6 +9,7 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
+  User,
   UserCredentials,
 } from './types';
 
@@ -48,15 +49,17 @@ export const register = (user: UserCredentials): AppThunk => async (dispatch) =>
 };
 
 // Login
-export const login = (user: UserCredentials): AppThunk => async (dispatch) => {
+export const login = (credentials: UserCredentials): AppThunk => async (dispatch) => {
   try {
-    const res = await axios.post('/api/auth', user);
+    const { data: { token, user } }: { data: { token: string, user: User }} = await axios.post('/api/auth', credentials);
     dispatch({
       type: LOGIN_SUCCESS,
-      payload: res.data,
+      payload: {
+        token,
+        user,
+      },
     });
-
-    loadUser();
+    dispatch(loadUser());
   }
   catch (error) {
     dispatch({
