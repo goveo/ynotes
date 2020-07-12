@@ -31,7 +31,7 @@ export const getNotes = (): AppThunk => async (dispatch) => {
 export const addNote = (note: NotePayload): AppThunk => async (dispatch) => {
   try {
     dispatch({ type: SET_LOADING });
-    const { data: newNote } = await axios.post('/api/notes', note);
+    const { data: newNote }: { data: Note } = await axios.post('/api/notes', note);
     dispatch({
       type: ADD_NOTE,
       payload: newNote,
@@ -44,7 +44,7 @@ export const addNote = (note: NotePayload): AppThunk => async (dispatch) => {
 
 export const editNote = (id: number, note: NotePayload): AppThunk => async (dispatch) => {
   try {
-    const { data: newNote } = await axios.put(`/api/notes/${id}`, note);
+    const { data: newNote }: { data: Note } = await axios.put(`/api/notes/${id}`, note);
     dispatch({
       type: UPDATE_NOTE,
       payload: newNote,

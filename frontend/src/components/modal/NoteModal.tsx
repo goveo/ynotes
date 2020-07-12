@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { connect, ConnectedProps } from 'react-redux';
-import { CirclePicker } from 'react-color';
+import { CirclePicker, ColorResult } from 'react-color';
 import { Button, InputLabel } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from './Modal';
@@ -105,7 +105,7 @@ const NoteModal: React.FC<Props> = ({
               circleSize={28}
               color={color}
               colors={PICKER_COLORS}
-              onChangeComplete={(e: any) => setColor(e?.hex)}
+              onChangeComplete={(color: ColorResult) => setColor(color.hex)}
             />
           </div>
         </form>

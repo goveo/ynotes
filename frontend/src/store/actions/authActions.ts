@@ -17,11 +17,11 @@ import {
 export const loadUser = (): AppThunk => async (dispatch) => {
   try {
     setAuthToken(localStorage.getItem('token'));
-    const res = await axios.get('/api/auth');
+    const { data: user }: { data: User } = await axios.get('/api/auth');
 
     dispatch({
       type: USER_LOADED,
-      payload: res.data,
+      payload: user,
     });
   }
   catch (err) {
@@ -30,13 +30,13 @@ export const loadUser = (): AppThunk => async (dispatch) => {
 };
 
 // Register
-export const register = (user: UserCredentials): AppThunk => async (dispatch) => {
+export const register = (credentials: UserCredentials): AppThunk => async (dispatch) => {
   try {
-    const res = await axios.post('/api/users', user);
+    const { data: user }: { data: User } = await axios.post('/api/users', credentials);
 
     dispatch({
       type: REGISTER_SUCCESS,
-      payload: res.data,
+      payload: user,
     });
   }
   catch (error) {
