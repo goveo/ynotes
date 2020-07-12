@@ -12,6 +12,7 @@ import {
   SET_LOADING,
   NotePayload,
   Note,
+  NotesState,
 } from './types';
 
 export const getNotes = (): AppThunk => async (dispatch) => {
@@ -72,8 +73,9 @@ export const removeNote = (id: number): AppThunk => async (dispatch) => {
 export const searchNotes = (text: string): AppThunk => async (dispatch, getState) => {
   try {
     dispatch({ type: SET_LOADING });
-    const { notes } = getState();
-    const filteredNotes = (notes as Note[]).filter(({ title, description }) => (
+    const { notes: notesState }: { notes: NotesState } = getState();
+    const notes = notesState.notes;
+    const filteredNotes = notes.filter(({ title, description }) => (
       title.toLowerCase().search(text.toLowerCase()) !== -1
     || description.toLowerCase().search(text.toLowerCase()) !== -1
     ));
@@ -120,10 +122,8 @@ const reorder = (notes: Note[], currentIndex: number, newIndex: number) => {
 export const reorderNotes = (note: Note, newIndex: number): AppThunk => async (dispatch, getState) => {
   try {
     dispatch({ type: SET_LOADING });
-    await axios.post(`/api/notes/${note.id}/changeIndex`, {
-      index: newIndex,
-    });
-    const { notes } = getState();
+    const { notes: notesState }: { notes: NotesState } = getState();
+    const notes = notesState.notes;
     const newNotes = reorder(
       notes,
       note.index,
@@ -132,6 +132,9 @@ export const reorderNotes = (note: Note, newIndex: number): AppThunk => async (d
     dispatch({
       type: REORDER_NOTES,
       payload: newNotes,
+    });
+    await axios.post(`/api/notes/${note.id}/changeIndex`, {
+      index: newIndex,
     });
   }
   catch (error) {
