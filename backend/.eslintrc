@@ -15,10 +15,10 @@
     "semi": ["error", "always"],
     "comma-dangle": ["error", "always-multiline"],
     "brace-style": ["error", "stroustrup"],
-    "comma-spacing": ["error"], //пробелы после запятой
-    "array-bracket-spacing": ["error"], //пробелы перед ифом
-    "keyword-spacing": ["error"], //пробелы после ":"в объектах
-    "key-spacing": ["error"], //пробелы после ":"в объектах
+    "comma-spacing": ["error"],
+    "array-bracket-spacing": ["error"],
+    "keyword-spacing": ["error"],
+    "key-spacing": ["error"],
     "eol-last": ["error"],
     "quotes": [2, "single", "avoid-escape"],
     "indent": ["error", 2]

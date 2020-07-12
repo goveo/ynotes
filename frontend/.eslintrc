@@ -1,13 +1,13 @@
-module.exports = {
+{
   "root": true,
   "parser": "@typescript-eslint/parser",
   "plugins": [
     "@typescript-eslint",
     "react",
-    "react-hooks",
+    "react-hooks"
   ],
   "globals": {
-    "localStorage": true,
+    "localStorage": true
   },
   "extends": [
     "eslint:recommended",
@@ -22,15 +22,15 @@ module.exports = {
     "semi": ["error", "always"],
     "comma-dangle": ["error", "always-multiline"],
     "brace-style": ["error", "stroustrup"],
-    "comma-spacing": ["error"], //пробелы после запятой
-    "array-bracket-spacing": ["error"], //пробелы перед ифом
-    "keyword-spacing": ["error"], //пробелы после ":"в объектах
-    "key-spacing": ["error"], //пробелы после ":"в объектах
+    "comma-spacing": ["error"],
+    "array-bracket-spacing": ["error"],
+    "keyword-spacing": ["error"],
+    "key-spacing": ["error"],
     "eol-last": ["error"],
     "quotes": [2, "single", "avoid-escape"],
     "indent": ["error", 2, { "SwitchCase": 1 }],
     "switch-colon-spacing": ["error", {"after": true, "before": false}],
-    "react-hooks/rules-of-hooks": 'error',
-    "react-hooks/exhaustive-deps": 'warn'
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   }
-};
+}
