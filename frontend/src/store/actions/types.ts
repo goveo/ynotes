@@ -32,7 +32,7 @@ export interface NotesState {
   loading: boolean,
 }
 
-interface GetNotesAction {
+export interface GetNotesAction {
   type: typeof GET_NOTES;
   payload: Note[];
 }
@@ -43,22 +43,22 @@ export interface NotePayload {
   color: string;
 }
 
-interface AddNoteAction {
+export interface AddNoteAction {
   type: typeof ADD_NOTE;
   payload: Note;
 }
 
-interface UpdateNoteAction {
+export interface UpdateNoteAction {
   type: typeof UPDATE_NOTE;
   payload: Note;
 }
 
-interface RemoveNoteAction {
+export interface RemoveNoteAction {
   type: typeof REMOVE_NOTE;
   payload: number;
 }
 
-interface SetSearchAction {
+export interface SetSearchAction {
   type: typeof SET_SEARCH;
   payload: {
     notes: Note[],
@@ -66,19 +66,17 @@ interface SetSearchAction {
   };
 }
 
-interface ReorderNotesAction {
+export interface ReorderNotesAction {
   type: typeof REORDER_NOTES;
   payload: Note[];
 }
 
-interface ClearNotesAction {
+export interface ClearNotesAction {
   type: typeof CLEAR_NOTES;
-  payload: null;
 }
 
 interface SetLoadingAction {
   type: typeof SET_LOADING;
-  payload: null;
 }
 
 export type NotesActionTypes =
@@ -112,17 +110,17 @@ export interface AuthState {
   error: Error,
 }
 
-interface UserLoadedAction {
+export interface UserLoadedAction {
   type: typeof USER_LOADED;
   payload: User;
 }
 
-interface AuthErrorAction {
+export interface AuthErrorAction {
   type: typeof AUTH_ERROR;
-  payload: null;
+  payload: Error;
 }
 
-interface RegisterSuccessAction {
+export interface RegisterSuccessAction {
   type: typeof REGISTER_SUCCESS;
   payload: {
     token: string,
@@ -130,12 +128,12 @@ interface RegisterSuccessAction {
   };
 }
 
-interface RegisterFailAction {
+export interface RegisterFailAction {
   type: typeof REGISTER_FAIL;
   payload: Error;
 }
 
-interface LoginSuccessAction {
+export interface LoginSuccessAction {
   type: typeof LOGIN_SUCCESS;
   payload: {
     token: string,
@@ -143,12 +141,12 @@ interface LoginSuccessAction {
   };
 }
 
-interface LoginFailAction {
+export interface LoginFailAction {
   type: typeof LOGIN_FAIL;
   payload: Error;
 }
 
-interface LogoutAction {
+export interface LogoutAction {
   type: typeof LOGOUT;
   payload: Error;
 }

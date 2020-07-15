@@ -13,6 +13,7 @@ import {
   NotePayload,
   Note,
   NotesState,
+  ClearNotesAction,
 } from './types';
 
 export const getNotes = (): AppThunk => async (dispatch) => {
@@ -142,4 +143,4 @@ export const reorderNotes = (note: Note, newIndex: number): AppThunk => async (d
   }
 };
 
-export const clearNotes = (): AppThunk => async (dispatch) => dispatch({ type: CLEAR_NOTES });
+export const clearNotes = (): ClearNotesAction => ({ type: CLEAR_NOTES });
