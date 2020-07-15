@@ -58,9 +58,17 @@ class Note {
 
   static async delete(id: number): Promise<number | null> {
     try {
-      const data = await NoteModel.findOne({where: { id: id }});
-      if (data) {
-        return await NoteModel.destroy({ where: { id: id }});
+      const note = await this.getById(id);
+      if (note) {
+        await NoteModel.destroy({ where: { id: id }});
+        await NoteModel.update({ index: literal('index - 1') }, {
+          where: {
+            ownerId: note.ownerId,
+            index: {
+              [Op.gt]: note.index,
+            },
+          },
+        });
       }
       return null;
     }
