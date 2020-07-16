@@ -26,7 +26,7 @@ export type NoteType = {
 const connector = connect(null, { removeNote });
 
 export interface Props extends CommonProps, NoteType, ConnectedProps<typeof connector> {
-  innerRef?: () => any;
+  accordionRef?: () => HTMLElement;
 }
 
 export const Note: React.FC<Props> = ({
@@ -34,7 +34,7 @@ export const Note: React.FC<Props> = ({
   title,
   description,
   color,
-  innerRef,
+  accordionRef,
   removeNote,
   ...restProps
 }) => {
@@ -56,7 +56,7 @@ export const Note: React.FC<Props> = ({
     <Fragment>
       <NoteAccordion
         color={color}
-        ref={innerRef}
+        ref={accordionRef}
         {...restProps}
       >
         <AccordionSummary

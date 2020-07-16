@@ -55,7 +55,7 @@ const NotesList: React.FC<ConnectedProps<typeof connector>> = ({
                       title={note.title}
                       description={note.description}
                       color={note.color}
-                      innerRef={provided.innerRef}
+                      accordionRef={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
                     />

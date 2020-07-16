@@ -45,6 +45,10 @@ export default (state=initialState, action: NotesActionTypes): NotesState => {
       return {
         ...state,
         notes: (state.notes || []).filter(({ id }) => id !== action.payload),
+        search: {
+          notes: (state.search.notes || []).filter(({ id }) => id !== action.payload),
+          text: state.search.text,
+        },
         loading: false,
       };
     case SET_SEARCH:
