@@ -75,7 +75,7 @@ export interface ClearNotesAction {
   type: typeof CLEAR_NOTES;
 }
 
-interface SetLoadingAction {
+export interface SetLoadingAction {
   type: typeof SET_LOADING;
 }
 
@@ -100,7 +100,7 @@ export interface UserCredentials {
   password: string;
 }
 
-type Error = string | null;
+export type Error = string | null;
 
 export interface AuthState {
   token: string | null,
@@ -148,7 +148,6 @@ export interface LoginFailAction {
 
 export interface LogoutAction {
   type: typeof LOGOUT;
-  payload: Error;
 }
 
 export type AuthActionTypes =

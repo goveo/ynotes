@@ -49,7 +49,11 @@ router.post('/', [
       expiresIn: 60 * 60, // 1 hour
     }, (err, token) => {
       if (err) throw err;
-      res.json({ token });
+      delete newUser.password;
+      res.json({
+        token,
+        user: newUser,
+      });
     });
   }
   catch (error) {

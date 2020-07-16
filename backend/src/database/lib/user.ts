@@ -6,7 +6,8 @@ class User {
     password: string,
   }): Promise<IUser> {
     try {
-      return await UserModel.create(user);
+      const res = await UserModel.create(user);
+      return res.get({ plain: true });
     }
     catch (error) {
       return error;

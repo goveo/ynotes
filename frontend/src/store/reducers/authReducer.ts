@@ -39,7 +39,6 @@ export default (state=initialState, action: AuthActionTypes): AuthState => {
     case REGISTER_FAIL:
     case LOGIN_FAIL:
     case AUTH_ERROR:
-    case LOGOUT:
       localStorage.removeItem('token');
       return {
         ...state,
@@ -48,6 +47,16 @@ export default (state=initialState, action: AuthActionTypes): AuthState => {
         isAuthenticated: false,
         user: null,
         error: action.payload,
+      };
+    case LOGOUT:
+      localStorage.removeItem('token');
+      return {
+        ...state,
+        token: null,
+        loading: false,
+        isAuthenticated: false,
+        user: null,
+        error: null,
       };
     default:
       return state;

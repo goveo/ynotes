@@ -1,6 +1,3 @@
-import axios from 'axios';
-import setAuthToken from '../../utils/setAuthToken';
-import { AppThunk } from '../index';
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
@@ -10,64 +7,44 @@ import {
   LOGIN_FAIL,
   LOGOUT,
   User,
+  Error,
   UserCredentials,
+  AuthActionTypes,
 } from './types';
 
-// Load User
-export const loadUser = (): AppThunk => async (dispatch) => {
-  try {
-    setAuthToken(localStorage.getItem('token'));
-    const { data: user }: { data: User } = await axios.get('/api/auth');
+import {
+  LOAD_USER_ASYNC,
+  REGISTER_ASYNC,
+  LOGIN_ASYNC,
+  AuthActionSagaTypes,
+} from '../sagas/types.sagas';
 
-    dispatch({
-      type: USER_LOADED,
-      payload: user,
-    });
-  }
-  catch (err) {
-    dispatch({ type: AUTH_ERROR });
-  }
-};
+// Load User
+export const loadUser = (): AuthActionSagaTypes => ({ type: LOAD_USER_ASYNC });
+export const setUser = (user: User): AuthActionTypes => ({ type: USER_LOADED, payload: user });
+export const setAuthError = (error: Error): AuthActionTypes => ({ type: AUTH_ERROR, payload: error });
 
 // Register
-export const register = (credentials: UserCredentials): AppThunk => async (dispatch) => {
-  try {
-    const { data: user }: { data: User } = await axios.post('/api/users', credentials);
-
-    dispatch({
-      type: REGISTER_SUCCESS,
-      payload: user,
-    });
-  }
-  catch (error) {
-    dispatch({
-      type: REGISTER_FAIL,
-      payload: error.response.data.message
-        || (error.response.data.errors[0] && error.response.data.errors[0].msg),
-    });
-  }
-};
+export const register = (credentials: UserCredentials): AuthActionSagaTypes => ({ type: REGISTER_ASYNC, payload: credentials });
+export const setRegisteredUser = (token: string, user: User): AuthActionTypes => ({
+  type: REGISTER_SUCCESS,
+  payload: {
+    token,
+    user,
+  },
+});
+export const setRegisterError = (error: Error): AuthActionTypes => ({ type: REGISTER_FAIL, payload: error });
 
 // Login
-export const login = (credentials: UserCredentials): AppThunk => async (dispatch) => {
-  try {
-    const { data: { token, user } }: { data: { token: string, user: User }} = await axios.post('/api/auth', credentials);
-    dispatch({
-      type: LOGIN_SUCCESS,
-      payload: {
-        token,
-        user,
-      },
-    });
-    dispatch(loadUser());
-  }
-  catch (error) {
-    dispatch({
-      type: LOGIN_FAIL,
-      payload: error.response.data.message,
-    });
-  }
-};
+export const login = (credentials: UserCredentials): AuthActionSagaTypes => ({ type: LOGIN_ASYNC, payload: credentials });
+export const setLoginUser = (token: string, user: User): AuthActionTypes => ({
+  type: LOGIN_SUCCESS,
+  payload: {
+    token,
+    user,
+  },
+});
+export const setLoginError = (error: Error): AuthActionTypes => ({ type: LOGIN_FAIL, payload: error });
 
 // Logout
-export const logout = (): AppThunk => async (dispatch) => dispatch({ type: LOGOUT });
+export const logout = (): AuthActionTypes => ({ type: LOGOUT });
