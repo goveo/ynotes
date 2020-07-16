@@ -1,5 +1,5 @@
 import { createStore, applyMiddleware, Action } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
+import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import createSagaMiddleware from 'redux-saga';
 import thunk, { ThunkAction } from 'redux-thunk';
 import rootReducer from './reducers';
