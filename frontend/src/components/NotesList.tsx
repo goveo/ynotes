@@ -4,23 +4,27 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import CreateNoteButton from './button/CreateNoteButton';
 import Note, { NoteType } from './Note';
 
-import { removeNote, reorderNotes, getNotes } from '../store/actions/notesActions';
+import { removeNote, reorderNotes, getNotes, clearNotes } from '../store/actions/notesActions';
 import { NotesState } from '../store/actions/types';
 
 const mapStateToProps = (state: { notes: NotesState }) => ({
   search: state.notes.search,
   notes: state.notes.notes,
 });
-const connector = connect(mapStateToProps, { removeNote, reorderNotes, getNotes });
+const connector = connect(mapStateToProps, { removeNote, reorderNotes, getNotes, clearNotes });
 
 const NotesList: React.FC<ConnectedProps<typeof connector>> = ({
   search,
   reorderNotes,
   getNotes,
+  clearNotes,
   notes,
 }) => {
   useEffect(() => {
     getNotes();
+    return () => {
+      clearNotes();
+    };
     // eslint-disable-next-line
   }, []);
 
