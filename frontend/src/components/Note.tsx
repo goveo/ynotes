@@ -102,7 +102,7 @@ const NoteAccordion = styled(Accordion)`
 `;
 
 const NoteButton = styled(IconButton)`
-  padding: 0 4px;
+  padding: 4px;
 `;
 
 const Title = styled(Typography)`

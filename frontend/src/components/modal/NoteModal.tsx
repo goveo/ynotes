@@ -22,8 +22,8 @@ const useStyles = makeStyles((theme) => ({
 const DEFAULT_COLOR = '#eeeeee';
 const PICKER_COLORS = [
   DEFAULT_COLOR,
-  '#FF6900',
-  '#FCB900',
+  '#FF9800',
+  '#FFC107',
   '#7BDCB5',
   '#00D084',
   '#8ED1FC',
