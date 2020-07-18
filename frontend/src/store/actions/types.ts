@@ -55,7 +55,11 @@ export interface UpdateNoteAction {
 
 export interface RemoveNoteAction {
   type: typeof REMOVE_NOTE;
-  payload: number;
+  payload: {
+    deletedId: number,
+    notes: Note[],
+    searchNotes: Note[],
+  };
 }
 
 export interface SetSearchAction {

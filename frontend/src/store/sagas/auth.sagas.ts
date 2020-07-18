@@ -28,7 +28,8 @@ export function* loadUserAsync() {
     const token = yield localStorage.getItem('token');
     if (token) {
       yield setAuthToken(token);
-      const { data: user }: { data: User } = yield call(axios.get, '/api/auth');
+      const res = yield call(axios.get, '/api/auth');
+      const user: User = res?.data;
       yield put(setUser(user));
     }
     else {
@@ -36,7 +37,7 @@ export function* loadUserAsync() {
     }
   }
   catch (error) {
-    console.error(error.message);
+    yield put(logout());
     yield put(setAuthError(error));
   }
 }
@@ -44,7 +45,10 @@ export function* loadUserAsync() {
 // Register
 export function* registerAsync(action: RegisterAsyncAction) {
   try {
-    const { data: { user, token } }: { data: { user: User, token: string } } = yield call(axios.post, '/api/users', action.payload);
+    const res = yield call(axios.post, '/api/users', action.payload);
+    const token: string = res?.data?.token;
+    const user: User = res?.data?.user;
+    if (!token || !user) throw new Error('Register error');
     yield put(setRegisteredUser(token, user));
     yield put(loadUser());
   }
@@ -59,7 +63,10 @@ export function* registerAsync(action: RegisterAsyncAction) {
 // Login
 export function* loginAsync(action: LoginAsyncAction) {
   try {
-    const { data: { token, user } }: { data: { token: string, user: User }} = yield call(axios.post, '/api/auth', action.payload);
+    const res = yield call(axios.post, '/api/auth', action.payload);
+    const token: string = res?.data?.token;
+    const user: User = res?.data?.user;
+    if (!token || !user) throw new Error('Auth error');
     yield put(setLoginUser(token, user));
     yield put(loadUser());
   }

@@ -44,9 +44,9 @@ export default (state=initialState, action: NotesActionTypes): NotesState => {
     case REMOVE_NOTE:
       return {
         ...state,
-        notes: (state.notes || []).filter(({ id }) => id !== action.payload),
+        notes: action.payload.notes,
         search: {
-          notes: (state.search.notes || []).filter(({ id }) => id !== action.payload),
+          notes: action.payload.searchNotes,
           text: state.search.text,
         },
         loading: false,

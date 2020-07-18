@@ -1,4 +1,4 @@
-import React, { useCallback, Fragment, useState} from 'react';
+import React, { useCallback, Fragment, useState } from 'react';
 import styled from 'styled-components';
 import { connect, ConnectedProps } from 'react-redux';
 import {

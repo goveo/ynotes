@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { findIndex, sortBy } from 'lodash';
-import { AppThunk } from '../index';
+import { RootState } from '../index';
 import {
   GET_NOTES,
   ADD_NOTE,
@@ -14,9 +14,18 @@ import {
   Note,
   NotesState,
   ClearNotesAction,
+  NotesActionTypes,
 } from './types';
+import { ThunkAction } from 'redux-thunk';
 
-export const getNotes = (): AppThunk => async (dispatch) => {
+export type ThunkNoteAction<ReturnType = void> = ThunkAction<
+  ReturnType,
+  RootState,
+  unknown,
+  NotesActionTypes
+>
+
+export const getNotes = (): ThunkNoteAction => async (dispatch) => {
   try {
     dispatch({ type: SET_LOADING });
     const { data: notes }: { data: Note[] } = await axios.get('/api/notes');
@@ -30,7 +39,7 @@ export const getNotes = (): AppThunk => async (dispatch) => {
   }
 };
 
-export const addNote = (note: NotePayload): AppThunk => async (dispatch) => {
+export const addNote = (note: NotePayload): ThunkNoteAction => async (dispatch) => {
   try {
     dispatch({ type: SET_LOADING });
     const { data: newNote }: { data: Note } = await axios.post('/api/notes', note);
@@ -44,7 +53,7 @@ export const addNote = (note: NotePayload): AppThunk => async (dispatch) => {
   }
 };
 
-export const editNote = (id: number, note: NotePayload): AppThunk => async (dispatch) => {
+export const editNote = (id: number, note: NotePayload): ThunkNoteAction => async (dispatch) => {
   try {
     const { data: newNote }: { data: Note } = await axios.put(`/api/notes/${id}`, note);
     dispatch({
@@ -57,13 +66,26 @@ export const editNote = (id: number, note: NotePayload): AppThunk => async (disp
   }
 };
 
-export const removeNote = (id: number): AppThunk => async (dispatch) => {
+export const removeNote = (id: number): ThunkNoteAction => async (dispatch, getState) => {
   try {
     dispatch({ type: SET_LOADING });
     await axios.delete(`/api/notes/${id}`);
+    const { notes: notesState }: { notes: NotesState } = getState();
+    const notes = notesState.notes
+      .filter(note => note.id !== id) // delete note by id
+      .sort((a, b) => (a.index - b.index)) // desc sort by index
+      .map((note, index) => ({...note, index})); // updated index
+
+    const searchNotes = notesState.search.notes
+      .filter((note: Note) => note.id !== id); // indexes is not important while search
+
     dispatch({
       type: REMOVE_NOTE,
-      payload: id,
+      payload: {
+        deletedId: id,
+        notes,
+        searchNotes,
+      },
     });
   }
   catch (error) {
@@ -71,7 +93,7 @@ export const removeNote = (id: number): AppThunk => async (dispatch) => {
   }
 };
 
-export const searchNotes = (text: string): AppThunk => async (dispatch, getState) => {
+export const searchNotes = (text: string): ThunkNoteAction => async (dispatch, getState) => {
   try {
     dispatch({ type: SET_LOADING });
     const { notes: notesState }: { notes: NotesState } = getState();
@@ -120,7 +142,7 @@ const reorder = (notes: Note[], currentIndex: number, newIndex: number) => {
   return sortBy(list, 'index');
 };
 
-export const reorderNotes = (note: Note, newIndex: number): AppThunk => async (dispatch, getState) => {
+export const reorderNotes = (note: Note, newIndex: number): ThunkNoteAction => async (dispatch, getState) => {
   try {
     dispatch({ type: SET_LOADING });
     const { notes: notesState }: { notes: NotesState } = getState();
