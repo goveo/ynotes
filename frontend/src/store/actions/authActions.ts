@@ -6,6 +6,7 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
+  SET_USER_LOADING,
   User,
   Error,
   UserCredentials,
@@ -48,3 +49,5 @@ export const setLoginError = (error: Error): AuthActionTypes => ({ type: LOGIN_F
 
 // Logout
 export const logout = (): AuthActionTypes => ({ type: LOGOUT });
+
+export const setLoading = (): AuthActionTypes => ({ type: SET_USER_LOADING });

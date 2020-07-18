@@ -6,7 +6,7 @@ import {
   SET_SEARCH,
   REORDER_NOTES,
   CLEAR_NOTES,
-  SET_LOADING,
+  SET_NOTES_LOADING,
   NotesActionTypes,
   NotesState,
   Note,
@@ -76,7 +76,7 @@ export default (state=initialState, action: NotesActionTypes): NotesState => {
         },
         loading: false,
       };
-    case SET_LOADING:
+    case SET_NOTES_LOADING:
       return {
         ...state,
         loading: true,

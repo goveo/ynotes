@@ -6,15 +6,17 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
+  SET_USER_LOADING,
   AuthActionTypes,
   AuthState,
 } from '../actions/types';
 
-const initialState = {
+const initialState: AuthState = {
   token: localStorage.getItem('token'),
   user: null,
   isAuthenticated: null,
   loading: true,
+  initialLoading: true,
   error: null,
 };
 
@@ -25,6 +27,7 @@ export default (state=initialState, action: AuthActionTypes): AuthState => {
         ...state,
         isAuthenticated: true,
         loading: false,
+        initialLoading: false,
         user: action.payload,
       };
     case REGISTER_SUCCESS:
@@ -35,6 +38,7 @@ export default (state=initialState, action: AuthActionTypes): AuthState => {
         ...action.payload,
         isAuthenticated: true,
         loading: false,
+        initialLoading: false,
       };
     case REGISTER_FAIL:
     case LOGIN_FAIL:
@@ -44,6 +48,7 @@ export default (state=initialState, action: AuthActionTypes): AuthState => {
         ...state,
         token: null,
         loading: false,
+        initialLoading: false,
         isAuthenticated: false,
         user: null,
         error: action.payload,
@@ -54,9 +59,15 @@ export default (state=initialState, action: AuthActionTypes): AuthState => {
         ...state,
         token: null,
         loading: false,
+        initialLoading: false,
         isAuthenticated: false,
         user: null,
         error: null,
+      };
+    case SET_USER_LOADING:
+      return {
+        ...state,
+        loading: true,
       };
     default:
       return state;

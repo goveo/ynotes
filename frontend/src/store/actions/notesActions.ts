@@ -9,7 +9,7 @@ import {
   SET_SEARCH,
   REORDER_NOTES,
   CLEAR_NOTES,
-  SET_LOADING,
+  SET_NOTES_LOADING,
   NotePayload,
   Note,
   NotesState,
@@ -27,7 +27,7 @@ export type ThunkNoteAction<ReturnType = void> = ThunkAction<
 
 export const getNotes = (): ThunkNoteAction => async (dispatch) => {
   try {
-    dispatch({ type: SET_LOADING });
+    dispatch({ type: SET_NOTES_LOADING });
     const { data: notes }: { data: Note[] } = await axios.get('/api/notes');
     dispatch({
       type: GET_NOTES,
@@ -41,7 +41,7 @@ export const getNotes = (): ThunkNoteAction => async (dispatch) => {
 
 export const addNote = (note: NotePayload): ThunkNoteAction => async (dispatch) => {
   try {
-    dispatch({ type: SET_LOADING });
+    dispatch({ type: SET_NOTES_LOADING });
     const { data: newNote }: { data: Note } = await axios.post('/api/notes', note);
     dispatch({
       type: ADD_NOTE,
@@ -68,7 +68,7 @@ export const editNote = (id: number, note: NotePayload): ThunkNoteAction => asyn
 
 export const removeNote = (id: number): ThunkNoteAction => async (dispatch, getState) => {
   try {
-    dispatch({ type: SET_LOADING });
+    dispatch({ type: SET_NOTES_LOADING });
     await axios.delete(`/api/notes/${id}`);
     const { notes: notesState }: { notes: NotesState } = getState();
     const notes = notesState.notes
@@ -95,7 +95,7 @@ export const removeNote = (id: number): ThunkNoteAction => async (dispatch, getS
 
 export const searchNotes = (text: string): ThunkNoteAction => async (dispatch, getState) => {
   try {
-    dispatch({ type: SET_LOADING });
+    dispatch({ type: SET_NOTES_LOADING });
     const { notes: notesState }: { notes: NotesState } = getState();
     const notes = notesState.notes;
     const filteredNotes = notes.filter(({ title, description }) => (
@@ -144,7 +144,7 @@ const reorder = (notes: Note[], currentIndex: number, newIndex: number) => {
 
 export const reorderNotes = (note: Note, newIndex: number): ThunkNoteAction => async (dispatch, getState) => {
   try {
-    dispatch({ type: SET_LOADING });
+    dispatch({ type: SET_NOTES_LOADING });
     const { notes: notesState }: { notes: NotesState } = getState();
     const notes = notesState.notes;
     const newNotes = reorder(

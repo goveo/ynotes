@@ -4,7 +4,10 @@ import { CommonProps } from '../../types/CommonProps';
 import { Form, Input, SubmitButton } from '../Form';
 import { AuthState } from '../../store/actions/types';
 
-const mapStateToProps = (state: { auth: AuthState }) => ({ error: state.auth.error });
+const mapStateToProps = (state: { auth: AuthState }) => ({
+  error: state.auth.error,
+  loading: state.auth.loading,
+});
 
 const connector = connect(mapStateToProps);
 
@@ -17,6 +20,7 @@ export const RegisterForm: React.FC<Props & ConnectedProps<typeof connector>> = 
   onSubmit,
   postContent,
   error,
+  loading,
 }) => {
 
   const [user, setUser] = useState({
@@ -32,18 +36,30 @@ export const RegisterForm: React.FC<Props & ConnectedProps<typeof connector>> = 
     });
   }, [user]);
 
-  const onSubmitClick = useCallback((e) => {
-    e.preventDefault();
-    onSubmit(user);
-  }, [onSubmit, user]);
-
   const isFilled = useMemo(() => {
     const { username, password, password2 } = user;
     return username && password && password === password2;
   }, [user]);
 
+  const canSubmit = useMemo(() => {
+    return isFilled && !loading;
+  }, [isFilled, loading]);
+
+  const onSubmitClick = useCallback((e) => {
+    e.preventDefault();
+    if (canSubmit) {
+      onSubmit(user);
+    }
+  }, [onSubmit, user, canSubmit]);
+
   return (
-    <Form title="Sign up" postContent={postContent} error={error}>
+    <Form
+      title="Sign up"
+      postContent={postContent}
+      error={error}
+      onKeyPress={(charCode) => charCode === 13 && canSubmit ? onSubmit(user) : null }
+      loading={loading}
+    >
       <Input name="username" label="Username" value={user.username} onChange={onChange}/>
       <Input name="password" type="password" label="Password" value={user.password} onChange={onChange}/>
       <Input

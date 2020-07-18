@@ -5,7 +5,7 @@ import { loadUser } from '../../store/actions/authActions';
 import { CommonProps } from '../../types/CommonProps';
 import { AuthState } from '../../store/actions/types';
 
-const mapStateToProps = (state: { auth: AuthState }) => ({ loading: state.auth.loading });
+const mapStateToProps = (state: { auth: AuthState }) => ({ loading: state.auth.initialLoading });
 
 const connector = connect(
   mapStateToProps,

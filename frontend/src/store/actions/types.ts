@@ -4,7 +4,7 @@ export const REMOVE_NOTE = 'REMOVE_NOTE';
 export const UPDATE_NOTE = 'UPDATE_NOTE';
 export const SET_SEARCH = 'SET_SEARCH';
 export const REORDER_NOTES = 'REORDER_NOTES';
-export const SET_LOADING = 'SET_LOADING';
+export const SET_NOTES_LOADING = 'SET_NOTES_LOADING';
 
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
 export const REGISTER_FAIL = 'REGISTER_FAIL';
@@ -14,6 +14,7 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const LOGOUT = 'LOGOUT';
 export const CLEAR_NOTES = 'CLEAR_NOTES';
+export const SET_USER_LOADING = 'SET_USER_LOADING';
 
 export interface Note {
   id: number;
@@ -79,8 +80,8 @@ export interface ClearNotesAction {
   type: typeof CLEAR_NOTES;
 }
 
-export interface SetLoadingAction {
-  type: typeof SET_LOADING;
+export interface SetNotesLoadingAction {
+  type: typeof SET_NOTES_LOADING;
 }
 
 export type NotesActionTypes =
@@ -91,7 +92,7 @@ export type NotesActionTypes =
   | SetSearchAction
   | ReorderNotesAction
   | ClearNotesAction
-  | SetLoadingAction
+  | SetNotesLoadingAction
 
 export interface User {
   id: number;
@@ -111,6 +112,7 @@ export interface AuthState {
   user: User | null,
   isAuthenticated: boolean | null,
   loading: boolean,
+  initialLoading: boolean,
   error: Error,
 }
 
@@ -154,6 +156,10 @@ export interface LogoutAction {
   type: typeof LOGOUT;
 }
 
+export interface SetUserLoadingAction {
+  type: typeof SET_USER_LOADING;
+}
+
 export type AuthActionTypes =
   UserLoadedAction
   | AuthErrorAction
@@ -162,3 +168,4 @@ export type AuthActionTypes =
   | LoginSuccessAction
   | LoginFailAction
   | LogoutAction
+  | SetUserLoadingAction

@@ -9,15 +9,16 @@ import {
   setLoginUser,
   loadUser,
   setLoginError,
+  setLoading,
 } from '../actions/authActions';
 import { User } from '../actions/types';
 import setAuthToken from '../../utils/setAuthToken';
 import {
   LOAD_USER_ASYNC,
   REGISTER_ASYNC,
+  LOGIN_ASYNC,
   RegisterAsyncAction,
   LoginAsyncAction,
-  LOGIN_ASYNC,
 } from './types.sagas';
 
 // Workers
@@ -27,6 +28,7 @@ export function* loadUserAsync() {
   try {
     const token = yield localStorage.getItem('token');
     if (token) {
+      yield put(setLoading());
       yield setAuthToken(token);
       const res = yield call(axios.get, '/api/auth');
       const user: User = res?.data;
@@ -45,6 +47,7 @@ export function* loadUserAsync() {
 // Register
 export function* registerAsync(action: RegisterAsyncAction) {
   try {
+    yield put(setLoading());
     const res = yield call(axios.post, '/api/users', action.payload);
     const token: string = res?.data?.token;
     const user: User = res?.data?.user;
@@ -63,6 +66,7 @@ export function* registerAsync(action: RegisterAsyncAction) {
 // Login
 export function* loginAsync(action: LoginAsyncAction) {
   try {
+    yield put(setLoading());
     const res = yield call(axios.post, '/api/auth', action.payload);
     const token: string = res?.data?.token;
     const user: User = res?.data?.user;
