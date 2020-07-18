@@ -25,7 +25,7 @@ class User {
 
   static async getByUsername(username: string): Promise<IUser | null> {
     try {
-      return await UserModel.findOne({ where: { username: username } });
+      return await UserModel.findOne({ where: { username: username }, raw: true });
     }
     catch (error) {
       return error;
