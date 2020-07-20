@@ -1,6 +1,5 @@
 import React, { useCallback, Fragment, useState } from 'react';
 import styled from 'styled-components';
-import { connect, ConnectedProps } from 'react-redux';
 import {
   Typography,
   IconButton,
@@ -13,8 +12,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import NoteModal from './modal/NoteModal';
+import DeleteModal from './modal/DeleteModal';
 import { CommonProps } from '../types/CommonProps';
-import { removeNote } from '../store/actions/notesActions';
 
 export type NoteType = {
   id: number;
@@ -23,9 +22,7 @@ export type NoteType = {
   color: string;
 }
 
-const connector = connect(null, { removeNote });
-
-export interface Props extends CommonProps, NoteType, ConnectedProps<typeof connector> {
+export interface Props extends CommonProps, NoteType {
   accordionRef?: () => HTMLElement;
 }
 
@@ -35,9 +32,12 @@ export const Note: React.FC<Props> = ({
   description,
   color,
   accordionRef,
-  removeNote,
   ...restProps
 }) => {
+
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
   const onEditClick = useCallback((e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -47,10 +47,8 @@ export const Note: React.FC<Props> = ({
   const onDeleteClick = useCallback((e) => {
     e.preventDefault();
     e.stopPropagation();
-    removeNote(id);
-  }, [removeNote, id]);
-
-  const [showEditModal, setShowEditModal] = useState(false);
+    setShowDeleteModal(true);
+  }, []);
 
   return (
     <Fragment>
@@ -87,11 +85,14 @@ export const Note: React.FC<Props> = ({
         </AccordionDetails>
       </NoteAccordion>
       <NoteModal
-        note={{
-          id, title, description, color,
-        }}
+        note={{ id, title, description, color }}
         isOpen={showEditModal}
         closeModal={() => setShowEditModal(false)}
+      />
+      <DeleteModal
+        note={{ id, title, description, color }}
+        isOpen={showDeleteModal}
+        closeModal={() => setShowDeleteModal(false)}
       />
     </Fragment>
   );
@@ -115,4 +116,4 @@ const Description = styled(Typography)`
   width: 100%;
 `;
 
-export default connector(Note);
+export default Note;
