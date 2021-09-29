@@ -19,7 +19,7 @@
     "@types/react-redux": "^7.1.9",
     "@types/react-router-dom": "^5.1.5",
     "@types/styled-components": "^5.1.1",
-    "axios": "^0.19.2",
+    "axios": "^0.21.2",
     "express": "^4.17.1",
     "lodash": "^4.17.15",
     "react": "^16.13.1",
