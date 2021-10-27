@@ -25,51 +25,59 @@ export type ThunkNoteAction<ReturnType = void> = ThunkAction<
   NotesActionTypes
 >
 
+const getAxiosConfig = () => {
+  return {
+    headers: {
+      'X-Auth-Token': localStorage.getItem('token'),
+    },
+  };
+};
+
 export const getNotes = (): ThunkNoteAction => async (dispatch) => {
   try {
     dispatch({ type: SET_NOTES_LOADING });
-    const { data: notes }: { data: Note[] } = await axios.get('/api/notes');
+    const { data: notes }: { data: Note[] } = await axios.get('/api/notes', getAxiosConfig());
     dispatch({
       type: GET_NOTES,
       payload: notes,
     });
   }
   catch (error) {
-    console.error(error.message);
+    console.error((error as any).message);
   }
 };
 
 export const addNote = (note: NotePayload): ThunkNoteAction => async (dispatch) => {
   try {
     dispatch({ type: SET_NOTES_LOADING });
-    const { data: newNote }: { data: Note } = await axios.post('/api/notes', note);
+    const { data: newNote }: { data: Note } = await axios.post('/api/notes', note, getAxiosConfig());
     dispatch({
       type: ADD_NOTE,
       payload: newNote,
     });
   }
   catch (error) {
-    console.error(error.message);
+    console.error((error as any).message);
   }
 };
 
 export const editNote = (id: number, note: NotePayload): ThunkNoteAction => async (dispatch) => {
   try {
-    const { data: newNote }: { data: Note } = await axios.put(`/api/notes/${id}`, note);
+    const { data: newNote }: { data: Note } = await axios.put(`/api/notes/${id}`, note, getAxiosConfig());
     dispatch({
       type: UPDATE_NOTE,
       payload: newNote,
     });
   }
   catch (error) {
-    console.error(error.message);
+    console.error((error as any).message);
   }
 };
 
 export const removeNote = (id: number): ThunkNoteAction => async (dispatch, getState) => {
   try {
     dispatch({ type: SET_NOTES_LOADING });
-    await axios.delete(`/api/notes/${id}`);
+    await axios.delete(`/api/notes/${id}`, getAxiosConfig());
     const { notes: notesState }: { notes: NotesState } = getState();
     const notes = notesState.notes
       .filter(note => note.id !== id) // delete note by id
@@ -89,7 +97,7 @@ export const removeNote = (id: number): ThunkNoteAction => async (dispatch, getS
     });
   }
   catch (error) {
-    console.error(error.message);
+    console.error((error as any).message);
   }
 };
 
@@ -111,7 +119,7 @@ export const searchNotes = (text: string): ThunkNoteAction => async (dispatch, g
     });
   }
   catch (error) {
-    console.error(error.message);
+    console.error((error as any).message);
   }
 };
 
@@ -158,10 +166,10 @@ export const reorderNotes = (note: Note, newIndex: number): ThunkNoteAction => a
     });
     await axios.post(`/api/notes/${note.id}/changeIndex`, {
       index: newIndex,
-    });
+    }, getAxiosConfig());
   }
   catch (error) {
-    console.error(error.message);
+    console.error((error as any).message);
   }
 };
 

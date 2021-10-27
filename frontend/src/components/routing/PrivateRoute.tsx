@@ -5,7 +5,7 @@ import { CommonProps } from '../../types/CommonProps';
 import { AuthState } from '../../store/actions/types';
 
 interface Props extends CommonProps {
-  component: React.ReactType,
+  component: React.ElementType,
   exact?: boolean,
   path: string,
 }

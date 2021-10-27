@@ -12,7 +12,6 @@ import {
   setLoading,
 } from '../actions/authActions';
 import { User } from '../actions/types';
-import setAuthToken from '../../utils/setAuthToken';
 import {
   LOAD_USER_ASYNC,
   REGISTER_ASYNC,
@@ -20,6 +19,14 @@ import {
   RegisterAsyncAction,
   LoginAsyncAction,
 } from './types.sagas';
+
+const getAxiosConfig = () => {
+  return {
+    headers: {
+      'X-Auth-Token': localStorage.getItem('token'),
+    },
+  };
+};
 
 // Workers
 
@@ -29,8 +36,7 @@ export function* loadUserAsync() {
     const token = yield localStorage.getItem('token');
     if (token) {
       yield put(setLoading());
-      yield setAuthToken(token);
-      const res = yield call(axios.get, '/api/auth');
+      const res = yield call(axios.get, '/api/auth', getAxiosConfig());
       const user: User = res?.data;
       yield put(setUser(user));
     }
@@ -48,7 +54,7 @@ export function* loadUserAsync() {
 export function* registerAsync(action: RegisterAsyncAction) {
   try {
     yield put(setLoading());
-    const res = yield call(axios.post, '/api/users', action.payload);
+    const res = yield call(axios.post, '/api/users', action.payload, getAxiosConfig());
     const token: string = res?.data?.token;
     const user: User = res?.data?.user;
     if (!token || !user) throw new Error('Register error');
@@ -67,7 +73,7 @@ export function* registerAsync(action: RegisterAsyncAction) {
 export function* loginAsync(action: LoginAsyncAction) {
   try {
     yield put(setLoading());
-    const res = yield call(axios.post, '/api/auth', action.payload);
+    const res = yield call(axios.post, '/api/auth', action.payload, getAxiosConfig());
     const token: string = res?.data?.token;
     const user: User = res?.data?.user;
     if (!token || !user) throw new Error('Auth error');

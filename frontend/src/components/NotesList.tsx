@@ -22,6 +22,7 @@ const NotesList: React.FC<ConnectedProps<typeof connector>> = ({
 }) => {
   useEffect(() => {
     getNotes();
+    console.log('getNotes:', localStorage.getItem('token'));
     return () => {
       clearNotes();
     };
