@@ -19,7 +19,7 @@ export class Note extends Model implements INote {
   public index!: number;
 }
 
-Note.init({
+void Note.init({
   id: {
     type: INTEGER,
     autoIncrement: true,
@@ -47,7 +47,7 @@ Note.init({
     allowNull: false,
   },
 }, {
-  sequelize: sequelize,
+  sequelize,
   modelName: 'note',
 });
 

@@ -1,4 +1,5 @@
 import { Model, INTEGER, STRING } from 'sequelize';
+
 import sequelize from '../database/lib/connection';
 
 export interface IUser {
@@ -13,7 +14,7 @@ export class User extends Model implements IUser {
   public password!: string;
 }
 
-User.init({
+void User.init({
   id: {
     type: INTEGER,
     autoIncrement: true,
@@ -30,7 +31,7 @@ User.init({
     allowNull: false,
   },
 }, {
-  sequelize: sequelize,
+  sequelize,
   modelName: 'user',
 });
 

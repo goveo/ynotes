@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node -r dotenv/config dist/app.js",
-    "dev": "nodemon -r dotenv/config --watch 'src/**/*.ts' --ignore 'src/**/*.spec.ts' --exec 'ts-node --files' src/app.ts",
+    "dev": "nodemon -r dotenv/config",
     "lint": "eslint . --ext .ts",
     "build": "npm install && tsc -p ."
   },

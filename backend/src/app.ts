@@ -10,8 +10,8 @@ database.sequelize.authenticate()
   .then(() => {
     // eslint-disable-next-line no-console
     console.log('Database connected!');
-  }).catch((err) => {
-    console.error('error : ', err);
+  }).catch((error) => {
+    console.error('error: ', error);
   });
 
 const app: Application = express();
