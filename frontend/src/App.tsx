@@ -8,7 +8,7 @@ import Login from './components/pages/Login';
 import NotFound from './components/pages/NotFound';
 import PrivateRoute from './components/routing/PrivateRoute';
 import Navbar from './components/Navbar';
-import store from './store';
+import { store } from './store/store';
 
 import setBaseUrl from './utils/setBaseUrl';
 import { API_URL } from './app.config';

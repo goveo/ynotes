@@ -1,26 +1,17 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { connect, ConnectedProps } from 'react-redux';
-import { loadUser } from '../../store/actions/authActions';
+import useSelector from '../../hooks/useSelector';
+import { store } from '../../store/store';
 import { CommonProps } from '../../types/CommonProps';
-import { AuthState } from '../../store/actions/types';
 
-const mapStateToProps = (state: { auth: AuthState }) => ({ loading: state.auth.initialLoading });
-
-const connector = connect(
-  mapStateToProps,
-  { loadUser },
-);
-
-const Page: React.FC<CommonProps & ConnectedProps<typeof connector>> = ({
-  loading,
-  loadUser,
+const Page: React.FC<CommonProps> = ({
   children,
   ...restProps
 }) => {
+  const loading = useSelector((state) => state.auth.loading);
 
   useEffect(() => {
-    loadUser();
+    store.dispatch.auth.loadUser();
     // eslint-disable-next-line
   }, []);
 
@@ -35,4 +26,4 @@ const Root = styled.div`
   margin-top: 20px;
 `;
 
-export default connector(Page);
+export default Page;

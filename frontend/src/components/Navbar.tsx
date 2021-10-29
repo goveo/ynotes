@@ -1,11 +1,9 @@
 import React, { useCallback } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
 import { AppBar, Toolbar, IconButton, Typography } from '@material-ui/core';
 import { ExitToApp as ExitIcon } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
-import { logout } from '../store/actions/authActions';
-import { clearNotes } from '../store/actions/notesActions';
-import { AuthState } from '../store/actions/types';
+import { store } from '../store/store';
+import useSelector from '../hooks/useSelector';
 
 const useStyles = makeStyles((theme) => ({
   appBar: theme.mixins.toolbar,
@@ -14,16 +12,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const mapStateToProps = (state: { auth: AuthState }) => ({ isAuthenticated: state.auth.isAuthenticated });
-
-const connector = connect(mapStateToProps, { logout, clearNotes });
-
-const Navbar: React.FC<ConnectedProps<typeof connector>> = ({ isAuthenticated, logout, clearNotes }) => {
+const Navbar: React.FC = () => {
   const classes = useStyles();
+
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+
   const onLogoutClick = useCallback(() => {
-    clearNotes();
-    logout();
-  }, [clearNotes, logout]);
+    store.dispatch.notes.clearNotes();
+    store.dispatch.auth.logout();
+  }, []);
 
   return (
     <AppBar position="sticky" color="primary" className={classes.appBar}>
@@ -42,4 +39,4 @@ const Navbar: React.FC<ConnectedProps<typeof connector>> = ({ isAuthenticated, l
   );
 };
 
-export default connector(Navbar);
+export default Navbar;

@@ -1,23 +1,14 @@
 import React, { useState, useCallback, useMemo } from 'react';
-import { connect, ConnectedProps } from 'react-redux';
+import useSelector from '../../hooks/useSelector';
 import { CommonProps } from '../../types/CommonProps';
 import { Form, Input, SubmitButton } from '../Form';
-import { AuthState } from '../../store/actions/types';
 
 interface Props extends CommonProps {
   onSubmit: (user: { username: string, password: string }) => void;
   postContent?: React.ReactNode;
 }
 
-const mapStateToProps = (state: { auth: AuthState }) => ({ auth: state.auth });
-
-const connector = connect(mapStateToProps);
-
-export const LoginForm: React.FC<Props & ConnectedProps<typeof connector>> = ({
-  auth: {
-    error,
-    loading,
-  },
+export const LoginForm: React.FC<Props> = ({
   onSubmit,
   postContent,
 }) => {
@@ -25,6 +16,9 @@ export const LoginForm: React.FC<Props & ConnectedProps<typeof connector>> = ({
     username: '',
     password: '',
   });
+
+  const loading = useSelector((state) => state.auth.loading);
+  const error = useSelector((state) => state.auth.error);
 
   const onChange = useCallback((e) => {
     setUser({
@@ -71,4 +65,4 @@ export const LoginForm: React.FC<Props & ConnectedProps<typeof connector>> = ({
   );
 };
 
-export default connector(LoginForm);
+export default LoginForm;

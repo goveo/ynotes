@@ -10,7 +10,7 @@ interface Props extends CommonProps {
   multiline?: boolean
 }
 
-const CounterInput: React.FC<Props> = ({ label, value, onChange, max, ...restProps}) => {
+const CounterInput: React.FC<Props> = ({ label, value, onChange, max, ...restProps }) => {
   const [inputValue, setInputValue] = useState(value);
 
   const onUpdate = useCallback((value) => {

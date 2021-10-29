@@ -1,8 +1,7 @@
 import React from 'react';
-import { connect, ConnectedProps } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
+import useSelector from '../../hooks/useSelector';
 import { CommonProps } from '../../types/CommonProps';
-import { AuthState } from '../../store/actions/types';
 
 interface Props extends CommonProps {
   component: React.ElementType,
@@ -10,19 +9,13 @@ interface Props extends CommonProps {
   path: string,
 }
 
-const mapStateToProps = (state: { auth: AuthState }) => ({
-  isAuthenticated: state.auth.isAuthenticated,
-  loading: state.auth.loading,
-});
-
-const connector = connect(mapStateToProps);
-
-const PrivateRoute: React.FC<Props & ConnectedProps<typeof connector>> = ({
-  isAuthenticated,
-  loading,
+const PrivateRoute: React.FC<Props> = ({
   component: Component,
   ...restProps
 }) => {
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const loading = useSelector((state) => state.auth.loading);
+
   return (
     <Route
       {...restProps}
@@ -37,4 +30,4 @@ const PrivateRoute: React.FC<Props & ConnectedProps<typeof connector>> = ({
   );
 };
 
-export default connector(PrivateRoute);
+export default PrivateRoute;

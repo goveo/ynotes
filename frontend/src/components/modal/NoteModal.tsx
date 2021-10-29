@@ -1,15 +1,12 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { connect, ConnectedProps } from 'react-redux';
 import { CirclePicker, ColorResult } from 'react-color';
 import { Button, InputLabel } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from './Modal';
 import CounterInput from '../input/CounterInput';
 import { CommonProps } from '../../types/CommonProps';
-import { NoteType } from '../Note';
-
-import { addNote, editNote } from '../../store/actions/notesActions';
+import { store } from '../../store/store';
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -31,9 +28,7 @@ const PICKER_COLORS = [
   '#F78DA7',
 ];
 
-const connector = connect(null, { addNote, editNote });
-
-interface Props extends CommonProps, ConnectedProps<typeof connector> {
+interface Props extends CommonProps {
   isOpen: boolean,
   closeModal: () => void,
   note?: {
@@ -48,8 +43,6 @@ const NoteModal: React.FC<Props> = ({
   isOpen,
   closeModal,
   note,
-  addNote,
-  editNote,
 }) => {
   const classes = useStyles();
   const isEditMode = !!note;
@@ -71,17 +64,20 @@ const NoteModal: React.FC<Props> = ({
 
   const createNote = React.useCallback(() => {
     onClose();
-    addNote({
+    store.dispatch.notes.addNote({
       title, description, color,
     });
-  }, [onClose, title, description, color, addNote]);
+  }, [onClose, title, description, color]);
 
   const updateNote = React.useCallback(() => {
     onClose();
-    editNote((note as NoteType).id, {
-      title, description, color,
+    store.dispatch.notes.editNote({
+      id: note.id,
+      note: {
+        title, description, color,
+      },
     });
-  }, [onClose, editNote, note, title, description, color]);
+  }, [onClose, note, title, description, color]);
 
   return (
     <Modal
@@ -137,4 +133,4 @@ const ColorLabel = styled(InputLabel)`
   margin-top: 10px;
 `;
 
-export default connector(NoteModal);
+export default NoteModal;
