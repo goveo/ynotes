@@ -1,4 +1,5 @@
-import React, { useCallback, Fragment, useState } from 'react';
+import React, { useCallback, Fragment, useState, useMemo } from 'react';
+import Highlighter from 'react-highlight-words';
 import styled from 'styled-components';
 import {
   Typography,
@@ -14,6 +15,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import NoteModal from './modal/NoteModal';
 import DeleteModal from './modal/DeleteModal';
 import { CommonProps } from '../types/CommonProps';
+import useSelector from '../hooks/useSelector';
 
 export type NoteType = {
   id: number;
@@ -50,6 +52,9 @@ export const Note: React.FC<Props> = ({
     setShowDeleteModal(true);
   }, []);
 
+  const searchQuery = useSelector((state) => state.notes.search.query);
+  const searchQueryTerms = useMemo(() => searchQuery.split(' '), [searchQuery]);
+
   return (
     <Fragment>
       <NoteAccordion
@@ -64,7 +69,13 @@ export const Note: React.FC<Props> = ({
         >
           <Grid justify="space-between" container>
             <Grid item>
-              <Title>{title}</Title>
+              <Title>
+                <Highlighter
+                  searchWords={searchQueryTerms}
+                  autoEscape={true}
+                  textToHighlight={title}
+                />
+              </Title>
             </Grid>
             <Grid item>
               <Fragment>
@@ -80,7 +91,11 @@ export const Note: React.FC<Props> = ({
         </AccordionSummary>
         <AccordionDetails>
           <Description>
-            {description}
+            <Highlighter
+              searchWords={searchQueryTerms}
+              autoEscape={true}
+              textToHighlight={description}
+            />
           </Description>
         </AccordionDetails>
       </NoteAccordion>
