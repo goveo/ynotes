@@ -17,7 +17,7 @@ const NotesList: React.FC = () => {
     // eslint-disable-next-line
   }, []);
 
-  const isSearch = useMemo(() => !!search.text, [search.text]);
+  const isSearch = useMemo(() => !!search.query, [search.query]);
 
   const shownNotes = useMemo(() => {
     return isSearch ? search.notes : notes;

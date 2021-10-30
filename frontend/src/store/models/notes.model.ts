@@ -1,6 +1,7 @@
 import { createModel } from '@rematch/core';
 import axios from 'axios';
-import { findIndex, sortBy } from 'lodash';
+import { Index } from 'flexsearch';
+import { findIndex, sortBy, union } from 'lodash';
 
 import { RootModel } from '../root.model';
 
@@ -16,18 +17,30 @@ export interface NotesState {
   notes: Note[],
   search: {
     notes: Note[],
-    text: string,
+    query: string,
   },
   loading: boolean,
+  indexes: {
+    title: Index,
+    description: Index,
+  }
 }
 
 const initialState: NotesState = {
   notes: [],
   search: {
     notes: [],
-    text: '',
+    query: '',
   },
   loading: true,
+  indexes: {
+    title: new Index({
+      tokenize: 'full',
+    }),
+    description: new Index({
+      tokenize: 'full',
+    }),
+  },
 };
 
 export interface Note {
@@ -85,21 +98,21 @@ export const notes = createModel<RootModel>()({
         ...state,
         notes: payload.notes,
         search: {
+          ...state.search,
           notes: payload.searchNotes,
-          text: state.search.text,
         },
         loading: false,
       };
     },
     SET_SEARCH(state: NotesState, payload: {
       notes: Note[];
-      text: string;
+      query: string;
     }) {
       return {
         ...state,
         search: {
           notes: payload.notes,
-          text: payload.text,
+          query: payload.query,
         },
         loading: false,
       };
@@ -117,7 +130,7 @@ export const notes = createModel<RootModel>()({
         notes: [],
         search: {
           notes: [],
-          text: '',
+          query: '',
         },
         loading: false,
       };
@@ -130,11 +143,24 @@ export const notes = createModel<RootModel>()({
     },
   },
   effects: (dispatch) => ({
+    addNotesToIndex(notes: Note | Note[], state) {
+      (Array.isArray(notes) ? notes : [notes]).forEach((note) => {
+        state.notes.indexes.title.add(note.id, note.title);
+        state.notes.indexes.description.add(note.id, note.description);
+      });
+    },
+    removeNotesToIndex(ids: number | number[], state) {
+      (Array.isArray(ids) ? ids : [ids]).forEach((id) => {
+        state.notes.indexes.title.remove(id);
+        state.notes.indexes.description.remove(id);
+      });
+    },
     async getNotes() {
       try {
         dispatch.notes.SET_NOTES_LOADING();
         const { data: notes } = await axios.get<Note[]>('/api/notes', getAxiosConfig());
         dispatch.notes.GET_NOTES(notes);
+        dispatch.notes.addNotesToIndex(notes);
       }
       catch (error) {
         console.error((error as any).message);
@@ -145,6 +171,7 @@ export const notes = createModel<RootModel>()({
         dispatch.notes.SET_NOTES_LOADING();
         const { data: newNote } = await axios.post<Note>('/api/notes', note, getAxiosConfig());
         dispatch.notes.ADD_NOTE(newNote);
+        dispatch.notes.addNotesToIndex(newNote);
       }
       catch (error) {
         console.error((error as any).message);
@@ -172,6 +199,8 @@ export const notes = createModel<RootModel>()({
         const searchNotes = notesState.search.notes
           .filter((note: Note) => note.id !== id); // indexes is not important while search
 
+        dispatch.notes.removeNotesToIndex(id);
+
         dispatch.notes.REMOVE_NOTE({
           deletedId: id,
           notes,
@@ -182,18 +211,18 @@ export const notes = createModel<RootModel>()({
         console.error((error as any).message);
       }
     },
-    async searchNotes(text: string, state) {
+    async searchNotes(query: string, state) {
       try {
         dispatch.notes.SET_NOTES_LOADING();
         const { notes: notesState } = state;
         const notes = notesState.notes;
-        const filteredNotes = notes.filter(({ title, description }) => (
-          title.toLowerCase().search(text.toLowerCase()) !== -1
-          || description.toLowerCase().search(text.toLowerCase()) !== -1
-        ));
+        const idsWithTitleMatch = state.notes.indexes.title.search(query);
+        const idsWithDescriptionMatch = state.notes.indexes.description.search(query);
+        const ids = union(idsWithTitleMatch, idsWithDescriptionMatch);
+        const filteredNotes = notes.filter((note) => ids.includes(note.id));
         dispatch.notes.SET_SEARCH({
           notes: filteredNotes,
-          text,
+          query,
         });
       }
       catch (error) {
