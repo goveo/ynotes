@@ -1,6 +1,7 @@
-import * as React from 'react';
 import { Typography } from '@material-ui/core';
+import * as React from 'react';
 import { Link } from 'react-router-dom';
+
 import Page from './Page';
 
 const NotFound: React.FC = () => {

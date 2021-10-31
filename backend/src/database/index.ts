@@ -1,8 +1,8 @@
+import NoteModel from '../models/note';
+import UserModel from '../models/user';
 import sequelize from './lib/connection';
 import Note from './lib/note';
 import User from './lib/user';
-import NoteModel from '../models/note';
-import UserModel from '../models/user';
 
 NoteModel.belongsTo(UserModel, { targetKey: 'id' });
 UserModel.hasMany(NoteModel, {

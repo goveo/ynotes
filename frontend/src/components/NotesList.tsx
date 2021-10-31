@@ -1,5 +1,6 @@
-import React, { Fragment, useEffect, useMemo, useCallback } from 'react';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import React, { Fragment, useCallback, useEffect, useMemo } from 'react';
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+
 import useSelector from '../hooks/useSelector';
 import { store } from '../store/store';
 import CreateNoteButton from './button/CreateNoteButton';

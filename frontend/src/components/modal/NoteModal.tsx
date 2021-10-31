@@ -1,12 +1,13 @@
-import * as React from 'react';
-import styled from 'styled-components';
-import { CirclePicker, ColorResult } from 'react-color';
 import { Button, InputLabel } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Modal from './Modal';
-import CounterInput from '../input/CounterInput';
-import { CommonProps } from '../../types/CommonProps';
+import * as React from 'react';
+import { CirclePicker, ColorResult } from 'react-color';
+import styled from 'styled-components';
+
 import { store } from '../../store/store';
+import { CommonProps } from '../../types/CommonProps';
+import CounterInput from '../input/CounterInput';
+import Modal from './Modal';
 
 const useStyles = makeStyles((theme) => ({
   form: {

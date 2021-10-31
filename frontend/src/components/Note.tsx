@@ -1,21 +1,22 @@
-import React, { useCallback, Fragment, useState, useMemo } from 'react';
-import Highlighter from 'react-highlight-words';
-import styled from 'styled-components';
 import {
-  Typography,
-  IconButton,
   Accordion,
-  AccordionSummary,
   AccordionDetails,
+  AccordionSummary,
   Grid,
+  IconButton,
+  Typography,
 } from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-import NoteModal from './modal/NoteModal';
-import DeleteModal from './modal/DeleteModal';
-import { CommonProps } from '../types/CommonProps';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import React, { Fragment, useCallback, useMemo, useState } from 'react';
+import Highlighter from 'react-highlight-words';
+import styled from 'styled-components';
+
 import useSelector from '../hooks/useSelector';
+import { CommonProps } from '../types/CommonProps';
+import DeleteModal from './modal/DeleteModal';
+import NoteModal from './modal/NoteModal';
 
 export type NoteType = {
   id: number;

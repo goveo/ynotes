@@ -1,10 +1,11 @@
+import { Grid, Typography } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { Grid, Typography } from '@material-ui/core';
-import LoginForm from '../auth/LoginForm';
-import Page from './Page';
+
 import useSelector from '../../hooks/useSelector';
 import { store } from '../../store/store';
+import LoginForm from '../auth/LoginForm';
+import Page from './Page';
 
 export const Login: React.FC<RouteComponentProps> = ({
   history,

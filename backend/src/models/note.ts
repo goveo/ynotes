@@ -1,4 +1,5 @@
-import { Model, INTEGER, STRING, TEXT } from 'sequelize';
+import { INTEGER, Model, STRING, TEXT } from 'sequelize';
+
 import sequelize from '../database/lib/connection';
 
 export interface INote {

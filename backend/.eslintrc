@@ -2,7 +2,8 @@
   "root": true,
   "parser": "@typescript-eslint/parser",
   "plugins": [
-    "@typescript-eslint"
+    "@typescript-eslint",
+    "simple-import-sort"
   ],
   "extends": [
     "eslint:recommended",
@@ -21,6 +22,8 @@
     "key-spacing": ["error"],
     "eol-last": ["error"],
     "quotes": [2, "single", "avoid-escape"],
-    "indent": ["error", 2]
+    "indent": ["error", 2],
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error"
   }
 }

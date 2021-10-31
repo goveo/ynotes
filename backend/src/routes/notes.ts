@@ -1,8 +1,9 @@
-import { Router, Request, Response } from 'express';
+import { Request, Response, Router } from 'express';
 import { check, validationResult } from 'express-validator';
 import _ from 'lodash';
-import auth from '../middleware/auth';
+
 import Note from '../database/lib/note';
+import auth from '../middleware/auth';
 import { INote } from '../models/note';
 const router = Router();
 

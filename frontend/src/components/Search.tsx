@@ -1,9 +1,10 @@
-import * as React from 'react';
-import { debounce } from 'lodash';
-import styled from 'styled-components';
 import { TextField } from '@material-ui/core';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import SearchIcon from '@material-ui/icons/Search';
+import { debounce } from 'lodash';
+import * as React from 'react';
+import styled from 'styled-components';
+
 import { store } from '../store/store';
 
 const DEBOUNCE_TIMEOUT_MS = 500;

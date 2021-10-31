@@ -1,4 +1,4 @@
-import { User as UserModel, IUser } from '../../models/user';
+import { IUser, User as UserModel } from '../../models/user';
 
 class User {
   static async create(user: {

@@ -1,9 +1,10 @@
-import React, { useCallback } from 'react';
-import { CommonProps } from '../../types/CommonProps';
 import { Button, DialogContentText } from '@material-ui/core';
-import Modal from './Modal';
-import { NoteType } from '../Note';
+import React, { useCallback } from 'react';
+
 import { store } from '../../store/store';
+import { CommonProps } from '../../types/CommonProps';
+import { NoteType } from '../Note';
+import Modal from './Modal';
 
 interface Props extends CommonProps {
   isOpen: boolean,

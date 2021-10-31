@@ -1,19 +1,19 @@
+import './index.css';
+
+import Container from '@material-ui/core/Container';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Container from '@material-ui/core/Container';
+
+import { API_URL } from './app.config';
+import Navbar from './components/Navbar';
 import Home from './components/pages/Home';
-import Register from './components/pages/Register';
 import Login from './components/pages/Login';
 import NotFound from './components/pages/NotFound';
+import Register from './components/pages/Register';
 import PrivateRoute from './components/routing/PrivateRoute';
-import Navbar from './components/Navbar';
 import { store } from './store/store';
-
 import setBaseUrl from './utils/setBaseUrl';
-import { API_URL } from './app.config';
-
-import './index.css';
 
 setBaseUrl(API_URL);
 

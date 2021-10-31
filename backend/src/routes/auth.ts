@@ -1,9 +1,10 @@
-import { Router, Request, Response } from 'express';
-import { check, validationResult } from 'express-validator';
 import bcrypt from 'bcryptjs';
+import { Request, Response, Router } from 'express';
+import { check, validationResult } from 'express-validator';
 import jwt from 'jsonwebtoken';
-import Database from '../database';
+
 import { JWT_SECRET } from '../app.config';
+import Database from '../database';
 import auth from '../middleware/auth';
 const { User } = Database;
 const router = Router();

@@ -1,10 +1,10 @@
-import express, { Application } from 'express';
 import cors from 'cors';
-import UserRouter from './routes/users';
-import AuthRouter from './routes/auth';
-import NotesRouter from './routes/notes';
+import express, { Application } from 'express';
 
 import database from './database';
+import AuthRouter from './routes/auth';
+import NotesRouter from './routes/notes';
+import UserRouter from './routes/users';
 
 database.sequelize.authenticate()
   .then(() => {

@@ -1,7 +1,8 @@
-import * as React from 'react';
 import { Grid } from '@material-ui/core';
-import Search from '../Search';
+import * as React from 'react';
+
 import NotesList from '../NotesList';
+import Search from '../Search';
 import Page from './Page';
 
 export const Home: React.FC = () => {

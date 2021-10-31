@@ -4,7 +4,8 @@
   "plugins": [
     "@typescript-eslint",
     "react",
-    "react-hooks"
+    "react-hooks",
+    "simple-import-sort"
   ],
   "globals": {
     "localStorage": true
@@ -32,6 +33,8 @@
     "switch-colon-spacing": ["error", {"after": true, "before": false}],
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
-    "object-curly-spacing": ["error", "always"]
+    "object-curly-spacing": ["error", "always"],
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error"
   }
 }

@@ -1,5 +1,6 @@
-import { Note as NoteModel, INote } from '../../models/note';
 import { literal, Op } from 'sequelize';
+
+import { INote, Note as NoteModel } from '../../models/note';
 
 class Note {
   static async create(note: {

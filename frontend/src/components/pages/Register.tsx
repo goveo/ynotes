@@ -1,10 +1,11 @@
+import { Grid, Typography } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { Grid, Typography } from '@material-ui/core';
-import RegisterForm from '../auth/RegisterForm';
-import Page from './Page';
+
 import useSelector from '../../hooks/useSelector';
 import { store } from '../../store/store';
+import RegisterForm from '../auth/RegisterForm';
+import Page from './Page';
 
 export const Register: React.FC<RouteComponentProps> = ({
   history,

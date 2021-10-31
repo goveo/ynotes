@@ -1,4 +1,4 @@
-import { Model, INTEGER, STRING } from 'sequelize';
+import { INTEGER, Model, STRING } from 'sequelize';
 
 import sequelize from '../database/lib/connection';
 

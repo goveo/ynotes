@@ -1,9 +1,10 @@
-import React, { useCallback } from 'react';
-import { AppBar, Toolbar, IconButton, Typography } from '@material-ui/core';
-import { ExitToApp as ExitIcon } from '@material-ui/icons';
+import { AppBar, IconButton, Toolbar, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { store } from '../store/store';
+import { ExitToApp as ExitIcon } from '@material-ui/icons';
+import React, { useCallback } from 'react';
+
 import useSelector from '../hooks/useSelector';
+import { store } from '../store/store';
 
 const useStyles = makeStyles((theme) => ({
   appBar: theme.mixins.toolbar,
