@@ -7,7 +7,7 @@
     "start": "node -r dotenv/config dist/app.js",
     "dev": "nodemon -r dotenv/config",
     "lint": "eslint . --ext .ts",
-    "build": "npm install && tsc -p ."
+    "build": "tsc"
   },
   "author": "",
   "license": "ISC",
