@@ -7,14 +7,20 @@ import * as React from 'react';
 import { CommonProps } from '../../types/CommonProps';
 
 interface Props extends CommonProps {
-  isOpen: boolean,
-  onClose: () => void,
-  title: string,
-  content: React.ReactNode,
-  actions?: React.ReactNode,
+  isOpen: boolean;
+  onClose: () => void;
+  title: string;
+  content: React.ReactNode;
+  actions?: React.ReactNode;
 }
 
-const Modal: React.FC<Props> = ({ isOpen, onClose, title, content, actions }) => {
+const Modal: React.FC<Props> = ({
+  isOpen,
+  onClose,
+  title,
+  content,
+  actions,
+}) => {
   return (
     <Dialog
       open={isOpen}
@@ -23,12 +29,8 @@ const Modal: React.FC<Props> = ({ isOpen, onClose, title, content, actions }) =>
       aria-describedby="modal-description"
     >
       <DialogTitle>{title}</DialogTitle>
-      <DialogContent>
-        {content}
-      </DialogContent>
-      <DialogActions>
-        {actions}
-      </DialogActions>
+      <DialogContent>{content}</DialogContent>
+      <DialogActions>{actions}</DialogActions>
     </Dialog>
   );
 };

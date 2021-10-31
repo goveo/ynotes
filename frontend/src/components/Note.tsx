@@ -23,7 +23,7 @@ export type NoteType = {
   title: string;
   description: string;
   color: string;
-}
+};
 
 export interface Props extends CommonProps, NoteType {
   accordionRef?: () => HTMLElement;
@@ -37,7 +37,6 @@ export const Note: React.FC<Props> = ({
   accordionRef,
   ...restProps
 }) => {
-
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
@@ -58,11 +57,7 @@ export const Note: React.FC<Props> = ({
 
   return (
     <Fragment>
-      <NoteAccordion
-        color={color}
-        ref={accordionRef}
-        {...restProps}
-      >
+      <NoteAccordion color={color} ref={accordionRef} {...restProps}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls={`${id}-content`}

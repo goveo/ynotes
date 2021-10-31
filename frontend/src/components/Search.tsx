@@ -35,5 +35,4 @@ const SearchInput = styled(TextField)`
   width: 100%;
 `;
 
-
 export default Search;

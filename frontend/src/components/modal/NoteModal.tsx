@@ -30,26 +30,24 @@ const PICKER_COLORS = [
 ];
 
 interface Props extends CommonProps {
-  isOpen: boolean,
-  closeModal: () => void,
+  isOpen: boolean;
+  closeModal: () => void;
   note?: {
-    id: number,
-    title: string,
-    description: string,
-    color: string
-  },
+    id: number;
+    title: string;
+    description: string;
+    color: string;
+  };
 }
 
-const NoteModal: React.FC<Props> = ({
-  isOpen,
-  closeModal,
-  note,
-}) => {
+const NoteModal: React.FC<Props> = ({ isOpen, closeModal, note }) => {
   const classes = useStyles();
   const isEditMode = !!note;
 
   const [title, setTitle] = React.useState(note ? note.title : '');
-  const [description, setDescription] = React.useState(note ? note?.description : '');
+  const [description, setDescription] = React.useState(
+    note ? note?.description : '',
+  );
   const [color, setColor] = React.useState(note ? note?.color : DEFAULT_COLOR);
 
   const modalTitle = isEditMode ? 'Edit note' : 'Create new note';
@@ -66,7 +64,9 @@ const NoteModal: React.FC<Props> = ({
   const createNote = React.useCallback(() => {
     onClose();
     store.dispatch.notes.addNote({
-      title, description, color,
+      title,
+      description,
+      color,
     });
   }, [onClose, title, description, color]);
 
@@ -75,7 +75,9 @@ const NoteModal: React.FC<Props> = ({
     store.dispatch.notes.editNote({
       id: note.id,
       note: {
-        title, description, color,
+        title,
+        description,
+        color,
       },
     });
   }, [onClose, note, title, description, color]);
@@ -87,13 +89,19 @@ const NoteModal: React.FC<Props> = ({
       onClose={onClose}
       content={
         <form className={classes.form}>
-          <Input max={40} label="Title" value={title} onChange={(value) => setTitle(value)}/>
+          <Input
+            max={40}
+            label="Title"
+            value={title}
+            onChange={(value) => setTitle(value)}
+          />
           <Input
             max={500}
             label="Description"
             value={description}
             onChange={(value) => setDescription(value)}
-            multiline/>
+            multiline
+          />
           <div>
             <ColorLabel>Color</ColorLabel>
             <ColorPicker
@@ -112,11 +120,16 @@ const NoteModal: React.FC<Props> = ({
           <Button onClick={onClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={isEditMode ? updateNote : createNote} color="primary" disabled={!title}>
-            { isEditMode ? 'Edit' : 'Create' }
+          <Button
+            onClick={isEditMode ? updateNote : createNote}
+            color="primary"
+            disabled={!title}
+          >
+            {isEditMode ? 'Edit' : 'Create'}
           </Button>
         </>
-      }/>
+      }
+    />
   );
 };
 

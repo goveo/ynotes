@@ -10,7 +10,13 @@ const CreateNoteButton: React.FC = () => {
   return (
     <>
       <NoteModal isOpen={showModal} closeModal={() => setShowModal(false)} />
-      <AddButton color="primary" variant='outlined' aria-label="add" onClick={() => setShowModal(true)} startIcon={<AddIcon />}>
+      <AddButton
+        color="primary"
+        variant="outlined"
+        aria-label="add"
+        onClick={() => setShowModal(true)}
+        startIcon={<AddIcon />}
+      >
         Create note
       </AddButton>
     </>

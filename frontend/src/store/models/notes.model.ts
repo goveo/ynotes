@@ -14,16 +14,16 @@ export interface User {
 export type Error = string | null;
 
 export interface NotesState {
-  notes: Note[],
+  notes: Note[];
   search: {
-    notes: Note[],
-    query: string,
-  },
-  loading: boolean,
+    notes: Note[];
+    query: string;
+  };
+  loading: boolean;
   indexes: {
-    title: Index,
-    description: Index,
-  }
+    title: Index;
+    description: Index;
+  };
 }
 
 const initialState: NotesState = {
@@ -45,7 +45,7 @@ const initialState: NotesState = {
 
 export interface Note {
   id: number;
-  index: number,
+  index: number;
   title: string;
   description: string;
   color: string;
@@ -85,15 +85,20 @@ export const notes = createModel<RootModel>()({
     UPDATE_NOTE(state: NotesState, payload: Note) {
       return {
         ...state,
-        notes: (state.notes || []).map((item: Note) => item.id === payload.id ? payload : item),
+        notes: (state.notes || []).map((item: Note) =>
+          item.id === payload.id ? payload : item,
+        ),
         loading: false,
       };
     },
-    REMOVE_NOTE(state: NotesState, payload: {
-      deletedId: number;
-      notes: Note[];
-      searchNotes: Note[];
-    }) {
+    REMOVE_NOTE(
+      state: NotesState,
+      payload: {
+        deletedId: number;
+        notes: Note[];
+        searchNotes: Note[];
+      },
+    ) {
       return {
         ...state,
         notes: payload.notes,
@@ -104,10 +109,13 @@ export const notes = createModel<RootModel>()({
         loading: false,
       };
     },
-    SET_SEARCH(state: NotesState, payload: {
-      notes: Note[];
-      query: string;
-    }) {
+    SET_SEARCH(
+      state: NotesState,
+      payload: {
+        notes: Note[];
+        query: string;
+      },
+    ) {
       return {
         ...state,
         search: {
@@ -158,31 +166,39 @@ export const notes = createModel<RootModel>()({
     async getNotes() {
       try {
         dispatch.notes.SET_NOTES_LOADING();
-        const { data: notes } = await axios.get<Note[]>('/api/notes', getAxiosConfig());
+        const { data: notes } = await axios.get<Note[]>(
+          '/api/notes',
+          getAxiosConfig(),
+        );
         dispatch.notes.GET_NOTES(notes);
         dispatch.notes.addNotesToIndex(notes);
-      }
-      catch (error) {
+      } catch (error) {
         console.error((error as any).message);
       }
     },
     async addNote(note: NotePayload) {
       try {
         dispatch.notes.SET_NOTES_LOADING();
-        const { data: newNote } = await axios.post<Note>('/api/notes', note, getAxiosConfig());
+        const { data: newNote } = await axios.post<Note>(
+          '/api/notes',
+          note,
+          getAxiosConfig(),
+        );
         dispatch.notes.ADD_NOTE(newNote);
         dispatch.notes.addNotesToIndex(newNote);
-      }
-      catch (error) {
+      } catch (error) {
         console.error((error as any).message);
       }
     },
-    async editNote({ id, note }: { id: number, note: NotePayload }) {
+    async editNote({ id, note }: { id: number; note: NotePayload }) {
       try {
-        const { data: newNote } = await axios.put<Note>(`/api/notes/${id}`, note, getAxiosConfig());
+        const { data: newNote } = await axios.put<Note>(
+          `/api/notes/${id}`,
+          note,
+          getAxiosConfig(),
+        );
         dispatch.notes.UPDATE_NOTE(newNote);
-      }
-      catch (error) {
+      } catch (error) {
         console.error((error as any).message);
       }
     },
@@ -192,12 +208,13 @@ export const notes = createModel<RootModel>()({
         await axios.delete(`/api/notes/${id}`, getAxiosConfig());
         const { notes: notesState } = state;
         const notes = notesState.notes
-          .filter(note => note.id !== id) // delete note by id
-          .sort((a, b) => (a.index - b.index)) // desc sort by index
+          .filter((note) => note.id !== id) // delete note by id
+          .sort((a, b) => a.index - b.index) // desc sort by index
           .map((note, index) => ({ ...note, index })); // updated index
 
-        const searchNotes = notesState.search.notes
-          .filter((note: Note) => note.id !== id); // indexes is not important while search
+        const searchNotes = notesState.search.notes.filter(
+          (note: Note) => note.id !== id,
+        ); // indexes is not important while search
 
         dispatch.notes.removeNotesToIndex(id);
 
@@ -206,8 +223,7 @@ export const notes = createModel<RootModel>()({
           notes,
           searchNotes,
         });
-      }
-      catch (error) {
+      } catch (error) {
         console.error((error as any).message);
       }
     },
@@ -217,19 +233,27 @@ export const notes = createModel<RootModel>()({
         const { notes: notesState } = state;
         const notes = notesState.notes;
         const idsWithTitleMatch = state.notes.indexes.title.search(query);
-        const idsWithDescriptionMatch = state.notes.indexes.description.search(query);
+        const idsWithDescriptionMatch =
+          state.notes.indexes.description.search(query);
         const ids = union(idsWithTitleMatch, idsWithDescriptionMatch);
         const filteredNotes = notes.filter((note) => ids.includes(note.id));
         dispatch.notes.SET_SEARCH({
           notes: filteredNotes,
           query,
         });
-      }
-      catch (error) {
+      } catch (error) {
         console.error((error as any).message);
       }
     },
-    reorder({ notes, currentIndex, newIndex }: { notes: Note[], currentIndex: number, newIndex: number }) {
+    reorder({
+      notes,
+      currentIndex,
+      newIndex,
+    }: {
+      notes: Note[];
+      currentIndex: number;
+      newIndex: number;
+    }) {
       if (currentIndex === newIndex) return notes;
       let list = notes;
 
@@ -242,8 +266,7 @@ export const notes = createModel<RootModel>()({
             return { ...note, index: note.index + 1 };
           }
           return note;
-        }
-        else {
+        } else {
           if (note.index > currentIndex && note.index <= newIndex) {
             return { ...note, index: note.index - 1 };
           }
@@ -254,7 +277,10 @@ export const notes = createModel<RootModel>()({
       list = [...list, { ...note, index: newIndex }];
       return sortBy(list, 'index');
     },
-    async reorderNotes({ note, newIndex }: { note: Note, newIndex: number }, state) {
+    async reorderNotes(
+      { note, newIndex }: { note: Note; newIndex: number },
+      state,
+    ) {
       try {
         dispatch.notes.SET_NOTES_LOADING();
         const { notes: notesState } = state;
@@ -265,11 +291,14 @@ export const notes = createModel<RootModel>()({
           newIndex,
         });
         dispatch.notes.REORDER_NOTES(newNotes);
-        await axios.post(`/api/notes/${note.id}/changeIndex`, {
-          index: newIndex,
-        }, getAxiosConfig());
-      }
-      catch (error) {
+        await axios.post(
+          `/api/notes/${note.id}/changeIndex`,
+          {
+            index: newIndex,
+          },
+          getAxiosConfig(),
+        );
+      } catch (error) {
         console.error((error as any).message);
       }
     },

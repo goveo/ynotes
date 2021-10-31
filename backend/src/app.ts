@@ -6,11 +6,13 @@ import AuthRouter from './routes/auth';
 import NotesRouter from './routes/notes';
 import UserRouter from './routes/users';
 
-database.sequelize.authenticate()
+database.sequelize
+  .authenticate()
   .then(() => {
     // eslint-disable-next-line no-console
     console.log('Database connected!');
-  }).catch((error) => {
+  })
+  .catch((error) => {
     console.error('error: ', error);
   });
 

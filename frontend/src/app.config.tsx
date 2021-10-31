@@ -1,1 +1,2 @@
-export const API_URL = process.env.REACT_APP_YNOTES_API_URL || 'http://localhost:8000/';
+export const API_URL =
+  process.env.REACT_APP_YNOTES_API_URL || 'http://localhost:8000/';

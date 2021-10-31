@@ -18,7 +18,7 @@ const NotFound: React.FC = () => {
         Page Not Found
       </Typography>
 
-      <Link to='/'>
+      <Link to="/">
         <Typography
           align="center"
           variant="subtitle1"
@@ -29,7 +29,6 @@ const NotFound: React.FC = () => {
           Back to notes
         </Typography>
       </Link>
-
     </Page>
   );
 };

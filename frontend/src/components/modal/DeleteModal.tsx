@@ -7,11 +7,11 @@ import { NoteType } from '../Note';
 import Modal from './Modal';
 
 interface Props extends CommonProps {
-  isOpen: boolean,
-  closeModal: () => void,
-  modalTitle?: string,
-  modalText?: string,
-  note: NoteType,
+  isOpen: boolean;
+  closeModal: () => void;
+  modalTitle?: string;
+  modalText?: string;
+  note: NoteType;
 }
 
 const DeleteModal: React.FC<Props> = ({
@@ -31,11 +31,7 @@ const DeleteModal: React.FC<Props> = ({
       title={modalTitle}
       isOpen={isOpen}
       onClose={closeModal}
-      content={
-        <DialogContentText>
-          {modalText}
-        </DialogContentText>
-      }
+      content={<DialogContentText>{modalText}</DialogContentText>}
       actions={
         <>
           <Button onClick={closeModal} color="primary">
@@ -45,7 +41,8 @@ const DeleteModal: React.FC<Props> = ({
             Delete
           </Button>
         </>
-      }/>
+      }
+    />
   );
 };
 

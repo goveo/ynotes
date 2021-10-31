@@ -12,12 +12,12 @@ export interface User {
 export type Error = string | null;
 
 export type AuthState = {
-    token: string | null,
-    user: User | null,
-    isAuthenticated: boolean,
-    loading: boolean,
-    initialLoading: boolean,
-    error: Error,
+  token: string | null;
+  user: User | null;
+  isAuthenticated: boolean;
+  loading: boolean;
+  initialLoading: boolean;
+  error: Error;
 };
 
 export interface UserCredentials {
@@ -54,7 +54,7 @@ export const auth = createModel<RootModel>()({
         user: payload,
       };
     },
-    REGISTER_SUCCESS(state: AuthState, payload: { token: string, user: User }) {
+    REGISTER_SUCCESS(state: AuthState, payload: { token: string; user: User }) {
       localStorage.setItem('token', payload.token);
       return {
         ...state,
@@ -64,7 +64,7 @@ export const auth = createModel<RootModel>()({
         initialLoading: false,
       };
     },
-    LOGIN_SUCCESS(state: AuthState, payload: { token: string, user: User }) {
+    LOGIN_SUCCESS(state: AuthState, payload: { token: string; user: User }) {
       localStorage.setItem('token', payload.token);
       return {
         ...state,
@@ -150,12 +150,10 @@ export const auth = createModel<RootModel>()({
           const res = await axios.get<User>('/api/auth', getAxiosConfig());
           const user: User = res.data;
           dispatch.auth.setUser(user);
-        }
-        else {
+        } else {
           dispatch.auth.logout();
         }
-      }
-      catch (error) {
+      } catch (error) {
         dispatch.auth.logout();
         dispatch.auth.setAuthError(error as string);
       }
@@ -163,34 +161,44 @@ export const auth = createModel<RootModel>()({
     async register(credentials: UserCredentials) {
       try {
         dispatch.auth.setLoading();
-        const res = await axios.post<{ token: string, user: User }>('/api/users', credentials, getAxiosConfig());
+        const res = await axios.post<{ token: string; user: User }>(
+          '/api/users',
+          credentials,
+          getAxiosConfig(),
+        );
         const token: string = res.data.token;
         const user: User = res.data.user;
         if (!token || !user) throw new Error('Register error');
         dispatch.auth.REGISTER_SUCCESS({ token, user });
         dispatch.auth.loadUser();
-      }
-      catch (error: any) {
+      } catch (error: any) {
         console.error(error.message);
-        dispatch.auth.REGISTER_FAIL(error.response.data.message
-          || error.response?.data?.errors[0]?.msg
-          || error.message);
+        dispatch.auth.REGISTER_FAIL(
+          error.response.data.message ||
+            error.response?.data?.errors[0]?.msg ||
+            error.message,
+        );
       }
     },
 
     async login(credentials: UserCredentials) {
       try {
         dispatch.auth.setLoading();
-        const res = await axios.post<{ token: string, user: User }>('/api/auth', credentials, getAxiosConfig());
+        const res = await axios.post<{ token: string; user: User }>(
+          '/api/auth',
+          credentials,
+          getAxiosConfig(),
+        );
         const token: string = res?.data?.token;
         const user: User = res?.data?.user;
         if (!token || !user) throw new Error('Auth error');
         dispatch.auth.LOGIN_SUCCESS({ token, user });
         dispatch.auth.loadUser();
-      }
-      catch (error: any) {
+      } catch (error: any) {
         console.error(error.message);
-        dispatch.auth.LOGIN_FAIL(error.response?.data?.message || error.message);
+        dispatch.auth.LOGIN_FAIL(
+          error.response?.data?.message || error.message,
+        );
       }
     },
   }),

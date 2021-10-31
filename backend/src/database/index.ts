@@ -11,11 +11,13 @@ UserModel.hasMany(NoteModel, {
   as: 'notes', // this determines the name in `associations`!
 });
 
-sequelize.sync()
+sequelize
+  .sync()
   .then(() => {
     // eslint-disable-next-line no-console
     console.log('Database synced!');
-  }).catch((err) => {
+  })
+  .catch((err) => {
     console.error(err);
   });
 

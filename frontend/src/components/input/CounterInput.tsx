@@ -4,21 +4,30 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { CommonProps } from '../../types/CommonProps';
 
 interface Props extends CommonProps {
-  value: string,
-  onChange: (value: string) => void,
-  label?: string,
-  max?: number,
-  multiline?: boolean
+  value: string;
+  onChange: (value: string) => void;
+  label?: string;
+  max?: number;
+  multiline?: boolean;
 }
 
-const CounterInput: React.FC<Props> = ({ label, value, onChange, max, ...restProps }) => {
+const CounterInput: React.FC<Props> = ({
+  label,
+  value,
+  onChange,
+  max,
+  ...restProps
+}) => {
   const [inputValue, setInputValue] = useState(value);
 
-  const onUpdate = useCallback((value) => {
-    const slicedValue = value.slice(0, max);
-    setInputValue(slicedValue);
-    onChange(slicedValue);
-  }, [onChange, setInputValue, max]);
+  const onUpdate = useCallback(
+    (value) => {
+      const slicedValue = value.slice(0, max);
+      setInputValue(slicedValue);
+      onChange(slicedValue);
+    },
+    [onChange, setInputValue, max],
+  );
 
   const helperText = useMemo(() => {
     return max ? `${inputValue.length}/${max}` : null;

@@ -1,4 +1,9 @@
-import { Button, LinearProgress, TextField, Typography } from '@material-ui/core';
+import {
+  Button,
+  LinearProgress,
+  TextField,
+  Typography,
+} from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import * as React from 'react';
 import styled, { css } from 'styled-components';
@@ -13,20 +18,27 @@ interface Props extends CommonProps {
   loading?: boolean;
 }
 
-export const Form: React.FC<Props> = ({ title, children, postContent, error, onKeyPress, loading }) => {
+export const Form: React.FC<Props> = ({
+  title,
+  children,
+  postContent,
+  error,
+  onKeyPress,
+  loading,
+}) => {
   return (
     <div>
-      {title && <FormTitle align="center" variant="h3" className="text-center">{title}</FormTitle>}
+      {title && (
+        <FormTitle align="center" variant="h3" className="text-center">
+          {title}
+        </FormTitle>
+      )}
       {error && <FormAlert severity="error">{error}</FormAlert>}
       <form onKeyPress={(e) => onKeyPress && onKeyPress(e.charCode)}>
         {children}
         {loading && <Loading />}
       </form>
-      {postContent && (
-        <PostFormContent>
-          {postContent}
-        </PostFormContent>
-      )}
+      {postContent && <PostFormContent>{postContent}</PostFormContent>}
     </div>
   );
 };

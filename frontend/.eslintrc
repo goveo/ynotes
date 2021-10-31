@@ -3,6 +3,7 @@
   "parser": "@typescript-eslint/parser",
   "plugins": [
     "@typescript-eslint",
+    "prettier",
     "react",
     "react-hooks",
     "simple-import-sort"
@@ -13,7 +14,9 @@
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended",
+    "prettier"
   ],
   "rules": {
     "react/jsx-uses-vars": ["error"],
@@ -22,7 +25,7 @@
     "no-console": ["warn", { "allow": ["warn", "error"] }],
     "semi": ["error", "always"],
     "comma-dangle": ["error", "always-multiline"],
-    "brace-style": ["error", "stroustrup"],
+    "brace-style": ["error"],
     "comma-spacing": ["error"],
     "array-bracket-spacing": ["error"],
     "keyword-spacing": ["error"],

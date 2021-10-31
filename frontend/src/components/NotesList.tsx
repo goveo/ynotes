@@ -24,28 +24,33 @@ const NotesList: React.FC = () => {
     return isSearch ? search.notes : notes;
   }, [isSearch, search, notes]);
 
-  const onDragEnd = useCallback((result) => {
-    // dropped outside the list
-    if (!result.destination) {
-      return;
-    }
-    store.dispatch.notes.reorderNotes({
-      note: shownNotes[result.source.index],
-      newIndex: result.destination.index,
-    });
-  }, [shownNotes]);
+  const onDragEnd = useCallback(
+    (result) => {
+      // dropped outside the list
+      if (!result.destination) {
+        return;
+      }
+      store.dispatch.notes.reorderNotes({
+        note: shownNotes[result.source.index],
+        newIndex: result.destination.index,
+      });
+    },
+    [shownNotes],
+  );
 
   return (
     <Fragment>
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="droppable">
           {(provided) => (
-            <div
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-            >
+            <div {...provided.droppableProps} ref={provided.innerRef}>
               {shownNotes.map((note: NoteType, index: number) => (
-                <Draggable key={note.id} draggableId={String(note.id)} index={index} isDragDisabled={isSearch}>
+                <Draggable
+                  key={note.id}
+                  draggableId={String(note.id)}
+                  index={index}
+                  isDragDisabled={isSearch}
+                >
                   {(provided) => (
                     <Note
                       id={note.id}
@@ -63,7 +68,7 @@ const NotesList: React.FC = () => {
             </div>
           )}
         </Droppable>
-        { !isSearch && <CreateNoteButton />}
+        {!isSearch && <CreateNoteButton />}
       </DragDropContext>
     </Fragment>
   );

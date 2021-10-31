@@ -5,9 +5,9 @@ import useSelector from '../../hooks/useSelector';
 import { CommonProps } from '../../types/CommonProps';
 
 interface Props extends CommonProps {
-  component: React.ElementType,
-  exact?: boolean,
-  path: string,
+  component: React.ElementType;
+  exact?: boolean;
+  path: string;
 }
 
 const PrivateRoute: React.FC<Props> = ({
@@ -20,13 +20,13 @@ const PrivateRoute: React.FC<Props> = ({
   return (
     <Route
       {...restProps}
-      render={(props) => (
+      render={(props) =>
         !isAuthenticated && !loading ? (
-          <Redirect to='/login' />
+          <Redirect to="/login" />
         ) : (
           <Component {...props} />
         )
-      )}
+      }
     />
   );
 };

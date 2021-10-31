@@ -8,14 +8,16 @@
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended",
+    "prettier"
   ],
   "rules": {
     "no-trailing-spaces": ["error"],
     "no-console": ["warn", { "allow": ["warn", "error"] }],
     "semi": ["error", "always"],
     "comma-dangle": ["error", "always-multiline"],
-    "brace-style": ["error", "stroustrup"],
+    "brace-style": ["error"],
     "comma-spacing": ["error"],
     "array-bracket-spacing": ["error"],
     "keyword-spacing": ["error"],
